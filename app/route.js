@@ -7,11 +7,39 @@ const CollectionsNames = {
     Messages: "messages",
 };
 
-router.post("/auth/signup", (req, res) => {});
+router.post("/auth/signup", async (req, res) => {
+    const mongoDb = db.getDb();
+    const userToInsert = req.body;
+    const users = await mongoDb
+        .collection(CollectionsNames.Users)
+        .find()
+        .toArray();
+    isAlreadyInDb = false;
+    if (typeof users !== "undefined") {
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].username === userToInsert.username) {
+                isAlreadyInDb = true;
+                break;
+            }
+        }
+    }
+    if (isAlreadyInDb) {
+        res.send("error");
+    } else {
+        await mongoDb
+            .collection(CollectionsNames.Users)
+            .insertOne(userToInsert);
+        if (typeof users !== "undefined") {
+            res.send(users);
+        } else {
+            res.send(userToInsert);
+        }
+    }
+});
 
 router.post("/auth/signin", (req, res) => {});
 
-router.get("/social/users/:id", async (req, res) => {});
+router.get("/social/users/:id", (req, res) => {});
 
 router.get("/social/messages/:userId", (req, res) => {});
 
@@ -25,7 +53,7 @@ router.post("/social/followers/:id", (req, res) => {});
 
 router.delete("/social/followers/:id", (req, res) => {});
 
-router.get("/social/feed", async (req, res) => {});
+router.get("/social/feed", (req, res) => {});
 
 router.post("/social/like/:idMessage", (req, res) => {});
 
