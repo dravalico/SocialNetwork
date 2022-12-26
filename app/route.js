@@ -12,8 +12,8 @@ const DbCollectionsNames = {
 
 const SECRET_KEY_JWT = "will it work?";
 
-function generateJWT(username, hashedPassword) {
-    return jwt.sign({ username, hashedPassword }, SECRET_KEY_JWT);
+function generateJWT(id, username) {
+    return jwt.sign({ id, username }, SECRET_KEY_JWT);
 }
 
 router.get("/all", async (req, res) => {
@@ -44,7 +44,7 @@ router.post("/auth/signup", async (req, res) => {
     let lastId = await getLastId(mongoDb);
     userToInsert.id = lastId + 1;
 
-    const token = generateJWT(userToInsert.username, userToInsert.password);
+    const token = generateJWT(userToInsert.id, userToInsert.username);
 
     await mongoDb.collection(DbCollectionsNames.Users).insertOne(userToInsert);
     delete userToInsert._id;
@@ -62,9 +62,9 @@ router.post("/auth/signin", async (req, res) => {
     const user = await mongoDb
         .collection(DbCollectionsNames.Users)
         .findOne({ username: userToLogin.username });
-    console.log(userToLogin);
+    console.log(user);
     if (user && (await bcrypt.hash(userToLogin.password, 10))) {
-        const token = generateJWT(userToLogin.username, userToLogin.password);
+        const token = generateJWT(user.id, user.username);
         res.cookie("jwtoken", token, {
             maxAge: 1296000000,
             httpOnly: true,
@@ -72,7 +72,7 @@ router.post("/auth/signin", async (req, res) => {
             .status(200)
             .json(userToLogin);
     } else {
-        res.status(400).send("Invalid Credentials");
+        res.status(400).send("Invalid credentials");
     }
 });
 
@@ -113,7 +113,31 @@ router.delete("/social/like/:idMessage", (req, res) => {});
 
 router.get("/social/search?q=query", (req, res) => {});
 
-router.get("/social/whoami", (req, res) => {});
+router.get("/social/whoami", (req, res) => {
+    const cookie = req.headers["jwtoken"];
+    if (cookie) {
+        jwt.verify(cookie, SECRET_KEY_JWT, async function (err, decodedToken) {
+            if (err) {
+                res.status(401).send("Invalid token");
+            } else {
+                id = decodedToken.id;
+                console.log(id);
+                const mongoDb = db.getDb();
+                const userWithId = await mongoDb
+                    .collection(DbCollectionsNames.Users)
+                    .findOne({ id: parseInt(id) });
+                console.log(userWithId);
+                if (userWithId) {
+                    res.status(200).json(userWithId);
+                } else {
+                    res.status(400).send("User not found");
+                }
+            }
+        });
+    } else {
+        res.status(401).send("Unauthorized");
+    }
+});
 
 async function getLastId(mongoDb) {
     const lastIdObject = await mongoDb
