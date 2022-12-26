@@ -1,12 +1,20 @@
-const { response } = require("express");
 const express = require("express");
 const router = express.Router();
 const db = require("./db.js");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 
 const DbCollectionsNames = {
     Users: "users",
     Messages: "messages",
 };
+
+const SECRET_KEY_JWT = "will it work?";
+
+function generateJWT(username, hashedPassword) {
+    return jwt.sign({ username, hashedPassword }, SECRET_KEY_JWT);
+}
 
 router.delete("/dropuserdb", async (req, res) => {
     const mongoDb = db.getDb();
@@ -17,26 +25,49 @@ router.delete("/dropuserdb", async (req, res) => {
 router.post("/auth/signup", async (req, res) => {
     const mongoDb = db.getDb();
     const userToInsert = req.body;
+    userToInsert.password = await bcrypt.hash(req.body.password, 10);
+    userToInsert.followers = 0;
+    userToInsert.following = 0;
+    const usersCollectionElements = await mongoDb
+        .collection(DbCollectionsNames.Users)
+        .find()
+        .toArray();
+    let lastId = await getLastId(mongoDb);
+    userToInsert.id = lastId + 1;
+
+    const token = generateJWT(userToInsert.username, userToInsert.password);
+
     await mongoDb.collection(DbCollectionsNames.Users).insertOne(userToInsert);
     delete userToInsert._id;
-    res.json(userToInsert);
+    res.cookie("jwtoken", token, {
+        maxAge: 1296000000,
+        httpOnly: true,
+    })
+        .status(200)
+        .json(userToInsert);
 });
 
-router.post("/auth/signin", (req, res) => {});
+router.post("/auth/signin", (req, res) => {
+});
 
 router.get("/social/users/:id", async (req, res) => {
     const mongoDb = db.getDb();
     const userWithId = await mongoDb
         .collection(DbCollectionsNames.Users)
         .findOne({ id: parseInt(req.body.id) });
-    res.json(userWithId);
+    res.status(200).json(userWithId);
 });
 
 router.get("/social/messages/:userId", (req, res) => {});
 
 router.get("/social/messages/:userId/:idMsg", (req, res) => {});
 
-router.post("/social/messages", (req, res) => {});
+router.post("/social/messages", (req, res) => {
+    const mongoDb = db.getDb();
+    const message = req.body;
+    const date = new Date();
+    // TODO add date
+});
 
 router.get("/social/followers/:id", (req, res) => {});
 
@@ -53,5 +84,19 @@ router.delete("/social/like/:idMessage", (req, res) => {});
 router.get("/social/search?q=query", (req, res) => {});
 
 router.get("/social/whoami", (req, res) => {});
+
+async function getLastId(mongoDb) {
+    const lastIdObject = await mongoDb
+        .collection(DbCollectionsNames.Users)
+        .find({})
+        .sort({ _id: -1 })
+        .limit(1)
+        .toArray();
+    if (lastIdObject.length === 0) {
+        return 0;
+    } else {
+        return parseInt(lastIdObject[0].id);
+    }
+}
 
 module.exports = router;
