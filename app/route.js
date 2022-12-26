@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require("./db.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
 
 const DbCollectionsNames = {
     Users: "users",
