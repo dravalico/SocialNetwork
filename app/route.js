@@ -43,10 +43,11 @@ router.post("/auth/signup", async (req, res) => {
         .catch((err) => {
             return res.status(500);
         });
-    res.cookie("jwtoken", token, {
-        maxAge: 1296000000,
-        httpOnly: true,
-    })
+    return res
+        .cookie("jwtoken", token, {
+            maxAge: 1296000000,
+            httpOnly: true,
+        })
         .status(200)
         .send(insertedUser);
 });
@@ -56,10 +57,11 @@ router.post("/auth/signin", async (req, res) => {
     const user = await User.findOne({ username: userToLogin.username });
     if (user && (await bcrypt.hash(userToLogin.password, 10))) {
         const token = generateJWT(user.id, user.username);
-        res.cookie("jwtoken", token, {
-            maxAge: 1296000000,
-            httpOnly: true,
-        })
+        return res
+            .cookie("jwtoken", token, {
+                maxAge: 1296000000,
+                httpOnly: true,
+            })
             .status(200)
             .send(userToLogin);
     } else {
@@ -126,7 +128,20 @@ router.post("/social/messages", async (req, res) => {
     return res.status(200).send(insertedMessage);
 });
 
-router.get("/social/followers/:id", (req, res) => {});
+router.get("/social/followers/:id", async (req, res) => {
+    const userWithId = await User.findOne({ id: req.params.id });
+    if (userWithId) {
+        const followersId = userWithId.followers;
+        let followers = [];
+        for (const followerId of followersId) {
+            let follower = await User.findOne({ id: followerId });
+            followers.push(follower.username);
+        }
+        return res.status(200).send(followers);
+    } else {
+        return res.status(404).send("User not found");
+    }
+});
 
 router.post("/social/followers/:id", async (req, res) => {
     const cookie = req.headers["jwtoken"];
