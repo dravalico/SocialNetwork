@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const url = "mongodb://mongosrv";
 
-let _db;
-
 mongoose.set("strictQuery", false);
 
 module.exports = {
@@ -12,7 +10,5 @@ module.exports = {
                 throw err;
             }
         });
-        _db = mongoose.db.db("social_network_db");
     },
-    getDb: () => _db,
 };

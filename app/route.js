@@ -13,12 +13,12 @@ function generateJWT(id, username) {
 
 router.get("/allusr", async (req, res) => {
     const users = await User.find({});
-    res.json(users);
+    res.send(users);
 });
 
 router.get("/allmsg", async (req, res) => {
     const messages = await Message.find({});
-    res.json(messages);
+    res.send(messages);
 });
 
 router.delete("/dropuserdb", async (req, res) => {
@@ -38,14 +38,17 @@ router.post("/auth/signup", async (req, res) => {
     userToInsert.followersId = [];
     userToInsert.followingId = [];
     const token = generateJWT(userToInsert.id, userToInsert.username);
-    const user = new User({ ...userToInsert });
-    const insertedUser = await user.save();
+    const insertedUser = await new User({ ...userToInsert })
+        .save()
+        .catch((err) => {
+            res.status(500);
+        });
     res.cookie("jwtoken", token, {
         maxAge: 1296000000,
         httpOnly: true,
     })
         .status(200)
-        .json(insertedUser);
+        .send(insertedUser);
 });
 
 router.post("/auth/signin", async (req, res) => {
@@ -58,24 +61,44 @@ router.post("/auth/signin", async (req, res) => {
             httpOnly: true,
         })
             .status(200)
-            .json(userToLogin);
+            .send(userToLogin);
     } else {
-        res.status(400).send("Invalid credentials");
+        res.status(403).send("Invalid credentials");
     }
 });
 
 router.get("/social/users/:id", async (req, res) => {
-    const userWithId = await User.findOne({ id: parseInt(req.params.id) });
+    const userWithId = await User.findOne(
+        { id: parseInt(req.params.id) },
+        "name surname username bio followers following"
+    );
     if (userWithId) {
-        res.status(200).json(userWithId);
+        res.status(200).send(userWithId);
     } else {
-        res.status(400).send("User not found");
+        res.status(404).send("User not found");
     }
 });
 
-router.get("/social/messages/:userId", (req, res) => {});
+router.get("/social/messages/:userId", async (req, res) => {
+    const userId = req.params.userId;
+    const messagesFromUser = await Message.find({ idCreator: userId });
+    if (messagesFromUser.length !== 0) {
+        res.status(200).send(messagesFromUser);
+    } else {
+        res.status(404).send("No messages");
+    }
+});
 
-router.get("/social/messages/:userId/:idMsg", (req, res) => {});
+router.get("/social/messages/:userId/:idMsg", async (req, res) => {
+    const userId = req.params.userId;
+    const idMsg = req.params.idMsg;
+    const message = await Message.findOne({ idCreator: userId, id: idMsg });
+    if (message) {
+        res.status(200).send(message);
+    } else {
+        res.status(404).send("No message");
+    }
+});
 
 router.post("/social/messages", async (req, res) => {
     const cookie = req.headers["jwtoken"];
@@ -90,29 +113,24 @@ router.post("/social/messages", async (req, res) => {
                 if (userWithId) {
                     idFound = id;
                 } else {
-                    res.status(400).send("User not found");
+                    res.status(404).send("User not found");
                 }
             }
         });
     } else {
-        res.status(401).send("Unauthorized");
+        res.status(403).send("Unauthorized");
     }
     let messageToInsert = {};
     messageToInsert.id = (await getLastElementId(Message)) + 1;
-    messageToInsert.idCreator = 0;
-    const date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-    let currentDate = `${day}-${month}-${year}`;
+    messageToInsert.idCreator = 1;
     messageToInsert.date = new Date().toISOString().split("T")[0];
-    console.log(messageToInsert.date);
     messageToInsert.text = req.body.text;
     messageToInsert.likes = [];
-    console.log(messageToInsert);
     const message = new Message({ ...messageToInsert });
-    const insertedMessage = await message.save();
-    res.status(200).json(insertedMessage);
+    const insertedMessage = await message.save().catch((err) => {
+        res.status(500);
+    });
+    res.status(200).send(insertedMessage);
 });
 
 router.get("/social/followers/:id", (req, res) => {});
@@ -138,11 +156,10 @@ router.get("/social/whoami", (req, res) => {
             } else {
                 let id = decodedToken.id;
                 const userWithId = await User.findOne({ id: parseInt(id) });
-                console.log(userWithId);
                 if (userWithId) {
                     res.status(200).send(userWithId);
                 } else {
-                    res.status(400).send("User not found");
+                    res.status(404).send("User not found");
                 }
             }
         });
