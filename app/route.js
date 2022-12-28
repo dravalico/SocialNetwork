@@ -6,6 +6,7 @@ const { User } = require("./db/user-schema.js");
 const { Message } = require("./db/message-schema.js");
 
 const SECRET_KEY_JWT = "will it work?";
+const SALT = bcrypt.genSaltSync(10);
 
 function generateJWT(id, username) {
     return jwt.sign({ id, username }, SECRET_KEY_JWT);
@@ -34,7 +35,7 @@ router.delete("/dropmsgdb", async (req, res) => {
 router.post("/auth/signup", async (req, res) => {
     const userToInsert = req.body;
     userToInsert.id = (await getLastElementId(User)) + 1;
-    userToInsert.password = await bcrypt.hash(req.body.password, 10);
+    userToInsert.password = await bcrypt.hash(req.body.password, SALT);
     userToInsert.followersId = [];
     userToInsert.followingId = [];
     const token = generateJWT(userToInsert.id, userToInsert.username);
@@ -55,7 +56,10 @@ router.post("/auth/signup", async (req, res) => {
 router.post("/auth/signin", async (req, res) => {
     const userToLogin = req.body;
     const user = await User.findOne({ username: userToLogin.username });
-    if (user && (await bcrypt.hash(userToLogin.password, 10))) {
+    const psw = await bcrypt.hash(userToLogin.password, SALT);
+    console.log(psw);
+    console.log(user.password);
+    if (user && user.password === psw) {
         const token = generateJWT(user.id, user.username);
         return res
             .cookie("jwtoken", token, {
@@ -163,12 +167,11 @@ router.post("/social/followers/:id", async (req, res) => {
     let userToFollow = await User.findOne({ id: idToFollow });
     if (userToFollow) {
         if (!userToFollow.followers.includes(id)) {
-            console.log(userToFollow);
             userToFollow = await User.findOneAndUpdate(
                 { id: idToFollow },
                 { $push: { followers: id } }
             );
-            return res.status(200).send("Follow added");
+            return res.status(200).send(userToFollow);
         } else {
             return res.status(409).send("Already following");
         }
@@ -177,7 +180,35 @@ router.post("/social/followers/:id", async (req, res) => {
     }
 });
 
-router.delete("/social/followers/:id", (req, res) => {});
+router.delete("/social/followers/:id", async (req, res) => {
+    const cookie = req.headers["jwtoken"];
+    let id;
+    if (cookie) {
+        try {
+            const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
+            id = decoded.id;
+        } catch (err) {
+            return res.status(401).send("Invalid token");
+        }
+    } else {
+        return res.status(403).send("No token provided");
+    }
+    const idToUnfollow = req.params.id;
+    let user = await User.findOne({ id: id });
+    if (user) {
+        if (user.followers.includes(idToUnfollow)) {
+            user = await User.findOneAndUpdate(
+                { id: id },
+                { $pop: { followers: idToUnfollow } }
+            );
+            return res.status(200).send(userToUnfollow);
+        } else {
+            return res.status(409).send("Not following user");
+        }
+    } else {
+        return res.status(404).send("User not found");
+    }
+});
 
 router.get("/social/feed", (req, res) => {});
 
