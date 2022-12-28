@@ -164,18 +164,24 @@ router.post("/social/followers/:id", async (req, res) => {
     if (idToFollow === id) {
         return res.status(409).send("Cannot follow itself");
     }
+    let user = await User.findOne({ id: id });
     let userToFollow = await User.findOne({ id: idToFollow });
-    if (userToFollow) {
-        if (!userToFollow.followers.includes(id)) {
+    if (user && userToFollow) {
+        if (!user.following.includes(idToFollow)) {
+            user = await User.findOneAndUpdate(
+                { id: id },
+                { $push: { following: idToFollow } }
+            );
             userToFollow = await User.findOneAndUpdate(
                 { id: idToFollow },
                 { $push: { followers: id } }
             );
-            return res.status(200).send(userToFollow);
+            user = await User.findOne({ id: id });
+            return res.status(200).send(user);
         } else {
             return res.status(409).send("Already following");
         }
-    } else {
+    } else if (userToFollow === undefined) {
         return res.status(404).send("User not found");
     }
 });
@@ -195,13 +201,19 @@ router.delete("/social/followers/:id", async (req, res) => {
     }
     const idToUnfollow = req.params.id;
     let user = await User.findOne({ id: id });
-    if (user) {
-        if (user.followers.includes(idToUnfollow)) {
+    let userToUnfollow = await User.findOne({ id: idToUnfollow });
+    if (user && userToUnfollow) {
+        if (user.following.includes(idToUnfollow)) {
             user = await User.findOneAndUpdate(
                 { id: id },
-                { $pop: { followers: idToUnfollow } }
+                { $pull: { following: idToUnfollow } }
             );
-            return res.status(200).send(userToUnfollow);
+            userToUnfollow = await User.findOneAndUpdate(
+                { id: idToUnfollow },
+                { $pull: { followers: id } }
+            );
+            user = await User.findOne({ id: id });
+            return res.status(200).send(user);
         } else {
             return res.status(409).send("Not following user");
         }
