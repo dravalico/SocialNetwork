@@ -1,17 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const { User } = require("../db/models/user.js");
 const { Message } = require("../db/models/message.js");
 const { StatusCodes } = require("http-status-codes");
-const {
-    param,
-    query,
-    cookies,
-    header,
-    body,
-    validationResult,
-} = require("express-validator");
+const { param, validationResult } = require("express-validator");
 
 router.post(
     "/:idMessage?",
@@ -27,46 +19,41 @@ router.post(
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
-            const cookie = req.headers["jwtoken"];
-            let id;
-            if (cookie) {
-                try {
-                    const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
-                    id = decoded.id;
-                } catch (err) {
-                    return res
-                        .status(StatusCodes.UNAUTHORIZED)
-                        .send("Invalid token");
-                }
-            } else {
-                return res
-                    .status(StatusCodes.FORBIDDEN)
-                    .send("No token provided");
-            }
-            const idToLike = req.params.idMessage;
-            let user = await User.findOne({ id: id });
-            let messageToLike = await Message.findOne({ id: idToLike });
-            if (user) {
-                if (messageToLike) {
-                    if (!messageToLike.likes.includes(id)) {
-                        messageToLike = await Message.findOneAndUpdate(
-                            { id: idToLike },
-                            { $push: { likes: id } }
-                        );
-                        messageToLike = await Message.findOne({ id: idToLike });
-                        return res.status(StatusCodes.OK).send(messageToLike);
+            if (req.isAuth) {
+                let id = req.id;
+                const idToLike = req.params.idMessage;
+                let user = await User.findOne({ id: id });
+                let messageToLike = await Message.findOne({ id: idToLike });
+                if (user) {
+                    if (messageToLike) {
+                        if (!messageToLike.likes.includes(id)) {
+                            messageToLike = await Message.findOneAndUpdate(
+                                { id: idToLike },
+                                { $push: { likes: id } }
+                            );
+                            messageToLike = await Message.findOne({
+                                id: idToLike,
+                            });
+                            return res
+                                .status(StatusCodes.OK)
+                                .send(messageToLike);
+                        } else {
+                            return res
+                                .status(StatusCodes.CONFLICT)
+                                .send("Already liked");
+                        }
                     } else {
                         return res
-                            .status(StatusCodes.CONFLICT)
-                            .send("Already liked");
+                            .status(StatusCodes.NOT_FOUND)
+                            .send("Message not found");
                     }
                 } else {
                     return res
                         .status(StatusCodes.NOT_FOUND)
-                        .send("Message not found");
+                        .send("User not found");
                 }
             } else {
-                return res.status(StatusCodes.NOT_FOUND).send("User not found");
+                return res.status(StatusCodes.UNAUTHORIZED);
             }
         }
     }
@@ -86,48 +73,41 @@ router.delete(
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
-            const cookie = req.headers["jwtoken"];
-            let id;
-            if (cookie) {
-                try {
-                    const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
-                    id = decoded.id;
-                } catch (err) {
-                    return res
-                        .status(StatusCodes.UNAUTHORIZED)
-                        .send("Invalid token");
-                }
-            } else {
-                return res
-                    .status(StatusCodes.FORBIDDEN)
-                    .send("No token provided");
-            }
-            const idToUnlike = req.params.idMessage;
-            let user = await User.findOne({ id: id });
-            let messageToUnlike = await Message.findOne({ id: idToUnlike });
-            if (user) {
-                if (messageToUnlike) {
-                    if (messageToUnlike.likes.includes(id)) {
-                        messageToUnlike = await Message.findOneAndUpdate(
-                            { id: idToUnlike },
-                            { $pull: { likes: id } }
-                        );
-                        messageToUnlike = await Message.findOne({
-                            id: idToUnlike,
-                        });
-                        return res.status(StatusCodes.OK).send(messageToUnlike);
+            if (req.isAuth) {
+                let id = req.id;
+                const idToUnlike = req.params.idMessage;
+                let user = await User.findOne({ id: id });
+                let messageToUnlike = await Message.findOne({ id: idToUnlike });
+                if (user) {
+                    if (messageToUnlike) {
+                        if (messageToUnlike.likes.includes(id)) {
+                            messageToUnlike = await Message.findOneAndUpdate(
+                                { id: idToUnlike },
+                                { $pull: { likes: id } }
+                            );
+                            messageToUnlike = await Message.findOne({
+                                id: idToUnlike,
+                            });
+                            return res
+                                .status(StatusCodes.OK)
+                                .send(messageToUnlike);
+                        } else {
+                            return res
+                                .status(StatusCodes.CONFLICT)
+                                .send("Not liked yet");
+                        }
                     } else {
                         return res
-                            .status(StatusCodes.CONFLICT)
-                            .send("Not liked yet");
+                            .status(StatusCodes.NOT_FOUND)
+                            .send("Message not found");
                     }
                 } else {
                     return res
                         .status(StatusCodes.NOT_FOUND)
-                        .send("Message not found");
+                        .send("User not found");
                 }
             } else {
-                return res.status(StatusCodes.NOT_FOUND).send("User not found");
+                return res.status(StatusCodes.UNAUTHORIZED);
             }
         }
     }

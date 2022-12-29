@@ -1,16 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const { Message } = require("../db/models/message.js");
 const { StatusCodes } = require("http-status-codes");
-const {
-    param,
-    query,
-    cookies,
-    header,
-    body,
-    validationResult,
-} = require("express-validator");
+const { param, body, validationResult } = require("express-validator");
 const { getLastElementId } = require("../util.js");
 
 router.get(
@@ -71,30 +63,33 @@ router.get(
     }
 );
 
-router.post("", async (req, res) => {
-    const cookie = req.headers["jwtoken"];
-    let idCreator;
-    if (cookie) {
-        try {
-            const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
-            idCreator = decoded.id;
-        } catch (err) {
-            return res.status(StatusCodes.UNAUTHORIZED).send("Invalid token");
+router.post(
+    "",
+    [
+        body("text")
+            .notEmpty()
+            .withMessage("The message must be not empty")
+            .isString()
+            .withMessage("The message must be a string"),
+    ],
+    async (req, res) => {
+        if (req.isAuth) {
+            let idCreator = req.id;
+            let messageToInsert = {};
+            messageToInsert.id = (await getLastElementId(Message)) + 1;
+            messageToInsert.idCreator = idCreator;
+            messageToInsert.date = new Date().toISOString().split("T")[0];
+            messageToInsert.text = req.body.text;
+            messageToInsert.likes = [];
+            const message = new Message({ ...messageToInsert });
+            const insertedMessage = await message.save().catch((err) => {
+                return res.status(StatusCodes.INTERNAL_SERVER_ERROR);
+            });
+            return res.status(StatusCodes.CREATED).send(messageToInsert);
+        } else {
+            return res.status(StatusCodes.UNAUTHORIZED);
         }
-    } else {
-        return res.status(StatusCodes.FORBIDDEN).send("No token provided");
     }
-    let messageToInsert = {};
-    messageToInsert.id = (await getLastElementId(Message)) + 1;
-    messageToInsert.idCreator = idCreator;
-    messageToInsert.date = new Date().toISOString().split("T")[0];
-    messageToInsert.text = req.body.text;
-    messageToInsert.likes = [];
-    const message = new Message({ ...messageToInsert });
-    const insertedMessage = await message.save().catch((err) => {
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-    });
-    return res.status(StatusCodes.OK).send(insertedMessage);
-});
+);
 
 module.exports = router;

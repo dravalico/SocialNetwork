@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
 const {
     param,
@@ -15,7 +16,7 @@ const { getLastElementId } = require("../util.js");
 const SECRET_KEY_JWT = "will it work?";
 
 function generateJWT(id, username) {
-    return jwt.sign({ id, username }, SECRET_KEY_JWT);
+    return jwt.sign({ id: id, username: username }, SECRET_KEY_JWT);
 }
 
 router.post(
@@ -54,6 +55,8 @@ router.post(
         }),
     ],
     async (req, res) => {
+        console.log(req.isAuth);
+        console.log(req.decoded);
         const error = validationResult(req);
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
@@ -102,6 +105,8 @@ router.post(
             .trim(),
     ],
     async (req, res) => {
+        console.log(req.isAuth);
+        console.log(req.decoded);
         const error = validationResult(req);
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
