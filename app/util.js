@@ -1,4 +1,3 @@
-const { User } = require("./db/user-schema.js");
 const jwt = require("jsonwebtoken");
 
 async function getLastElementId(Schema) {

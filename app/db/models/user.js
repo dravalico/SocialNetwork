@@ -19,6 +19,7 @@ const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
+        unique: true,
     },
     password: {
         type: String,
@@ -26,12 +27,12 @@ const UserSchema = new mongoose.Schema({
     },
     bio: {
         type: String,
-        required: true,
     },
     followers: [Number],
     following: [Number],
 });
 
+// https://stackoverflow.com/questions/14588032/mongoose-password-hashing
 UserSchema.pre("save", function (next) {
     var user = this;
     if (!user.isModified("password")) {
@@ -52,7 +53,6 @@ UserSchema.pre("save", function (next) {
 });
 
 UserSchema.methods.comparePassword = function (candidatePassword, callback) {
-    // https://stackoverflow.com/questions/14588032/mongoose-password-hashing
     bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
         if (err) {
             return callback(err);
