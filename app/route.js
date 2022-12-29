@@ -4,6 +4,12 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { User } = require("./db/user-schema.js");
 const { Message } = require("./db/message-schema.js");
+const {
+    ReasonPhrases,
+    StatusCodes,
+    getReasonPhrase,
+    getStatusCode,
+} = require("http-status-codes");
 
 const SECRET_KEY_JWT = "will it work?";
 
@@ -40,14 +46,14 @@ router.post("/auth/signup", async (req, res) => {
     const insertedUser = await new User({ ...userToInsert })
         .save()
         .catch((err) => {
-            return res.status(500);
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR);
         });
     return res
         .cookie("jwtoken", token, {
             maxAge: 1296000000,
             httpOnly: true,
         })
-        .status(200)
+        .status(StatusCodes.OK)
         .send(userToInsert);
 });
 
@@ -63,14 +69,14 @@ router.post("/auth/signin", async (req, res) => {
                         maxAge: 1296000000,
                         httpOnly: true,
                     })
-                    .status(200)
+                    .status(StatusCodes.OK)
                     .send(userToLogin);
             } else {
-                return res.status(403).send("Invalid credentials");
+                return res.status(StatusCodes.FORBIDDEN).send("Invalid credentials");
             }
         });
     } else {
-        return res.status(404).send("No user with those credentials");
+        return res.status(StatusCodes.NOT_FOUND).send("No user with those credentials");
     }
 });
 
@@ -80,9 +86,9 @@ router.get("/social/users/:id", async (req, res) => {
         "name surname username bio followers following"
     );
     if (userWithId) {
-        return res.status(200).send(userWithId);
+        return res.status(StatusCodes.OK).send(userWithId);
     } else {
-        return res.status(404).send("User not found");
+        return res.status(StatusCodes.NOT_FOUND).send("User not found");
     }
 });
 
@@ -90,9 +96,9 @@ router.get("/social/messages/:userId", async (req, res) => {
     const userId = req.params.userId;
     const messagesFromUser = await Message.find({ idCreator: userId });
     if (messagesFromUser.length !== 0) {
-        return res.status(200).send(messagesFromUser);
+        return res.status(StatusCodes.OK).send(messagesFromUser);
     } else {
-        return res.status(404).send("No messages");
+        return res.status(StatusCodes.NOT_FOUND).send("No messages");
     }
 });
 
@@ -101,9 +107,9 @@ router.get("/social/messages/:userId/:idMsg", async (req, res) => {
     const idMsg = req.params.idMsg;
     const message = await Message.findOne({ idCreator: userId, id: idMsg });
     if (message) {
-        return res.status(200).send(message);
+        return res.status(StatusCodes.OK).send(message);
     } else {
-        return res.status(404).send("No message");
+        return res.status(StatusCodes.NOT_FOUND).send("No message");
     }
 });
 
@@ -115,10 +121,10 @@ router.post("/social/messages", async (req, res) => {
             const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
             idCreator = decoded.id;
         } catch (err) {
-            return res.status(401).send("Invalid token");
+            return res.status(StatusCodes.UNAUTHORIZED).send("Invalid token");
         }
     } else {
-        return res.status(403).send("No token provided");
+        return res.status(StatusCodes.FORBIDDEN).send("No token provided");
     }
     let messageToInsert = {};
     messageToInsert.id = (await getLastElementId(Message)) + 1;
@@ -128,9 +134,9 @@ router.post("/social/messages", async (req, res) => {
     messageToInsert.likes = [];
     const message = new Message({ ...messageToInsert });
     const insertedMessage = await message.save().catch((err) => {
-        return res.status(500);
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR);
     });
-    return res.status(200).send(insertedMessage);
+    return res.status(StatusCodes.OK).send(insertedMessage);
 });
 
 router.get("/social/followers/:id", async (req, res) => {
@@ -142,9 +148,9 @@ router.get("/social/followers/:id", async (req, res) => {
             let follower = await User.findOne({ id: followerId });
             followers.push(follower.username);
         }
-        return res.status(200).send(followers);
+        return res.status(StatusCodes.OK).send(followers);
     } else {
-        return res.status(404).send("User not found");
+        return res.status(StatusCodes.NOT_FOUND).send("User not found");
     }
 });
 
@@ -156,14 +162,14 @@ router.post("/social/followers/:id", async (req, res) => {
             const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
             id = decoded.id;
         } catch (err) {
-            return res.status(401).send("Invalid token");
+            return res.status(StatusCodes.UNAUTHORIZED).send("Invalid token");
         }
     } else {
-        return res.status(403).send("No token provided");
+        return res.status(StatusCodes.FORBIDDEN).send("No token provided");
     }
     const idToFollow = parseInt(req.params.id);
     if (idToFollow === id) {
-        return res.status(409).send("Cannot follow itself");
+        return res.status(StatusCodes.CONFLICT).send("Cannot follow itself");
     }
     let user = await User.findOne({ id: id });
     let userToFollow = await User.findOne({ id: idToFollow });
@@ -178,12 +184,12 @@ router.post("/social/followers/:id", async (req, res) => {
                 { $push: { followers: id } }
             );
             user = await User.findOne({ id: id });
-            return res.status(200).send(user);
+            return res.status(StatusCodes.OK).send(user);
         } else {
-            return res.status(409).send("Already following");
+            return res.status(StatusCodes.CONFLICT).send("Already following");
         }
     } else if (userToFollow === undefined) {
-        return res.status(404).send("User not found");
+        return res.status(StatusCodes.NOT_FOUND).send("User not found");
     }
 });
 
@@ -195,10 +201,10 @@ router.delete("/social/followers/:id", async (req, res) => {
             const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
             id = decoded.id;
         } catch (err) {
-            return res.status(401).send("Invalid token");
+            return res.status(StatusCodes.UNAUTHORIZED).send("Invalid token");
         }
     } else {
-        return res.status(403).send("No token provided");
+        return res.status(StatusCodes.FORBIDDEN).send("No token provided");
     }
     const idToUnfollow = req.params.id;
     let user = await User.findOne({ id: id });
@@ -214,12 +220,12 @@ router.delete("/social/followers/:id", async (req, res) => {
                 { $pull: { followers: id } }
             );
             user = await User.findOne({ id: id });
-            return res.status(200).send(user);
+            return res.status(StatusCodes.OK).send(user);
         } else {
-            return res.status(409).send("Not following user");
+            return res.status(StatusCodes.CONFLICT).send("Not following user");
         }
     } else {
-        return res.status(404).send("User not found");
+        return res.status(StatusCodes.NOT_FOUND).send("User not found");
     }
 });
 
@@ -231,10 +237,10 @@ router.get("/social/feed", async (req, res) => {
             const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
             id = decoded.id;
         } catch (err) {
-            return res.status(401).send("Invalid token");
+            return res.status(StatusCodes.UNAUTHORIZED).send("Invalid token");
         }
     } else {
-        return res.status(403).send("No token provided");
+        return res.status(StatusCodes.FORBIDDEN).send("No token provided");
     }
     const user = await User.findOne({ id: id });
     let numberOfMessages = req.query.q;
@@ -249,15 +255,15 @@ router.get("/social/feed", async (req, res) => {
                 .sort({ id: -1 })
                 .limit(numberOfMessages);
             if (feed.length !== 0) {
-                return res.status(200).send(feed);
+                return res.status(StatusCodes.OK).send(feed);
             } else {
-                return res.status(404).send("No messages found");
+                return res.status(StatusCodes.NOT_FOUND).send("No messages found");
             }
         } else {
-            return res.status(409).send("No following yet");
+            return res.status(StatusCodes.CONFLICT).send("No following yet");
         }
     } else {
-        return res.status(404).send("User not found");
+        return res.status(StatusCodes.NOT_FOUND).send("User not found");
     }
 });
 
@@ -269,10 +275,10 @@ router.post("/social/like/:idMessage", async (req, res) => {
             const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
             id = decoded.id;
         } catch (err) {
-            return res.status(401).send("Invalid token");
+            return res.status(StatusCodes.UNAUTHORIZED).send("Invalid token");
         }
     } else {
-        return res.status(403).send("No token provided");
+        return res.status(StatusCodes.FORBIDDEN).send("No token provided");
     }
     const idToLike = req.params.idMessage;
     let user = await User.findOne({ id: id });
@@ -285,15 +291,15 @@ router.post("/social/like/:idMessage", async (req, res) => {
                     { $push: { likes: id } }
                 );
                 messageToLike = await Message.findOne({ id: idToLike });
-                return res.status(200).send(messageToLike);
+                return res.status(StatusCodes.OK).send(messageToLike);
             } else {
-                return res.status(409).send("Already liked");
+                return res.status(StatusCodes.CONFLICT).send("Already liked");
             }
         } else {
-            return res.status(404).send("Message not found");
+            return res.status(StatusCodes.NOT_FOUND).send("Message not found");
         }
     } else {
-        return res.status(404).send("User not found");
+        return res.status(StatusCodes.NOT_FOUND).send("User not found");
     }
 });
 
@@ -305,10 +311,10 @@ router.delete("/social/like/:idMessage", async (req, res) => {
             const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
             id = decoded.id;
         } catch (err) {
-            return res.status(401).send("Invalid token");
+            return res.status(StatusCodes.UNAUTHORIZED).send("Invalid token");
         }
     } else {
-        return res.status(403).send("No token provided");
+        return res.status(StatusCodes.FORBIDDEN).send("No token provided");
     }
     const idToUnlike = req.params.idMessage;
     let user = await User.findOne({ id: id });
@@ -321,15 +327,15 @@ router.delete("/social/like/:idMessage", async (req, res) => {
                     { $pull: { likes: id } }
                 );
                 messageToUnlike = await Message.findOne({ id: idToUnlike });
-                return res.status(200).send(messageToUnlike);
+                return res.status(StatusCodes.OK).send(messageToUnlike);
             } else {
-                return res.status(409).send("Not liked yet");
+                return res.status(StatusCodes.CONFLICT).send("Not liked yet");
             }
         } else {
-            return res.status(404).send("Message not found");
+            return res.status(StatusCodes.NOT_FOUND).send("Message not found");
         }
     } else {
-        return res.status(404).send("User not found");
+        return res.status(StatusCodes.NOT_FOUND).send("User not found");
     }
 });
 
@@ -340,19 +346,19 @@ router.get("/social/whoami", (req, res) => {
     if (cookie) {
         jwt.verify(cookie, SECRET_KEY_JWT, async function (err, decodedToken) {
             if (err) {
-                return res.status(401).send("Invalid token");
+                return res.status(StatusCodes.UNAUTHORIZED).send("Invalid token");
             } else {
                 let id = decodedToken.id;
                 const userWithId = await User.findOne({ id: parseInt(id) });
                 if (userWithId) {
-                    return res.status(200).send(userWithId);
+                    return res.status(StatusCodes.OK).send(userWithId);
                 } else {
-                    return res.status(404).send("User not found");
+                    return res.status(StatusCodes.NOT_FOUND).send("User not found");
                 }
             }
         });
     } else {
-        return res.status(401).send("Unauthorized");
+        return res.status(StatusCodes.UNAUTHORIZED).send("Unauthorized");
     }
 });
 
