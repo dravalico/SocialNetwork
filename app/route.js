@@ -14,7 +14,7 @@ const {
 } = require("express-validator");
 const { signupController } = require("./controller/signup-controller.js");
 const { signinController } = require("./controller/signin-controller.js");
-const { getLastElementId } = require("../util.js");
+const { getLastElementId } = require("./util.js");
 
 router.get("/allusr", async (req, res) => {
     const users = await User.find({});
