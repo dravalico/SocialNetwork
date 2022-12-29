@@ -16,8 +16,6 @@ const { signupController } = require("./controller/signup-controller.js");
 const { signinController } = require("./controller/signin-controller.js");
 const { getLastElementId } = require("../util.js");
 
-const SECRET_KEY_JWT = "will it work?";
-
 router.get("/allusr", async (req, res) => {
     const users = await User.find({});
     res.send(users);
