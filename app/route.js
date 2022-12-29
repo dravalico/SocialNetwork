@@ -4,12 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { User } = require("./db/user-schema.js");
 const { Message } = require("./db/message-schema.js");
-const {
-    ReasonPhrases,
-    StatusCodes,
-    getReasonPhrase,
-    getStatusCode,
-} = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 
 const SECRET_KEY_JWT = "will it work?";
 
@@ -72,11 +67,15 @@ router.post("/auth/signin", async (req, res) => {
                     .status(StatusCodes.OK)
                     .send(userToLogin);
             } else {
-                return res.status(StatusCodes.FORBIDDEN).send("Invalid credentials");
+                return res
+                    .status(StatusCodes.FORBIDDEN)
+                    .send("Invalid credentials");
             }
         });
     } else {
-        return res.status(StatusCodes.NOT_FOUND).send("No user with those credentials");
+        return res
+            .status(StatusCodes.NOT_FOUND)
+            .send("No user with those credentials");
     }
 });
 
@@ -257,7 +256,9 @@ router.get("/social/feed", async (req, res) => {
             if (feed.length !== 0) {
                 return res.status(StatusCodes.OK).send(feed);
             } else {
-                return res.status(StatusCodes.NOT_FOUND).send("No messages found");
+                return res
+                    .status(StatusCodes.NOT_FOUND)
+                    .send("No messages found");
             }
         } else {
             return res.status(StatusCodes.CONFLICT).send("No following yet");
@@ -346,14 +347,18 @@ router.get("/social/whoami", (req, res) => {
     if (cookie) {
         jwt.verify(cookie, SECRET_KEY_JWT, async function (err, decodedToken) {
             if (err) {
-                return res.status(StatusCodes.UNAUTHORIZED).send("Invalid token");
+                return res
+                    .status(StatusCodes.UNAUTHORIZED)
+                    .send("Invalid token");
             } else {
                 let id = decodedToken.id;
                 const userWithId = await User.findOne({ id: parseInt(id) });
                 if (userWithId) {
                     return res.status(StatusCodes.OK).send(userWithId);
                 } else {
-                    return res.status(StatusCodes.NOT_FOUND).send("User not found");
+                    return res
+                        .status(StatusCodes.NOT_FOUND)
+                        .send("User not found");
                 }
             }
         });
