@@ -9,10 +9,4 @@ async function getLastElementId(Schema) {
     }
 }
 
-const SECRET_KEY_JWT = "will it work?";
-
-function generateJWT(id, username) {
-    return jwt.sign({ id, username }, SECRET_KEY_JWT);
-}
-
-module.exports = { getLastElementId, generateJWT };
+module.exports = { getLastElementId };

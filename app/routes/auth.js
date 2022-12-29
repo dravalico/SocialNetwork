@@ -10,7 +10,13 @@ const {
     validationResult,
 } = require("express-validator");
 const { User } = require("../db/models/user.js");
-const { getLastElementId, generateJWT } = require("../util.js");
+const { getLastElementId } = require("../util.js");
+
+const SECRET_KEY_JWT = "will it work?";
+
+function generateJWT(id, username) {
+    return jwt.sign({ id, username }, SECRET_KEY_JWT);
+}
 
 router.post(
     "/signup",
