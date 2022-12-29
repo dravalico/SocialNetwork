@@ -6,7 +6,6 @@ const { User } = require("./db/user-schema.js");
 const { Message } = require("./db/message-schema.js");
 
 const SECRET_KEY_JWT = "will it work?";
-const SALT = bcrypt.genSaltSync(10);
 
 function generateJWT(id, username) {
     return jwt.sign({ id, username }, SECRET_KEY_JWT);
@@ -35,7 +34,6 @@ router.delete("/dropmsgdb", async (req, res) => {
 router.post("/auth/signup", async (req, res) => {
     const userToInsert = req.body;
     userToInsert.id = (await getLastElementId(User)) + 1;
-    userToInsert.password = await bcrypt.hash(req.body.password, SALT);
     userToInsert.followersId = [];
     userToInsert.followingId = [];
     const token = generateJWT(userToInsert.id, userToInsert.username);
@@ -50,26 +48,29 @@ router.post("/auth/signup", async (req, res) => {
             httpOnly: true,
         })
         .status(200)
-        .send(insertedUser);
+        .send(userToInsert);
 });
 
 router.post("/auth/signin", async (req, res) => {
     const userToLogin = req.body;
     const user = await User.findOne({ username: userToLogin.username });
-    const psw = await bcrypt.hash(userToLogin.password, SALT);
-    console.log(psw);
-    console.log(user.password);
-    if (user && user.password === psw) {
-        const token = generateJWT(user.id, user.username);
-        return res
-            .cookie("jwtoken", token, {
-                maxAge: 1296000000,
-                httpOnly: true,
-            })
-            .status(200)
-            .send(userToLogin);
+    if (user) {
+        user.comparePassword(userToLogin.password, (err, match) => {
+            if (match && !err) {
+                const token = generateJWT(user.id, user.username);
+                return res
+                    .cookie("jwtoken", token, {
+                        maxAge: 1296000000,
+                        httpOnly: true,
+                    })
+                    .status(200)
+                    .send(userToLogin);
+            } else {
+                return res.status(403).send("Invalid credentials");
+            }
+        });
     } else {
-        return res.status(403).send("Invalid credentials");
+        return res.status(404).send("No user with those credentials");
     }
 });
 
@@ -222,7 +223,43 @@ router.delete("/social/followers/:id", async (req, res) => {
     }
 });
 
-router.get("/social/feed", (req, res) => {});
+router.get("/social/feed", async (req, res) => {
+    const cookie = req.headers["jwtoken"];
+    let id;
+    if (cookie) {
+        try {
+            const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
+            id = decoded.id;
+        } catch (err) {
+            return res.status(401).send("Invalid token");
+        }
+    } else {
+        return res.status(403).send("No token provided");
+    }
+    const user = await User.findOne({ id: id });
+    let numberOfMessages = req.query.q;
+    if (numberOfMessages === undefined) {
+        numberOfMessages = 10;
+    }
+    if (user) {
+        if (user.following.length !== 0) {
+            const feed = await Message.find({
+                idCreator: { $in: user.following },
+            })
+                .sort({ id: -1 })
+                .limit(numberOfMessages);
+            if (feed.length !== 0) {
+                return res.status(200).send(feed);
+            } else {
+                return res.status(404).send("No messages found");
+            }
+        } else {
+            return res.status(409).send("No following yet");
+        }
+    } else {
+        return res.status(404).send("User not found");
+    }
+});
 
 router.post("/social/like/:idMessage", async (req, res) => {
     const cookie = req.headers["jwtoken"];
