@@ -8,7 +8,7 @@ app.use(express.json());
 app.use("/api", socialNetwork);
 
 app.listen(3000, async () => {
-    console.log("INFO: Server running");
+    console.info("INFO: Server running");
     mongoosedb.connect();
-    console.log("INFO: Connected to MongoDB");
+    console.info("INFO: Connected to MongoDB");
 });

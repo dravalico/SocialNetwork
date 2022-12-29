@@ -4,12 +4,19 @@ const jwt = require("jsonwebtoken");
 const { User } = require("./db/user-schema.js");
 const { Message } = require("./db/message-schema.js");
 const { StatusCodes } = require("http-status-codes");
+const {
+    param,
+    query,
+    cookies,
+    header,
+    body,
+    validationResult,
+} = require("express-validator");
+const { signupController } = require("./controller/signup-controller.js");
+const { signinController } = require("./controller/signin-controller.js");
+const { getLastElementId } = require("../util.js");
 
 const SECRET_KEY_JWT = "will it work?";
-
-function generateJWT(id, username) {
-    return jwt.sign({ id, username }, SECRET_KEY_JWT);
-}
 
 router.get("/allusr", async (req, res) => {
     const users = await User.find({});
@@ -31,52 +38,78 @@ router.delete("/dropmsgdb", async (req, res) => {
     res.send("ok");
 });
 
-router.post("/auth/signup", async (req, res) => {
-    const userToInsert = req.body;
-    userToInsert.id = (await getLastElementId(User)) + 1;
-    userToInsert.followersId = [];
-    userToInsert.followingId = [];
-    const token = generateJWT(userToInsert.id, userToInsert.username);
-    const insertedUser = await new User({ ...userToInsert })
-        .save()
-        .catch((err) => {
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-        });
-    return res
-        .cookie("jwtoken", token, {
-            maxAge: 1296000000,
-            httpOnly: true,
-        })
-        .status(StatusCodes.OK)
-        .send(userToInsert);
-});
-
-router.post("/auth/signin", async (req, res) => {
-    const userToLogin = req.body;
-    const user = await User.findOne({ username: userToLogin.username });
-    if (user) {
-        user.comparePassword(userToLogin.password, (err, match) => {
-            if (match && !err) {
-                const token = generateJWT(user.id, user.username);
-                return res
-                    .cookie("jwtoken", token, {
-                        maxAge: 1296000000,
-                        httpOnly: true,
-                    })
-                    .status(StatusCodes.OK)
-                    .send(userToLogin);
-            } else {
-                return res
-                    .status(StatusCodes.FORBIDDEN)
-                    .send("Invalid credentials");
+router.post(
+    "/auth/signup",
+    [
+        body("name")
+            .isString()
+            .withMessage("The name must be a string")
+            .isLength({ min: 2 })
+            .withMessage("The name must have minimum length of 2")
+            .trim(),
+        body("surname")
+            .isString()
+            .withMessage("The surname must be a string")
+            .isLength({ min: 2 })
+            .withMessage("The surname must have minimum length of 2")
+            .trim(),
+        body("username")
+            .isString()
+            .withMessage("The username must be a string")
+            .isLength({ min: 4 })
+            .withMessage("The username must have minimum length of 4")
+            .trim(),
+        body("password")
+            .isString()
+            .withMessage("The password must be a string")
+            .isLength({ min: 8 })
+            .withMessage("The password must have minimum length of 8")
+            .trim(),
+        body("bio").isString().withMessage("The name must be a string").trim(),
+        body("confirmPassword").custom((value, { req }) => {
+            if (value !== req.body.password) {
+                throw new Error("confirm password does not match");
             }
-        });
-    } else {
-        return res
-            .status(StatusCodes.NOT_FOUND)
-            .send("No user with those credentials");
-    }
-});
+            return true;
+        }),
+    ],
+    async (req, res, next) => {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+        } else {
+            await next();
+        }
+    },
+    signupController
+);
+
+router.post(
+    "/auth/signin",
+    [
+        body("username")
+            .isString()
+            .withMessage("The username must be a string")
+            .isLength({ min: 4 })
+            .withMessage("The username must have minimum length of 4")
+            .trim(),
+        body("password")
+            .isString()
+            .withMessage("The password must be a string")
+            .isLength({ min: 8 })
+            .withMessage("The password must have minimum length of 8")
+            .trim(),
+    ],
+    async (req, res, next) => {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+        } else {
+            await next();
+        }
+    },
+    signinController
+);
 
 router.get("/social/users/:id", async (req, res) => {
     const userWithId = await User.findOne(
@@ -365,14 +398,5 @@ router.get("/social/whoami", (req, res) => {
         return res.status(StatusCodes.FORBIDDEN).send("No token provided");
     }
 });
-
-async function getLastElementId(Schema) {
-    const lastIdObject = await Schema.find({}).sort({ _id: -1 }).limit(1);
-    if (lastIdObject.length === 0) {
-        return 0;
-    } else {
-        return parseInt(lastIdObject[0].id);
-    }
-}
 
 module.exports = router;
