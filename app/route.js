@@ -362,7 +362,7 @@ router.get("/social/whoami", (req, res) => {
             }
         });
     } else {
-        return res.status(StatusCodes.UNAUTHORIZED).send("Unauthorized");
+        return res.status(StatusCodes.FORBIDDEN).send("No token provided");
     }
 });
 
