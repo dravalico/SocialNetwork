@@ -104,40 +104,61 @@ router.post(
     }
 );
 
-router.delete("/:id?", async (req, res) => {
-    const cookie = req.headers["jwtoken"];
-    let id;
-    if (cookie) {
-        try {
-            const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
-            id = decoded.id;
-        } catch (err) {
-            return res.status(StatusCodes.UNAUTHORIZED).send("Invalid token");
-        }
-    } else {
-        return res.status(StatusCodes.FORBIDDEN).send("No token provided");
-    }
-    const idToUnfollow = req.params.id;
-    let user = await User.findOne({ id: id });
-    let userToUnfollow = await User.findOne({ id: idToUnfollow });
-    if (user && userToUnfollow) {
-        if (user.following.includes(idToUnfollow)) {
-            user = await User.findOneAndUpdate(
-                { id: id },
-                { $pull: { following: idToUnfollow } }
-            );
-            userToUnfollow = await User.findOneAndUpdate(
-                { id: idToUnfollow },
-                { $pull: { followers: id } }
-            );
-            user = await User.findOne({ id: id });
-            return res.status(StatusCodes.OK).send(user);
+router.delete(
+    "/:id?",
+    [
+        param("id")
+            .notEmpty()
+            .withMessage("The id must be not empty")
+            .isNumeric()
+            .withMessage("The id must be a number"),
+    ],
+    async (req, res) => {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
-            return res.status(StatusCodes.CONFLICT).send("Not following user");
+            const cookie = req.headers["jwtoken"];
+            let id;
+            if (cookie) {
+                try {
+                    const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
+                    id = decoded.id;
+                } catch (err) {
+                    return res
+                        .status(StatusCodes.UNAUTHORIZED)
+                        .send("Invalid token");
+                }
+            } else {
+                return res
+                    .status(StatusCodes.FORBIDDEN)
+                    .send("No token provided");
+            }
+            const idToUnfollow = req.params.id;
+            let user = await User.findOne({ id: id });
+            let userToUnfollow = await User.findOne({ id: idToUnfollow });
+            if (user && userToUnfollow) {
+                if (user.following.includes(idToUnfollow)) {
+                    user = await User.findOneAndUpdate(
+                        { id: id },
+                        { $pull: { following: idToUnfollow } }
+                    );
+                    userToUnfollow = await User.findOneAndUpdate(
+                        { id: idToUnfollow },
+                        { $pull: { followers: id } }
+                    );
+                    user = await User.findOne({ id: id });
+                    return res.status(StatusCodes.OK).send(user);
+                } else {
+                    return res
+                        .status(StatusCodes.CONFLICT)
+                        .send("Not following user");
+                }
+            } else {
+                return res.status(StatusCodes.NOT_FOUND).send("User not found");
+            }
         }
-    } else {
-        return res.status(StatusCodes.NOT_FOUND).send("User not found");
     }
-});
+);
 
 module.exports = router;
