@@ -1,12 +1,17 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div>
+    <div class="w-75 mx-auto">
+        <h1 class="display-4">Sign in</h1>
         <b-form @submit.prevent="onSubmit">
-            <b-form-input id="username" size="lg" class="mb-4 w-75" v-model="form.username" placeholder="Username"
-                required></b-form-input>
-            <b-form-input id="password" size="lg" class="mb-4 w-75" v-model="form.password" placeholder="Password"
-                required></b-form-input>
-            <b-button pill block type="submit" class="w-75" variant="outline-primary">Sign in</b-button>
+            <b-form-group label="Enter your username">
+                <b-form-input id="username" class="mb-1" v-model="form.username" placeholder="Username"></b-form-input>
+            </b-form-group>
+
+            <b-form-group label="Enter your password">
+                <b-form-input id="password" class="mb-1" v-model="form.password" placeholder="Password"></b-form-input>
+            </b-form-group>
+
+            <b-button pill block type="submit" variant="outline-primary" :disabled="!isComplete">Sign in</b-button>
         </b-form>
     </div>
 </template>
@@ -21,11 +26,22 @@ export default {
             }
         }
     },
+    computed: {
+        isComplete() {
+            if (this.form.username === '' || this.form.password === '') {
+                return false;
+            }
+            return true;
+        }
+    },
     methods: {
         async onSubmit() {
             const body = {
                 'username': this.form.username,
                 'password': this.form.password
+            }
+            for (let element in body) {
+                document.getElementById(element).classList.remove('is-invalid');
             }
             const res = await fetch('http://localhost:3000/api/auth/signin', {
                 method: 'POST',
@@ -38,8 +54,15 @@ export default {
                 this.$router
                     .push({ path: '/' })
                     .then(() => { this.$router.go() });
-            } else {
-                console.log(await res.json());
+            } else if (res.status === 400) {
+                const errorsJson = await res.json();
+                const errors = errorsJson.error;
+                for (let i in errors) {
+                    document.getElementById(errors[i].param).classList.add('is-invalid');
+                }
+            } else if (res.status === 404) {
+                /*const errorsJson = await res.json();
+                const errors = errorsJson.error;*/
             }
         },
     }
