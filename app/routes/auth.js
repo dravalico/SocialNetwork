@@ -2,14 +2,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
-const {
-    param,
-    query,
-    cookies,
-    header,
-    body,
-    validationResult,
-} = require("express-validator");
+const { cookies, body, validationResult } = require("express-validator");
 const { User } = require("../db/models/user.js");
 const { getLastElementId } = require("../util.js");
 
@@ -46,7 +39,7 @@ router.post(
             .isLength({ min: 8 })
             .withMessage("The password must have minimum length of 8")
             .trim(),
-        body("bio").isString().withMessage("The name must be a string").trim(),
+        body("bio").isString().withMessage("The bio must be a string").trim(),
         body("confirmPassword").custom((value, { req }) => {
             if (value !== req.body.password) {
                 throw new Error("confirm password does not match");
@@ -55,8 +48,6 @@ router.post(
         }),
     ],
     async (req, res) => {
-        console.log(req.isAuth);
-        console.log(req.decoded);
         const error = validationResult(req);
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
@@ -65,7 +56,7 @@ router.post(
             if (await isAlreadyInDb(userToInsert.username)) {
                 return res
                     .status(StatusCodes.CONFLICT)
-                    .send("Username already taken");
+                    .json("Username already taken");
             }
             delete userToInsert.confirmPassword;
             userToInsert.id = (await getLastElementId(User)) + 1;
@@ -83,7 +74,7 @@ router.post(
                     httpOnly: true,
                 })
                 .status(StatusCodes.CREATED)
-                .send(userToInsert);
+                .json(userToInsert);
         }
     }
 );
@@ -105,8 +96,6 @@ router.post(
             .trim(),
     ],
     async (req, res) => {
-        console.log(req.isAuth);
-        console.log(req.decoded);
         const error = validationResult(req);
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
@@ -128,17 +117,17 @@ router.post(
                                 httpOnly: true,
                             })
                             .status(StatusCodes.OK)
-                            .send(userToLogin);
+                            .json(userToLogin);
                     } else {
                         return res
                             .status(StatusCodes.FORBIDDEN)
-                            .send("Invalid credentials");
+                            .json("Invalid credentials");
                     }
                 });
             } else {
                 return res
                     .status(StatusCodes.NOT_FOUND)
-                    .send("No user with those credentials");
+                    .json({ error: "No user with those credentials" });
             }
         }
     }

@@ -36,21 +36,21 @@ router.post(
                             });
                             return res
                                 .status(StatusCodes.OK)
-                                .send(messageToLike);
+                                .json({ message: messageToLike });
                         } else {
                             return res
                                 .status(StatusCodes.CONFLICT)
-                                .send("Already liked");
+                                .json({ error: "Already liked" });
                         }
                     } else {
                         return res
                             .status(StatusCodes.NOT_FOUND)
-                            .send("Message not found");
+                            .json({ error: "Message not found" });
                     }
                 } else {
                     return res
                         .status(StatusCodes.NOT_FOUND)
-                        .send("User not found");
+                        .json({ error: "User not found" });
                 }
             } else {
                 return res.status(StatusCodes.UNAUTHORIZED);
@@ -90,21 +90,21 @@ router.delete(
                             });
                             return res
                                 .status(StatusCodes.OK)
-                                .send(messageToUnlike);
+                                .json({ message: messageToUnlike });
                         } else {
                             return res
                                 .status(StatusCodes.CONFLICT)
-                                .send("Not liked yet");
+                                .json({ error: "Not liked yet" });
                         }
                     } else {
                         return res
                             .status(StatusCodes.NOT_FOUND)
-                            .send("Message not found");
+                            .json({ error: "Message not found" });
                     }
                 } else {
                     return res
                         .status(StatusCodes.NOT_FOUND)
-                        .send("User not found");
+                        .json({ error: "User not found" });
                 }
             } else {
                 return res.status(StatusCodes.UNAUTHORIZED);

@@ -23,9 +23,13 @@ router.get(
                 idCreator: req.params.userId,
             });
             if (messagesFromUser.length !== 0) {
-                return res.status(StatusCodes.OK).send(messagesFromUser);
+                return res
+                    .status(StatusCodes.OK)
+                    .json({ messages: messagesFromUser });
             } else {
-                return res.status(StatusCodes.NOT_FOUND).send("No messages");
+                return res
+                    .status(StatusCodes.NOT_FOUND)
+                    .json({ error: "No messages" });
             }
         }
     }
@@ -55,9 +59,11 @@ router.get(
                 id: req.params.idMsg,
             });
             if (message) {
-                return res.status(StatusCodes.OK).send(message);
+                return res.status(StatusCodes.OK).json({ message: message });
             } else {
-                return res.status(StatusCodes.NOT_FOUND).send("No message");
+                return res
+                    .status(StatusCodes.NOT_FOUND)
+                    .json({ error: "No message" });
             }
         }
     }
@@ -85,7 +91,9 @@ router.post(
             const insertedMessage = await message.save().catch((err) => {
                 return res.status(StatusCodes.INTERNAL_SERVER_ERROR);
             });
-            return res.status(StatusCodes.CREATED).send(messageToInsert);
+            return res
+                .status(StatusCodes.CREATED)
+                .json({ message: messageToInsert });
         } else {
             return res.status(StatusCodes.UNAUTHORIZED);
         }

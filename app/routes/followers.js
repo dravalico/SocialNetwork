@@ -26,9 +26,13 @@ router.get(
                     let follower = await User.findOne({ id: followerId });
                     followers.push(follower.username);
                 }
-                return res.status(StatusCodes.OK).send(followers);
+                return res
+                    .status(StatusCodes.OK)
+                    .json({ followers: followers });
             } else {
-                return res.status(StatusCodes.NOT_FOUND).send("User not found");
+                return res
+                    .status(StatusCodes.NOT_FOUND)
+                    .json({ error: "User not found" });
             }
         }
     }
@@ -54,7 +58,7 @@ router.post(
                 if (idToFollow === id) {
                     return res
                         .status(StatusCodes.CONFLICT)
-                        .send("Cannot follow itself");
+                        .json({ error: "Cannot follow itself" });
                 }
                 let user = await User.findOne({ id: id });
                 let userToFollow = await User.findOne({ id: idToFollow });
@@ -69,16 +73,16 @@ router.post(
                             { $push: { followers: id } }
                         );
                         user = await User.findOne({ id: id });
-                        return res.status(StatusCodes.OK).send(user);
+                        return res.status(StatusCodes.OK).json({ user: user });
                     } else {
                         return res
                             .status(StatusCodes.CONFLICT)
-                            .send("Already following");
+                            .json({ error: "Already following" });
                     }
                 } else {
                     return res
                         .status(StatusCodes.NOT_FOUND)
-                        .send("User not found");
+                        .json({ error: "User not found" });
                 }
             } else {
                 return res.status(StatusCodes.UNAUTHORIZED);
@@ -117,16 +121,16 @@ router.delete(
                             { $pull: { followers: id } }
                         );
                         user = await User.findOne({ id: id });
-                        return res.status(StatusCodes.OK).send(user);
+                        return res.status(StatusCodes.OK).json({ user: user });
                     } else {
                         return res
                             .status(StatusCodes.CONFLICT)
-                            .send("Not following user");
+                            .json({ error: "Not following user" });
                     }
                 } else {
                     return res
                         .status(StatusCodes.NOT_FOUND)
-                        .send("User not found");
+                        .json({ error: "User not found" });
                 }
             } else {
                 return res.status(StatusCodes.UNAUTHORIZED);

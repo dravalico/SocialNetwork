@@ -3,7 +3,7 @@ const router = express.Router();
 const { User } = require("../db/models/user.js");
 const { Message } = require("../db/models/message.js");
 const { StatusCodes } = require("http-status-codes");
-const { param, validationResult } = require("express-validator");
+const { query, param, validationResult } = require("express-validator");
 
 router.get(
     "/social/users/:id?",
@@ -24,9 +24,11 @@ router.get(
                 "name surname username bio followers following"
             );
             if (userWithId) {
-                return res.status(StatusCodes.OK).send(userWithId);
+                return res.status(StatusCodes.OK).json({ user: userWithId });
             } else {
-                return res.status(StatusCodes.NOT_FOUND).send("User not found");
+                return res
+                    .status(StatusCodes.NOT_FOUND)
+                    .json({ error: "User not found" });
             }
         }
     }
@@ -47,34 +49,73 @@ router.get("/social/feed", async (req, res) => {
                     .sort({ id: -1 })
                     .limit(numberOfMessages);
                 if (feed.length !== 0) {
-                    return res.status(StatusCodes.OK).send(feed);
+                    return res.status(StatusCodes.OK).json({ feed: feed });
                 } else {
                     return res
                         .status(StatusCodes.NOT_FOUND)
-                        .send("No messages found");
+                        .json({ error: "No messages found" });
                 }
             } else {
                 return res
                     .status(StatusCodes.CONFLICT)
-                    .send("No following yet");
+                    .json({ error: "No following yet" });
             }
         } else {
-            return res.status(StatusCodes.NOT_FOUND).send("User not found");
+            return res
+                .status(StatusCodes.NOT_FOUND)
+                .json({ error: "User not found" });
         }
     } else {
         return res.status(StatusCodes.UNAUTHORIZED);
     }
 });
 
-router.get("/social/search?q=query", (req, res) => {});
+router.get(
+    "/social/search",
+    [
+        query("q")
+            .notEmpty()
+            .withMessage("The query must be not empty")
+            .isString()
+            .withMessage("The query must be a string")
+            .trim(),
+    ],
+    async (req, res) => {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+        } else {
+            const query = req.query.q;
+            const users = await User.find(
+                {
+                    $or: [
+                        { name: { $regex: query, $options: "i" } },
+                        { surname: { $regex: query, $options: "i" } },
+                        { username: { $regex: query, $options: "i" } },
+                    ],
+                },
+                "id username name surname bio"
+            ); // https://stackoverflow.com/questions/63770258/how-to-use-query-mongoose-using-a-like-operator-similar-to-that-of-sql
+            if (users.length !== 0) {
+                return res.status(StatusCodes.OK).json({ users: users });
+            } else {
+                return res
+                    .status(StatusCodes.NOT_FOUND)
+                    .json({ error: "No matches with query" });
+            }
+        }
+    }
+);
 
 router.get("/social/whoami", async (req, res) => {
     if (req.isAuth) {
         const userWithId = await User.findOne({ id: req.id });
         if (userWithId) {
-            return res.status(StatusCodes.OK).send(userWithId);
+            return res.status(StatusCodes.OK).json({ user: userWithId });
         } else {
-            return res.status(StatusCodes.NOT_FOUND).send("User not found");
+            return res
+                .status(StatusCodes.NOT_FOUND)
+                .json({ error: "User not found" });
         }
     } else {
         return res.status(StatusCodes.UNAUTHORIZED);
