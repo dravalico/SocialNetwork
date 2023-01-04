@@ -12,12 +12,12 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 
 html,
 body {
-  font-family: 'DM Sans', sans-serif;
   height: 100%;
+  overflow: hidden;
 }
 
 #app {
@@ -40,5 +40,19 @@ a {
 
 .router-link-exact-active {
   color: #e63946 !important;
+}
+
+.blank-button {
+  border: none;
+  background-color: inherit;
+}
+
+.blank-button:hover {
+  border: none;
+  background-color: #F0F3F4;
+}
+
+input {
+  box-shadow: none !important;
 }
 </style>

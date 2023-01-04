@@ -121,8 +121,7 @@ export default {
                     }
                 }
             };
-            const URL = "http://localhost:3000/api/social/search?q="
-                .concat(input)
+            const URL = "http://localhost:3000/api/social/search?q=".concat(input)
             xhr.open("GET", URL, true);
             xhr.send();
         }
