@@ -3,9 +3,21 @@
     <div>
         <div class="w-75 mx-auto">
             <h1 class="display-4">Social?</h1>
-            <b-button pill block variant="outline-primary" @click="goHome()">Home</b-button>
-            <b-button pill block variant="outline-primary" @click="signup()">Sign up</b-button>
-            <b-button pill block variant="outline-primary" @click="signin()">Sign in</b-button>
+            <div class="btn-like">
+                <router-link class="w-100 no-decoration" to="/">
+                    Home
+                </router-link>
+            </div>
+            <div class="btn-like">
+                <router-link class="w-100 no-decoration" to="/signup">
+                    Sign up
+                </router-link>
+            </div>
+            <div class="btn-like">
+                <router-link class="w-100 no-decoration" to="/signin">
+                    Sign in
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -13,26 +25,18 @@
 <script>
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
-    name: 'GuestMenu',
-    methods: {
-        goHome() {
-            const pathTo = "/";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo }).catch(() => { });
-            }
-        },
-        signup() {
-            const pathTo = "signup";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo }).catch(() => { });
-            }
-        },
-        signin() {
-            const pathTo = "signin";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo }).catch(() => { });
-            }
-        },
-    }
+    name: 'GuestMenu'
 }
 </script>
+
+<style scoped>
+.btn-like {
+    border-radius: 25px;
+    background: inherit;
+}
+
+.btn-like:hover {
+    border-radius: 25px;
+    background: #f0f0f0;
+}
+</style>

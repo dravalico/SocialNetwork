@@ -31,7 +31,7 @@
                     placeholder="Enter something..."></b-form-textarea>
             </b-form-group>
 
-            <b-button pill block type="submit" variant="outline-primary" :disabled="!isComplete">Sign up</b-button>
+            <b-button pill block type="submit" variant="btn btn-outline-danger" :disabled="!isComplete">Sign up</b-button>
         </b-form>
     </div>
 </template>

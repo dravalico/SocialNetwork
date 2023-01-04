@@ -11,7 +11,7 @@
                 <b-form-input id="password" class="mb-1" v-model="form.password" placeholder="Password"></b-form-input>
             </b-form-group>
 
-            <b-button pill block type="submit" variant="outline-primary" :disabled="!isComplete">Sign in</b-button>
+            <b-button pill block type="submit" variant="btn btn-outline-danger" :disabled="!isComplete">Sign in</b-button>
         </b-form>
     </div>
 </template>

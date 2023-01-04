@@ -26,4 +26,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+
+a {
+  display: inline-block;
+  text-decoration: none !important;
+  color: black !important;
+  padding: 10px;
+}
+
+.router-link-active {
+  background: #fcd5ce;
+}
+
+.router-link-exact-active {
+  color: #e63946 !important;
+}
 </style>
