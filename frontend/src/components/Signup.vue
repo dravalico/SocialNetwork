@@ -13,7 +13,7 @@
 
             <b-form-group label="Choose your username">
                 <b-form-input id="username" v-model="form.username" placeholder="Username"
-                    @blur="checkUsername(form.username)"></b-form-input>
+                    @input="checkUsername(form.username)"></b-form-input>
             </b-form-group>
 
             <b-form-group label="Create a password">
@@ -31,7 +31,7 @@
                     placeholder="Enter something..."></b-form-textarea>
             </b-form-group>
 
-            <b-button pill block type="submit" variant="btn btn-outline-danger" :disabled="!isComplete">Sign up</b-button>
+            <b-button pill block type="submit" variant="btn btn-outline-primary" :disabled="!isComplete">Sign up</b-button>
         </b-form>
     </div>
 </template>
@@ -100,7 +100,7 @@ export default {
                         const xhrJson = JSON.parse(xhr.responseText);
                         const users = xhrJson.users;
                         for (let i in users) {
-                            if (input === users[i].username) {
+                            if (input.toLowerCase() === users[i].username.toLowerCase()) {
                                 isValid = false;
                                 break;
                             }

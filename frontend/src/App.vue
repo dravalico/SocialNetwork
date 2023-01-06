@@ -8,6 +8,10 @@
 <script>
 export default {
   name: 'App',
+  metaInfo: {
+    title: 'wpSocial',
+    titleTemplate: '%s | wspSocial'
+  }
 }
 </script>
 
@@ -49,10 +53,19 @@ a {
 
 .blank-button:hover {
   border: none;
-  background-color: #F0F3F4;
+  background-color: #fbfafa;
 }
 
-input {
+input,
+textarea {
   box-shadow: none !important;
+}
+
+input:focus {
+  border: black 1px solid !important;
+}
+
+textarea:focus {
+  border: black 1px solid !important;
 }
 </style>

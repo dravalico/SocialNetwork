@@ -4,6 +4,7 @@ import Main from "../views/Main.vue";
 import Signup from "../components/Signup.vue";
 import Signin from "../components/Signin.vue";
 import User from "../components/User.vue";
+import Message from "../components/Message.vue";
 
 Vue.use(VueRouter);
 
@@ -11,18 +12,37 @@ const routes = [
     {
         path: "/",
         component: Main,
+        meta: {
+            title: "Home",
+        },
         children: [
             {
                 path: "signup",
                 component: Signup,
+                meta: {
+                    title: "Sign up",
+                },
             },
             {
                 path: "signin",
                 component: Signin,
+                meta: {
+                    title: "Sign in",
+                },
             },
             {
                 path: "user",
                 component: User,
+                meta: {
+                    title: "User",
+                },
+            },
+            {
+                path: "message",
+                component: Message,
+                meta: {
+                    title: "Message",
+                },
             },
         ],
     },
@@ -31,6 +51,14 @@ const routes = [
 const router = new VueRouter({
     routes,
     linkActiveClass: "active-link",
+});
+
+router.afterEach((to) => {
+    Vue.nextTick(() => {
+        document.title = to.meta.title
+            ? to.meta.title + " / wpSocial"
+            : "wpSocial";
+    });
 });
 
 export default router;

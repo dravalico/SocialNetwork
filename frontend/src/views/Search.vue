@@ -4,7 +4,7 @@
         <div class="w-75 mx-auto">
             <h1 class="display-4">Search</h1>
             <div>
-                <b-icon icon="search"></b-icon>
+                <!---<b-icon icon="search"></b-icon>-->
                 <b-form-input id="search-form" class="shadow-none" placeholder="Search users..." v-model="input"
                     @input="handleQuery(input)"></b-form-input>
             </div>
@@ -41,7 +41,6 @@ export default {
     },
     methods: {
         handleQuery(input) { // https://stackoverflow.com/questions/7849221/ajax-delay-for-search-on-typing-in-form-field
-            console.log(input);
             let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {

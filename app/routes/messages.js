@@ -21,7 +21,7 @@ router.get(
         } else {
             const messagesFromUser = await Message.find({
                 idCreator: req.params.userId,
-            });
+            }).sort({ id: -1 });
             if (messagesFromUser.length !== 0) {
                 return res
                     .status(StatusCodes.OK)
@@ -84,7 +84,7 @@ router.post(
             let messageToInsert = {};
             messageToInsert.id = (await getLastElementId(Message)) + 1;
             messageToInsert.idCreator = idCreator;
-            messageToInsert.date = new Date().toISOString().split("T")[0];
+            messageToInsert.date = new Date().toISOString();
             messageToInsert.text = req.body.text;
             messageToInsert.likes = [];
             const message = new Message({ ...messageToInsert });

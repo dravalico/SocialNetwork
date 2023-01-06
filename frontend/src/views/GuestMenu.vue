@@ -3,22 +3,21 @@
     <div>
         <div class="w-75 mx-auto">
             <button class="blank-button" @click="goHome">
-                <h1 class="display-4">WPsocial</h1>
+                <span class="display-4">wpSocial</span>
             </button>
-
             <div class="btn-like">
                 <router-link class="w-100 no-decoration" to="/">
-                    Home
+                    <span class="h5">Home</span>
                 </router-link>
             </div>
             <div class="btn-like">
                 <router-link class="w-100 no-decoration" to="/signup">
-                    Sign up
+                    <span class="h5">Sign up</span>
                 </router-link>
             </div>
             <div class="btn-like">
                 <router-link class="w-100 no-decoration" to="/signin">
-                    Sign in
+                    <span class="h5">Sign in</span>
                 </router-link>
             </div>
         </div>
