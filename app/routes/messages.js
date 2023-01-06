@@ -21,7 +21,7 @@ router.get(
         } else {
             const messagesFromUser = await Message.find({
                 idCreator: req.params.userId,
-            }).sort({ id: -1 });
+            });
             if (messagesFromUser.length !== 0) {
                 return res
                     .status(StatusCodes.OK)

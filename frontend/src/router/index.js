@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Main from "../views/Main.vue";
+import Home from "../views/Home.vue";
 import Signup from "../components/Signup.vue";
 import Signin from "../components/Signin.vue";
 import User from "../components/User.vue";
@@ -11,40 +11,38 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: "/",
-        component: Main,
+        component: Home,
         meta: {
             title: "Home",
         },
-        children: [
-            {
-                path: "signup",
-                component: Signup,
-                meta: {
-                    title: "Sign up",
-                },
-            },
-            {
-                path: "signin",
-                component: Signin,
-                meta: {
-                    title: "Sign in",
-                },
-            },
-            {
-                path: "user",
-                component: User,
-                meta: {
-                    title: "User",
-                },
-            },
-            {
-                path: "message",
-                component: Message,
-                meta: {
-                    title: "Message",
-                },
-            },
-        ],
+    },
+    {
+        path: "/signup",
+        component: Signup,
+        meta: {
+            title: "Sign up",
+        },
+    },
+    {
+        path: "/signin",
+        component: Signin,
+        meta: {
+            title: "Sign in",
+        },
+    },
+    {
+        path: "/user",
+        component: User,
+        meta: {
+            title: "User",
+        },
+    },
+    {
+        path: "/message",
+        component: Message,
+        meta: {
+            title: "Message",
+        },
     },
 ];
 

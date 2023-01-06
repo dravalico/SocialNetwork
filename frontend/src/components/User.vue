@@ -1,20 +1,17 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div v-if="dataReady" class="mx-auto h-100">
+    <div v-if="dataReady" class="scrollable mx-auto full-height">
         <span>
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
             <h3>@{{ this.user.username }}</h3>
-            <div>
-
-            </div>
             <h5 class="font-italic">{{ this.user.bio }}</h5>
         </span>
-        <div id="message-div" class="h-100">
-            <div class="pt-4" v-if="!isEmpty">
+        <div id="message-div">
+            <div class="pt-3" v-if="!isEmpty">
                 <div class="bordered-top" v-for='message in messages' :key='message.id'>
                     <button class="blank-button w-100 text-left" @click="openMessage(message.idCreator, message.id)">
                         <p>On {{ message.date.split("T")[0] }} said</p>
-                        <p class="ml-3">{{ message.text }}</p>
+                        <p class="ml-3" style="font-weight: 600;">{{ message.text }}</p>
                         <button class="like-btn blank-button mb-3" @click.stop="">
                             <span>
                                 <b-icon-heart></b-icon-heart>
@@ -24,7 +21,7 @@
                     </button>
                 </div>
             </div>
-            <div class="bordered-top row justify-content-center pt-4" v-else>
+            <div v-else class="bordered-top row justify-content-center pt-4">
                 <p class="square centerd">No messages yet</p>
             </div>
         </div>
@@ -87,7 +84,7 @@ export default {
             });
             if (res.ok) {
                 let messagesJson = await res.json();
-                this.messages = messagesJson.messages;
+                this.messages = messagesJson.messages.reverse();
                 this.dataReady = true;
             } else if (res.status === 400) {
                 console.log()
@@ -106,11 +103,17 @@ export default {
 </script>
 
 <style scoped>
-.bordered-top {
-    border-top: 1px solid #F0F3F4;
+.scrollable {
+    overflow: auto !important;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-.like-btn:hover {
-    color: red;
+.scrollable::-webkit-scrollbar {
+    display: none;
+}
+
+.full-height {
+    height: 100vh!important;
 }
 </style>
