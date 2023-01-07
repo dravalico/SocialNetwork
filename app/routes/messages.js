@@ -95,7 +95,7 @@ router.post(
                 .status(StatusCodes.CREATED)
                 .json({ message: messageToInsert });
         } else {
-            return res.status(StatusCodes.UNAUTHORIZED);
+            return res.status(StatusCodes.UNAUTHORIZED).json({ error: "Unauthorized" });;
         }
     }
 );

@@ -75,7 +75,6 @@ export default {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Character-Encoding': 'utf-8',
                 },
                 body: JSON.stringify(body)
             });

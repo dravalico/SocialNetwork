@@ -19,6 +19,7 @@
 <script>
 import GuestMenu from './views/GuestMenu.vue';
 import Search from './views/Search.vue';
+
 export default {
     name: 'App',
     components: {

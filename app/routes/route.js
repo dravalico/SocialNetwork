@@ -66,7 +66,9 @@ router.get("/social/feed", async (req, res) => {
                 .json({ error: "User not found" });
         }
     } else {
-        return res.status(StatusCodes.UNAUTHORIZED);
+        return res
+            .status(StatusCodes.UNAUTHORIZED)
+            .json({ error: "Unauthorized" });
     }
 });
 
@@ -118,7 +120,9 @@ router.get("/social/whoami", async (req, res) => {
                 .json({ error: "User not found" });
         }
     } else {
-        return res.status(StatusCodes.UNAUTHORIZED);
+        return res
+            .status(StatusCodes.UNAUTHORIZED)
+            .json({ error: "Unauthorized" });
     }
 });
 

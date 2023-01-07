@@ -5,6 +5,9 @@ import Signup from "../components/Signup.vue";
 import Signin from "../components/Signin.vue";
 import User from "../components/User.vue";
 import Message from "../components/Message.vue";
+import { state, verifyAuth } from "../auth.js";
+
+Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 
@@ -57,6 +60,13 @@ router.afterEach((to) => {
             ? to.meta.title + " / wpSocial"
             : "wpSocial";
     });
+});
+
+router.beforeEach(async (to, from, next) => {
+    await verifyAuth();
+    console.log(state.isAuthenticated);
+    console.log(state.user)
+    next();
 });
 
 export default router;

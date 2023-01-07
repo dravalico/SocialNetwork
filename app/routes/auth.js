@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { StatusCodes } = require("http-status-codes");
+const { StatusCodes, NO_CONTENT } = require("http-status-codes");
 const { cookies, body, validationResult } = require("express-validator");
 const { User } = require("../db/models/user.js");
 const { getLastElementId } = require("../util.js");
@@ -108,8 +108,8 @@ router.post(
                 user.comparePassword(userToLogin.password, (err, match) => {
                     if (match && !err) {
                         const token = generateJWT(
-                            userToLogin.id,
-                            userToLogin.username
+                            user.id,
+                            user.username
                         );
                         return res
                             .cookie("jwtoken", token, {
@@ -117,7 +117,7 @@ router.post(
                                 httpOnly: true,
                             })
                             .status(StatusCodes.OK)
-                            .json(userToLogin);
+                            .json(user);
                     } else {
                         return res
                             .status(StatusCodes.FORBIDDEN)
