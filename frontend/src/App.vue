@@ -2,8 +2,8 @@
     <div id="app" class="h-100">
         <b-container fluid class="h-100">
             <b-row class="h-100">
-                <b-col md="3">
-                    <GuestMenu />
+                <b-col sm="3">
+                    <Menu />
                 </b-col>
                 <b-col class="bordered" sm="5">
                     <router-view />
@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import GuestMenu from './views/GuestMenu.vue';
+import Menu from './views/Menu.vue';
 import Search from './views/Search.vue';
 
 export default {
     name: 'App',
     components: {
-        GuestMenu,
+        Menu,
         Search
     },
     metaInfo: {

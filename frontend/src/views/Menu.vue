@@ -28,6 +28,16 @@
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'GuestMenu',
+    data() {
+        return {
+            isAuthenticated: null
+        }
+    },
+    watch: {
+        '$store.getters.isAuthenticated'() {
+            this.isAuthenticated = this.$store.getters.isAuthenticated;
+        }
+    },
     methods: {
         goHome() {
             const pathTo = "/";

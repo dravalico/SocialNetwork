@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div v-if="dataReady" class="scrollable mx-auto full-height">
+    <div class="scrollable mx-auto full-height">
         <span>
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
             <h3>@{{ this.user.username }}</h3>
@@ -34,7 +34,6 @@ export default {
     name: 'User',
     data() {
         return {
-            dataReady: false,
             isEmpty: '',
             user: {},
             messages: []
@@ -43,7 +42,6 @@ export default {
     watch: {
         '$route.query': {
             handler(obj) {
-                this.dataReady = false;
                 this.isEmpty = '';
                 this.user = {};
                 this.messages = [];
@@ -67,7 +65,6 @@ export default {
                 this.user = userJson.user;
                 let documentTitle = document.title.replace("User", "@" + this.user.username);
                 document.title = documentTitle;
-                this.dataReady = true;
             } else if (res.status === 400) {
                 console.log()
             } else if (res.status === 404) {
@@ -85,7 +82,6 @@ export default {
             if (res.ok) {
                 let messagesJson = await res.json();
                 this.messages = messagesJson.messages.reverse();
-                this.dataReady = true;
             } else if (res.status === 400) {
                 console.log()
             } else if (res.status === 404) {

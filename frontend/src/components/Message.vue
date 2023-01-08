@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div v-if="dataReady">
+    <div>
         <span>
             <h1 class="display-4">Message</h1>
         </span>
@@ -35,7 +35,6 @@ export default {
     name: 'Message',
     data() {
         return {
-            dataReady: false,
             user: {},
             message: {}
         }
@@ -43,7 +42,6 @@ export default {
     watch: {
         '$route.query': {
             handler(obj) {
-                this.dataReady = false;
                 this.user = {};
                 this.fetchUser(obj.userId);
                 this.fetchMessage(obj.userId, obj.messageId);
@@ -63,7 +61,6 @@ export default {
             if (res.ok) {
                 let userJson = await res.json();
                 this.user = userJson.user
-                this.dataReady = true;
             } else if (res.status === 400) {
                 console.log()
             } else if (res.status === 404) {
@@ -81,7 +78,6 @@ export default {
             if (res.ok) {
                 let messageJson = await res.json();
                 this.message = messageJson.message;
-                this.dataReady = true;
             } else if (res.status === 400) {
                 console.log()
             } else if (res.status === 404) {
