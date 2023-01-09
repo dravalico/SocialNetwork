@@ -1,5 +1,5 @@
 <template>
-    <div class="h-100">
+    <div class="vh-100">
         <div v-if=this.$store.getters.isAuthenticated>
             <h1 class="display-4">Feed</h1>
             <div id="message-div">

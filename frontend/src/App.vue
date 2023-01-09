@@ -1,7 +1,7 @@
 <template>
-    <div id="app" class="h-100">
-        <b-container fluid class="h-100">
-            <b-row class="h-100">
+    <div id="app" class="vh-100">
+        <b-container fluid class="vh-100">
+            <b-row class="vh-100">
                 <b-col sm="3">
                     <Menu />
                 </b-col>
@@ -55,9 +55,9 @@ body {
 
 a {
     display: inline-block;
-    text-decoration: none !important;
     color: black !important;
     padding: 10px;
+    text-decoration: none !important;
 }
 
 .router-link-active {

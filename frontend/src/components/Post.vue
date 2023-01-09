@@ -1,13 +1,13 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="h-100">
+    <div class="vh-100">
         <h1 class="display-4">Create a post</h1>
-        <b-form class="h-100" @submit.prevent="postMessage">
+        <b-form class="vh-100" @submit.prevent="postMessage">
             <b-form-group label="Create a post of arbitrary length and share it">
-                <b-form-textarea no-resize id="text" v-model="form.text"
+                <b-form-textarea no-resize v-model="form.text"
                     placeholder="What are you thinking about?"></b-form-textarea>
             </b-form-group>
-            <button type="submit" class="btn btn-primary w-100" :disabled="isEmpty">Share it!</button>
+            <button type="submit" class="btn btn-primary vw-100" :disabled="isEmpty">Share it!</button>
         </b-form>
     </div>
 </template>

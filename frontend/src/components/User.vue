@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="scrollable mx-auto full-height">
+    <div class="scrollable mx-auto vh-100">
         <span>
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
             <h3>@{{ this.user.username }}</h3>
@@ -9,10 +9,10 @@
         <div v-if="this.$store.getters.isAuthenticated">
             <div v-if="this.$store.getters.userState.user.id != this.user.id">
                 <div v-if="this.$store.getters.userState.user.following.includes(this.user.id)">
-                    <button class="rounded btn btn-primary rounded mb-1" @click="unfollowUser">Unfollow</button>
+                    <button class="btn btn-primary mb-1" @click="unfollowUser">Unfollow</button>
                 </div>
                 <div v-else>
-                    <button class="rounded btn btn-primary rounded mb-1" @click="followUser">Follow</button>
+                    <button class="btn btn-primary mb-1" @click="followUser">Follow</button>
                 </div>
             </div>
         </div>
@@ -151,9 +151,5 @@ export default {
 
 .scrollable::-webkit-scrollbar {
     display: none;
-}
-
-.full-height {
-    height: 100vh !important;
 }
 </style>

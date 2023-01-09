@@ -1,11 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Signup from "../components/Signup.vue";
-import Signin from "../components/Signin.vue";
-import User from "../components/User.vue";
-import Message from "../components/Message.vue";
-import Post from "../components/Post.vue";
 import store from "../store/index.js";
 
 Vue.config.productionTip = false;
@@ -15,7 +10,7 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: "/",
-        name: 'Home',
+        name: "Home",
         component: Home,
         meta: {
             title: "Home",
@@ -23,37 +18,54 @@ const routes = [
     },
     {
         path: "/signup",
-        component: Signup,
+        component: () =>
+            import(/* webpackChunkName: "signup" */ "../components/Signup.vue"),
         meta: {
             title: "Sign up",
         },
     },
     {
         path: "/signin",
-        component: Signin,
+        component: () =>
+            import(/* webpackChunkName: "signin" */ "../components/Signin.vue"),
         meta: {
             title: "Sign in",
         },
     },
     {
         path: "/user",
-        component: User,
+        component: () =>
+            import(/* webpackChunkName: "user" */ "../components/User.vue"),
         meta: {
             title: "User",
         },
     },
     {
         path: "/message",
-        component: Message,
+        component: () =>
+            import(
+                /* webpackChunkName: "message" */ "../components/Message.vue"
+            ),
         meta: {
             title: "Message",
         },
     },
     {
         path: "/post",
-        component: Post,
+        component: () =>
+            import(/* webpackChunkName: "post" */ "../components/Post.vue"),
         meta: {
             title: "Create post",
+        },
+    },
+    {
+        path: "/followers",
+        component: () =>
+            import(
+                /* webpackChunkName: "followers" */ "../components/Followers.vue"
+            ),
+        meta: {
+            title: "Your followers",
         },
     },
 ];
