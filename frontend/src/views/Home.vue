@@ -27,6 +27,6 @@ export default {
 p a {
     display: contents !important;
     text-decoration: none !important;
-    color: red !important;
+    color: #007bff !important;
 }
 </style>

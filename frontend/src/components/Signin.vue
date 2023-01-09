@@ -11,7 +11,7 @@
                 <b-form-input id="password" class="mb-1" v-model="form.password" placeholder="Password"></b-form-input>
             </b-form-group>
 
-            <b-button pill block type="submit" variant="btn btn-dark" :disabled="!isComplete">Sign in</b-button>
+            <button type="submit" class="btn btn-primary w-100 rounded" :disabled="!isComplete">Sign in</button>
         </b-form>
     </div>
 </template>
@@ -69,3 +69,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.rounded {
+    border-radius: 50rem !important;
+}
+</style>

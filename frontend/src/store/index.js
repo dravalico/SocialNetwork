@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+// https://github.com/gabbyprecious/vue-blog/blob/master/src/store/modules/auth.js
 Vue.use(Vuex);
 const API_BASE = "http://localhost:3000/" + "api/social";
 export default new Vuex.Store({
@@ -33,5 +34,8 @@ export default new Vuex.Store({
                 this.commit("setUser", null);
             }
         },
+        logout() {
+            this.commit("setUser", null);
+        }
     },
 });

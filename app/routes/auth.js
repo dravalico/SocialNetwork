@@ -107,10 +107,7 @@ router.post(
             if (user) {
                 user.comparePassword(userToLogin.password, (err, match) => {
                     if (match && !err) {
-                        const token = generateJWT(
-                            user.id,
-                            user.username
-                        );
+                        const token = generateJWT(user.id, user.username);
                         return res
                             .cookie("jwtoken", token, {
                                 maxAge: 1296000000,
@@ -132,6 +129,18 @@ router.post(
         }
     }
 );
+
+router.get("/logout", (req, res) => {
+    if (req.isAuth) {
+        res.clearCookie("jwtoken")
+            .status(StatusCodes.OK)
+            .send({ done: "Logout ok" });
+    } else {
+        return res
+            .status(StatusCodes.UNAUTHORIZED)
+            .json({ error: "Unauthorized" });
+    }
+});
 
 async function isAlreadyInDb(username) {
     const user = await User.findOne({ username: username });

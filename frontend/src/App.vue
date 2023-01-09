@@ -66,7 +66,7 @@ a {
 }
 
 .router-link-exact-active {
-    color: #6b9080 !important;
+    color: #007bff !important;
 }
 
 .blank-button {
@@ -76,24 +76,17 @@ a {
 
 .blank-button:hover {
     border: none;
-    background-color: #dde5b6;
+    background-color: #edf2fb;
 }
 
 input,
-textarea {
+textarea,
+button {
     box-shadow: none !important;
 }
 
-input:focus {
-    border: black 1px solid !important;
-}
-
-textarea:focus {
-    border: black 1px solid !important;
-}
-
 .bordered-top {
-    border-top: 1px solid #8bcac0;
+    border-top: 1px solid #F0F3F4;
 }
 
 .like-btn:hover {

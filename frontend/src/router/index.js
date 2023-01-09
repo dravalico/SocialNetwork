@@ -5,6 +5,7 @@ import Signup from "../components/Signup.vue";
 import Signin from "../components/Signin.vue";
 import User from "../components/User.vue";
 import Message from "../components/Message.vue";
+import Post from "../components/Post.vue";
 import store from "../store/index.js";
 
 Vue.config.productionTip = false;
@@ -45,6 +46,13 @@ const routes = [
         component: Message,
         meta: {
             title: "Message",
+        },
+    },
+    {
+        path: "/post",
+        component: Post,
+        meta: {
+            title: "Create post",
         },
     },
 ];

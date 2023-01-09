@@ -31,7 +31,7 @@
                     placeholder="Enter something..."></b-form-textarea>
             </b-form-group>
 
-            <b-button pill block type="submit" variant="btn btn-dark" :disabled="!isComplete">Sign up</b-button>
+            <button type="submit" class="btn btn-primary w-100 rounded" :disabled="!isComplete">Sign up</button>
         </b-form>
     </div>
 </template>
@@ -73,6 +73,7 @@ export default {
             }
             const res = await fetch('http://localhost:3000/api/auth/signup', {
                 method: 'POST',
+                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -81,7 +82,7 @@ export default {
             if (res.ok) {
                 this.$router
                     .push({ path: '/' })
-                    .then(() => { this.$router.go() });
+                //.then(() => { this.$router.go() });
             } else if (res.status === 400) {
                 const errorsJson = await res.json();
                 const errors = errorsJson.error;
@@ -127,3 +128,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.rounded {
+    border-radius: 50rem !important;
+}
+</style>
