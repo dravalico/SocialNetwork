@@ -91,4 +91,8 @@ button {
 .like-btn:hover {
     color: red;
 }
+
+.btn {
+    border-radius: 50rem !important;
+}
 </style>

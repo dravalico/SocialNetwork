@@ -7,7 +7,7 @@
                 <b-form-textarea no-resize id="text" v-model="form.text"
                     placeholder="What are you thinking about?"></b-form-textarea>
             </b-form-group>
-            <button type="submit" class="btn btn-primary w-100 rounded" :disabled="isEmpty">Share it!</button>
+            <button type="submit" class="btn btn-primary w-100" :disabled="isEmpty">Share it!</button>
         </b-form>
     </div>
 </template>

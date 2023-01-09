@@ -6,16 +6,18 @@
             <h3>@{{ this.user.username }}</h3>
             <h5 class="font-italic">{{ this.user.bio }}</h5>
         </span>
-        <div v-if="this.$store.getters.userState.user.id != this.user.id">
-            <div v-if=this.$store.getters.userState.user.following.includes(this.user.id)>
-                <button class="rounded btn btn-primary rounded mb-2" @click="unfollowUser">Unfollow</button>
-            </div>
-            <div v-else>
-                <button class="rounded btn btn-primary rounded mb-2" @click="followUser">Follow</button>
+        <div v-if="this.$store.getters.isAuthenticated">
+            <div v-if="this.$store.getters.userState.user.id != this.user.id">
+                <div v-if="this.$store.getters.userState.user.following.includes(this.user.id)">
+                    <button class="rounded btn btn-primary rounded mb-1" @click="unfollowUser">Unfollow</button>
+                </div>
+                <div v-else>
+                    <button class="rounded btn btn-primary rounded mb-1" @click="followUser">Follow</button>
+                </div>
             </div>
         </div>
         <div id="message-div">
-            <div class="pt-3" v-if="!isEmpty">
+            <div class="pt-2" v-if="!isEmpty">
                 <div class="bordered-top" v-for='message in messages' :key='message.id'>
                     <button class="blank-button w-100 text-left" @click="openMessage(message.idCreator, message.id)">
                         <p>On {{ message.date.split("T")[0] }} said</p>
@@ -153,9 +155,5 @@ export default {
 
 .full-height {
     height: 100vh !important;
-}
-
-.rounded {
-    border-radius: 50rem !important;
 }
 </style>

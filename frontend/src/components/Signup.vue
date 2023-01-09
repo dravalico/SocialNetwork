@@ -31,7 +31,7 @@
                     placeholder="Enter something..."></b-form-textarea>
             </b-form-group>
 
-            <button type="submit" class="btn btn-primary w-100 rounded" :disabled="!isComplete">Sign up</button>
+            <button type="submit" class="btn btn-primary w-100" :disabled="!isComplete">Sign up</button>
         </b-form>
     </div>
 </template>
@@ -126,9 +126,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.rounded {
-    border-radius: 50rem !important;
-}
-</style>

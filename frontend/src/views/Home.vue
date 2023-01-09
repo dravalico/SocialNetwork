@@ -73,6 +73,12 @@ export default {
                 this.isEmpty = true;
             }
         },
+        openMessage(userId, messageId) {
+            const pathTo = "/message";
+            if (this.$route.name != pathTo) {
+                this.$router.push({ path: pathTo, query: { userId: userId, messageId: messageId } });
+            }
+        },
     }
 }
 </script>
