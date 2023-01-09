@@ -36,6 +36,6 @@ export default new Vuex.Store({
         },
         logout() {
             this.commit("setUser", null);
-        }
+        },
     },
 });

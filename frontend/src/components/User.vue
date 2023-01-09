@@ -6,6 +6,14 @@
             <h3>@{{ this.user.username }}</h3>
             <h5 class="font-italic">{{ this.user.bio }}</h5>
         </span>
+        <div v-if="this.$store.getters.userState.user.id != this.user.id">
+            <div v-if=this.$store.getters.userState.user.following.includes(this.user.id)>
+                <button class="rounded btn btn-primary rounded mb-2" @click="unfollowUser">Unfollow</button>
+            </div>
+            <div v-else>
+                <button class="rounded btn btn-primary rounded mb-2" @click="followUser">Follow</button>
+            </div>
+        </div>
         <div id="message-div">
             <div class="pt-3" v-if="!isEmpty">
                 <div class="bordered-top" v-for='message in messages' :key='message.id'>
@@ -93,6 +101,40 @@ export default {
             if (this.$route.name != pathTo) {
                 this.$router.push({ path: pathTo, query: { userId: userId, messageId: messageId } }).catch(() => { });
             }
+        },
+        async followUser() {
+            const url = 'http://localhost:3000/api/social/followers/' + this.user.id;
+            const res = await fetch(url, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (res.ok) {
+                await this.$store.dispatch("verifyAuthentication");
+            } else if (res.status === 400) {
+                console.log()
+            } else if (res.status === 404) {
+                this.isEmpty = true;
+            }
+        },
+        async unfollowUser() {
+            const url = 'http://localhost:3000/api/social/followers/' + this.user.id;
+            const res = await fetch(url, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (res.ok) {
+                await this.$store.dispatch("verifyAuthentication");
+            } else if (res.status === 400) {
+                console.log()
+            } else if (res.status === 404) {
+                this.isEmpty = true;
+            }
         }
     }
 }
@@ -110,6 +152,10 @@ export default {
 }
 
 .full-height {
-    height: 100vh!important;
+    height: 100vh !important;
+}
+
+.rounded {
+    border-radius: 50rem !important;
 }
 </style>

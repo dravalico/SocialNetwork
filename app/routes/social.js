@@ -6,7 +6,7 @@ const { StatusCodes } = require("http-status-codes");
 const { query, param, validationResult } = require("express-validator");
 
 router.get(
-    "/social/users/:id?",
+    "/users/:id?",
     [
         param("id")
             .notEmpty()
@@ -21,7 +21,7 @@ router.get(
         } else {
             const userWithId = await User.findOne(
                 { id: req.params.id },
-                "name surname username bio followers following"
+                "id name surname username bio followers following"
             );
             if (userWithId) {
                 return res.status(StatusCodes.OK).json({ user: userWithId });
@@ -34,7 +34,7 @@ router.get(
     }
 );
 
-router.get("/social/feed", async (req, res) => {
+router.get("/feed", async (req, res) => {
     if (req.isAuth) {
         const user = await User.findOne({ id: req.id });
         let numberOfMessages = req.query.q;
@@ -73,7 +73,7 @@ router.get("/social/feed", async (req, res) => {
 });
 
 router.get(
-    "/social/search",
+    "/search",
     [
         query("q")
             .notEmpty()
@@ -109,7 +109,7 @@ router.get(
     }
 );
 
-router.get("/social/whoami", async (req, res) => {
+router.get("/whoami", async (req, res) => {
     if (req.isAuth) {
         const userWithId = await User.findOne({ id: req.id });
         if (userWithId) {

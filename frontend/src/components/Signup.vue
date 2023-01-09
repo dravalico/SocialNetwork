@@ -80,9 +80,7 @@ export default {
                 body: JSON.stringify(body)
             });
             if (res.ok) {
-                this.$router
-                    .push({ path: '/' })
-                //.then(() => { this.$router.go() });
+                this.$router.replace({ path: '/' })
             } else if (res.status === 400) {
                 const errorsJson = await res.json();
                 const errors = errorsJson.error;

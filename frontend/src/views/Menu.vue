@@ -95,19 +95,20 @@ export default {
                 },
             });
             if (res.ok) {
-                const pathTo = "/#/";
-                this.$router.push({ path: pathTo }).catch(() => { });
+                if (this.$route.name != "Home") {
+                    await this.$store.dispatch("logout");
+                    this.$router.push({ path: "/" });
+                } else {
+                    this.$router.go();
+                }
             } else if (res.status === 400) {
-                console.log("error")
+                console.log()
             } else if (res.status === 404) {
-                console.log("error2");
+                console.log();
             }
         },
         openMyPosts() {
-            const pathTo = "/user";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo, query: { id: this.$store.getters.userState.user.id } }).catch(() => { });
-            }
+            this.$router.push({ path: "/user", query: { id: this.$store.getters.userState.user.id } }).catch(() => { });
         }
     }
 }

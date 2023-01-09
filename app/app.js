@@ -2,10 +2,10 @@ const express = require("express");
 const app = express();
 const mongoosedb = require("./db/mongoosedb.js");
 const authApi = require("./routes/auth.js");
-const messagesApi = require("./routes/messages.js");
 const followersApi = require("./routes/followers.js");
 const likesApi = require("./routes/like.js");
-const api = require("./routes/route.js");
+const messagesApi = require("./routes/messages.js");
+const socialApi = require("./routes/social.js");
 const test = require("./routetest.js");
 const { isAuth } = require("./verify-auth.js");
 var cookieParser = require("cookie-parser");
@@ -31,7 +31,7 @@ app.use("/api/auth", authApi);
 app.use("/api/social/messages", messagesApi);
 app.use("/api/social/followers", followersApi);
 app.use("/api/social/like", likesApi);
-app.use("/api", api);
+app.use("/api/social", socialApi);
 app.use("/api/test", test);
 
 app.listen(3000, () => {

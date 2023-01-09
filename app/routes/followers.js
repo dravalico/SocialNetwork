@@ -53,7 +53,7 @@ router.post(
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
             if (req.isAuth) {
-                let id = req.id;
+                let id = req.id.toString();
                 const idToFollow = req.params.id;
                 if (idToFollow === id) {
                     return res
