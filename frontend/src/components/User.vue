@@ -3,31 +3,34 @@
     <div class="scrollable mx-auto vh-100">
         <span>
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
-            <h3>@{{ this.user.username }}</h3>
-            <h5 class="font-italic">{{ this.user.bio }}</h5>
-        </span>
-        <div v-if="this.$store.getters.isAuthenticated">
-            <div v-if="this.$store.getters.userState.user.id != this.user.id">
-                <div v-if="this.$store.getters.userState.user.following.includes(this.user.id)">
-                    <button class="btn btn-primary mb-1" @click="unfollowUser">Unfollow</button>
-                </div>
-                <div v-else>
-                    <button class="btn btn-primary mb-1" @click="followUser">Follow</button>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-6 w-25">
+                        <h3>@{{ this.user.username }}</h3>
+                    </div>
+                    <div class="col-xs-6">
+                        <div v-if="this.$store.getters.userState.user.id != this.user.id">
+                            <div v-if="this.$store.getters.isAuthenticated">
+                                <div v-if="this.$store.getters.userState.user.following.includes(this.user.id)">
+                                    <button class="btn btn-primary mb-1" @click="unfollowUser">Unfollow</button>
+                                </div>
+                                <div v-else>
+                                    <button class="btn btn-primary mb-1" @click="followUser">Follow</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="message-div">
+            <h5 class="font-italic">{{ this.user.bio }}</h5>
+        </span>
+        <div id="message-div" :key="componentKey">
             <div class="pt-2" v-if="!isEmpty">
-                <div class="bordered-top" v-for='message in messages' :key='message.id'>
+                <div class="bordered-top" v-for='message in messages' :key='message.id' :ref='message.id'>
                     <button class="blank-button w-100 text-left" @click="openMessage(message.idCreator, message.id)">
                         <p>On {{ message.date.split("T")[0] }} said</p>
                         <p class="ml-3" style="font-weight: 600;">{{ message.text }}</p>
-                        <button class="like-btn blank-button mb-3" @click.stop="">
-                            <span>
-                                <b-icon-heart></b-icon-heart>
-                                {{ message.likes.length }}
-                            </span>
-                        </button>
+                        <Like :message="message" @liked-event="reloadData" @unliked-event="reloadData" />
                     </button>
                 </div>
             </div>
@@ -39,14 +42,20 @@
 </template>
 
 <script>
+import Like from './Like.vue';
+
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'User',
+    components: {
+        Like
+    },
     data() {
         return {
             isEmpty: '',
             user: {},
-            messages: []
+            messages: [],
+            componentKey: 0,
         }
     },
     watch: {
@@ -59,7 +68,12 @@ export default {
                 this.fetchUserMessages(obj.id);
             },
             immediate: true,
-        }
+        },
+        messages:
+            function () {
+                console.log(this.messages);
+                this.$forceUpdate();
+            },
     },
     methods: {
         async fetchUserData(id) {
@@ -93,7 +107,7 @@ export default {
                 let messagesJson = await res.json();
                 this.messages = messagesJson.messages.reverse();
             } else if (res.status === 400) {
-                console.log()
+                console.log();
             } else if (res.status === 404) {
                 this.isEmpty = true;
             }
@@ -137,6 +151,9 @@ export default {
             } else if (res.status === 404) {
                 this.isEmpty = true;
             }
+        },
+        async reloadData() {
+            await this.fetchUserMessages(this.user.id);
         }
     }
 }

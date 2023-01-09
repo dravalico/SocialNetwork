@@ -9,12 +9,7 @@
                             @click="openMessage(message.idCreator, message.id)">
                             <p>On {{ message.date.split("T")[0] }} said</p>
                             <p class="ml-3" style="font-weight: 600;">{{ message.text }}</p>
-                            <button class="like-btn blank-button mb-3" @click.stop="">
-                                <span>
-                                    <b-icon-heart></b-icon-heart>
-                                    {{ message.likes.length }}
-                                </span>
-                            </button>
+                            <Like :message="message" @liked-event="reloadData" @unliked-event="reloadData" />
                         </button>
                     </div>
                 </div>
@@ -41,9 +36,14 @@
 </template>
 
 <script>
+import Like from '../components/Like.vue';
+
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: "Home",
+    components: {
+        Like
+    },
     data() {
         return {
             isEmpty: true,
@@ -79,6 +79,9 @@ export default {
                 this.$router.push({ path: pathTo, query: { userId: userId, messageId: messageId } });
             }
         },
+        async reloadData() {
+            await this.getFeed();
+        }
     }
 }
 </script>

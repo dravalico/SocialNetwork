@@ -1,27 +1,25 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div>
-        <div class="w-75 mx-auto">
-            <h1 class="display-4">Search</h1>
-            <div>
-                <!---<b-icon icon="search"></b-icon>-->
-                <b-form-input id="search-form" class="shadow-none" placeholder="Search users..." v-model="input"
-                    @input="handleQuery(input)"></b-form-input>
+    <div class="w-75 mx-auto">
+        <h1 class="display-4">Search</h1>
+        <div>
+            <!---<b-icon icon="search"></b-icon>-->
+            <b-form-input id="search-form" class="shadow-none" placeholder="Search users..." v-model="input"
+                @input="handleQuery(input)"></b-form-input>
+        </div>
+        <div id="result-div" v-if="isVisible" class="overflow-auto shadow-sm mb-5 bg-white rounded w-100"
+            style="max-height: 10%;">
+            <div v-if="!isEmpty">
+                <div class="w-100" v-for='user in users' :key='user.id'>
+                    <button class="text-left blank-button w-100 py-3 px-3" @click="openUser(user.id)">
+                        <span style="font-weight: bold;">{{ user.name }} {{ user.surname }}</span>
+                        <br>
+                        <span>@{{ user.username }}</span>
+                    </button>
+                </div>
             </div>
-            <div id="result-div" v-if="isVisible" class="overflow-auto shadow-sm mb-5 bg-white rounded w-100"
-                style="max-height: 10%;">
-                <div v-if="!isEmpty">
-                    <div class="w-100" v-for='user in users' :key='user.id'>
-                        <button class="text-left blank-button w-100 py-3 px-3" @click="openUser(user.id)">
-                            <span style="font-weight: bold;">{{ user.name }} {{ user.surname }}</span>
-                            <br>
-                            <span>@ò{{ user.username }}</span>
-                        </button>
-                    </div>
-                </div>
-                <div v-else class="w-100 py-3 px-3">
-                    No match
-                </div>
+            <div v-else class="w-100 py-3 px-3">
+                No match
             </div>
         </div>
     </div>

@@ -18,21 +18,21 @@
                         message.date.split("T")[1].split(":")[1]
                     }}
                 </p>
-                <button class="like-btn blank-button mb-3" @click.stop="">
-                    <span>
-                        <b-icon-heart></b-icon-heart>
-                        {{ message.likes.length }}
-                    </span>
-                </button>
+                <Like :message="message" @liked-event="reloadData" @unliked-event="reloadData" />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Like from './Like.vue';
+
 export default {
     // eslint-disable-next-line vue/multi-word-component-names
     name: 'Message',
+    components: {
+        Like
+    },
     data() {
         return {
             user: {},
@@ -84,6 +84,9 @@ export default {
                 console.log();
             }
         },
+        async reloadData() {
+            await this.fetchMessage(this.user.id, this.message.id);
+        }
     }
 }
 </script>
