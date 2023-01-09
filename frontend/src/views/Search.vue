@@ -15,7 +15,7 @@
                         <button class="text-left blank-button w-100 py-3 px-3" @click="openUser(user.id)">
                             <span style="font-weight: bold;">{{ user.name }} {{ user.surname }}</span>
                             <br>
-                            <span>{{ user.username }}</span>
+                            <span>@ò{{ user.username }}</span>
                         </button>
                     </div>
                 </div>
