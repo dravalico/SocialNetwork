@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="w-75 mx-auto">
         <h1 class="display-4">Sign in</h1>

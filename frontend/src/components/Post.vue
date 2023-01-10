@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="vh-100">
         <h1 class="display-4">Create a post</h1>
@@ -14,8 +13,6 @@
 
 <script>
 export default {
-    // eslint-disable-next-line vue/multi-word-component-names
-    name: 'Post',
     data() {
         return {
             form: {

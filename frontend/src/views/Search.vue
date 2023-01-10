@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="w-75 mx-auto">
         <h1 class="display-4">Search</h1>
@@ -27,8 +26,6 @@
 
 <script>
 export default {
-    // eslint-disable-next-line vue/multi-word-component-names
-    name: 'Search',
     data() {
         return {
             isVisible: false,

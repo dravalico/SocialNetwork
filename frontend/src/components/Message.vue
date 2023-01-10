@@ -1,6 +1,5 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="scrollable mx-auto vh-100">
+    <div class="mx-auto vh-100">
         <span>
             <h1 class="display-4">Message</h1>
         </span>
@@ -28,8 +27,6 @@
 import Like from './Like.vue';
 
 export default {
-    // eslint-disable-next-line vue/multi-word-component-names
-    name: 'Message',
     components: {
         Like
     },

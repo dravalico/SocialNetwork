@@ -1,6 +1,5 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="scrollable mx-auto vh-100">
+    <div class="mx-auto vh-100">
         <span>
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
             <div class="container">
@@ -9,8 +8,8 @@
                         <h3>@{{ this.user.username }}</h3>
                     </div>
                     <div class="col-xs-6">
-                        <div v-if="this.$store.getters.userState.user.id != this.user.id">
-                            <div v-if="this.$store.getters.isAuthenticated">
+                        <div v-if="this.$store.getters.isAuthenticated">
+                            <div v-if="this.$store.getters.userState.user.id != this.user.id">
                                 <div v-if="this.$store.getters.userState.user.following.includes(this.user.id)">
                                     <button class="btn btn-primary mb-1" @click="unfollowUser">Unfollow</button>
                                 </div>
@@ -26,7 +25,7 @@
         </span>
         <div id="message-div" :key="componentKey">
             <div class="pt-2" v-if="!isEmpty">
-                <div class="bordered-top" v-for='message in messages' :key='message.id' :ref='message.id'>
+                <div class="bordered-top" v-for='message in messages' :key='message.id'>
                     <button class="blank-button w-100 text-left" @click="openMessage(message.idCreator, message.id)">
                         <p>On {{ message.date.split("T")[0] }} said</p>
                         <p class="ml-3" style="font-weight: 600;">{{ message.text }}</p>
@@ -45,23 +44,21 @@
 import Like from './Like.vue';
 
 export default {
-    // eslint-disable-next-line vue/multi-word-component-names
-    name: 'User',
-    components: {
-        Like
-    },
     data() {
         return {
-            isEmpty: '',
+            isEmpty: true,
             user: {},
             messages: [],
             componentKey: 0,
         }
     },
+    components: {
+        Like
+    },
     watch: {
         '$route.query': {
             handler(obj) {
-                this.isEmpty = '';
+                this.isEmpty = true;
                 this.user = {};
                 this.messages = [];
                 this.fetchUserData(obj.id);
@@ -101,6 +98,7 @@ export default {
             if (res.ok) {
                 let messagesJson = await res.json();
                 this.messages = messagesJson.messages.reverse();
+                this.isEmpty = false;
             } else if (res.status === 400) {
                 console.log();
             } else if (res.status === 404) {

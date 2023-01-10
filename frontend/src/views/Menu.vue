@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="w-75 mx-auto">
         <button class="title" @click="goHome">
@@ -69,8 +68,6 @@
   
 <script>
 export default {
-    // eslint-disable-next-line vue/multi-word-component-names
-    name: 'GuestMenu',
     data() {
         return {
             isAuthenticated: null

@@ -2,13 +2,13 @@
     <div id="app" class="vh-100">
         <b-container fluid class="vh-100">
             <b-row class="vh-100">
-                <b-col sm="3">
+                <b-col class="scrollable-col" sm="3">
                     <Menu />
                 </b-col>
-                <b-col class="bordered" sm="5">
+                <b-col class="bordered scrollable-col" sm="5">
                     <router-view />
                 </b-col>
-                <b-col sm="4">
+                <b-col class="scrollable-col" sm="4">
                     <Search />
                 </b-col>
             </b-row>
@@ -38,10 +38,18 @@ export default {
 
 html,
 body {
-    overflow: hidden;
-    position: relative;
     min-height: 100%;
     min-height: 100vh;
+}
+
+body {
+    overflow: hidden;
+}
+
+.scrollable-col {
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
 }
 
 #app {
@@ -93,15 +101,5 @@ button {
 
 .btn {
     border-radius: 50rem !important;
-}
-
-.scrollable {
-    overflow: auto !important;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.scrollable::-webkit-scrollbar {
-    display: none;
 }
 </style>

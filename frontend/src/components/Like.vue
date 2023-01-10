@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div>
         <div v-if="this.$store.getters.isAuthenticated">
@@ -24,8 +23,6 @@
 
 <script>
 export default {
-    // eslint-disable-next-line vue/multi-word-component-names
-    name: 'Like',
     props: ['message'],
     methods: {
         async addLike() {

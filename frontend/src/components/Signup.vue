@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="w-100 mx-auto">
         <h1 class="display-4">Create your account</h1>
