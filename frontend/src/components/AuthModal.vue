@@ -5,7 +5,7 @@
                     style="color: #F91880"></b-icon-heart-fill> a message
             </p>
             <p style="font-weight: 300;">
-                Sign up or log in
+                Sign up or sign in
             </p>
             <router-link class="w-100 modal-btn mb-2 text-center" to="/signup">
                 Sign up
