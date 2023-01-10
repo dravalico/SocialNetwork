@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div v-else class="w-100 py-3 px-3">
-                No match
+                {{ error }}
             </div>
         </div>
     </div>
@@ -31,7 +31,8 @@ export default {
             isVisible: false,
             isEmpty: '',
             input: '',
-            users: []
+            users: [],
+            error: '',
         }
     },
     methods: {
@@ -46,9 +47,12 @@ export default {
                         this.isEmpty = false;
                         this.isVisible = true;
                     } else if (xhr.status === 404) {
+                        this.error = "No match";
                         this.isEmpty = true;
                         this.isVisible = true;
-                    } else if (xhr.status === 400) {
+                    } else {
+                        this.error = "Something went wrong. Try again.";
+                        this.isEmpty = true;
                         this.isVisible = false;
                     }
                 }

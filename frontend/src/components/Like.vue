@@ -44,10 +44,8 @@ export default {
             });
             if (res.ok) {
                 this.$emit('liked-event');
-            } else if (res.status === 400) {
-                console.log()
-            } else if (res.status === 404) {
-                console.log();
+            } else {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         async removeLike() {
@@ -61,10 +59,8 @@ export default {
             });
             if (res.ok) {
                 this.$emit('unliked-event');
-            } else if (res.status === 400) {
-                console.log()
-            } else if (res.status === 404) {
-                console.log();
+            } else {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         modal() {

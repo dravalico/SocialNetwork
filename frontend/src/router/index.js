@@ -76,6 +76,17 @@ const routes = [
         },
     },
     {
+        path: "/error",
+        component: () =>
+            import(
+                /* webpackChunkName: "followers" */ "../components/Error.vue"
+            ),
+        meta: {
+            title: "Oops",
+            requiresAuth: false,
+        },
+    },
+    {
         path: "*",
         component: Home,
     },

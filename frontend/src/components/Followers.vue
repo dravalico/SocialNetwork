@@ -22,7 +22,7 @@ export default {
     data() {
         return {
             followersData: [],
-            isEmpty: true
+            isEmpty: true,
         }
     },
     beforeMount() {
@@ -42,10 +42,8 @@ export default {
                 if (res.ok) {
                     let userJson = await res.json();
                     this.followersData.push(userJson.user);
-                } else if (res.status === 400) {
-                    console.log()
-                } else if (res.status === 404) {
-                    console.log();
+                } else if (res.status !== 404) {
+                    this.$router.push({ path: "/error" }).catch(() => { });
                 }
             }
             if (this.followersData.length > 0) {

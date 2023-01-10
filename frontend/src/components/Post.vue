@@ -43,27 +43,11 @@ export default {
                 this.$router.push({ path: "/" }).catch(() => { });
             } else if (res.status === 400) {
                 console.log()
-            } else if (res.status === 404) {
-                console.log();
+                // TODO
+            } else {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
-        },
-        async fetchMessage(userId, messageId) {
-            const url = 'http://localhost:3000/api/social/messages/' + userId + "/" + messageId;
-            const res = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            if (res.ok) {
-                let messageJson = await res.json();
-                this.message = messageJson.message;
-            } else if (res.status === 400) {
-                console.log()
-            } else if (res.status === 404) {
-                console.log();
-            }
-        },
+        }
     }
 }
 </script>

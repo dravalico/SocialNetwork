@@ -23,18 +23,18 @@
                     @auth-event="showModal" />
             </div>
         </div>
-        <Modal />
+        <AuthModal />
     </div>
 </template>
 
 <script>
 import Like from './Like.vue';
-import Modal from './Modal.vue';
+import AuthModal from './AuthModal.vue';
 
 export default {
     components: {
         Like,
-        Modal
+        AuthModal
     },
     data() {
         return {
@@ -64,10 +64,8 @@ export default {
             if (res.ok) {
                 let userJson = await res.json();
                 this.user = userJson.user
-            } else if (res.status === 400) {
-                console.log()
-            } else if (res.status === 404) {
-                console.log();
+            } else {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         async fetchMessage(userId, messageId) {
@@ -81,10 +79,8 @@ export default {
             if (res.ok) {
                 let messageJson = await res.json();
                 this.message = messageJson.message;
-            } else if (res.status === 400) {
-                console.log()
-            } else if (res.status === 404) {
-                console.log();
+            } else {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         async reloadData() {

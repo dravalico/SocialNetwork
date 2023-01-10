@@ -76,6 +76,8 @@ export default {
             } else if (res.status === 404) {
                 this.errors.push("The user does not exist");
                 this.somethingWrong = true;
+            } else {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
     }

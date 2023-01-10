@@ -38,13 +38,13 @@
                 <p class="square centerd">No messages yet</p>
             </div>
         </div>
-        <Modal />
+        <AuthModal />
     </div>
 </template>
 
 <script>
 import Like from './Like.vue';
-import Modal from './Modal.vue';
+import AuthModal from './AuthModal.vue';
 
 export default {
     data() {
@@ -57,7 +57,7 @@ export default {
     },
     components: {
         Like,
-        Modal
+        AuthModal
     },
     watch: {
         '$route.query': {
@@ -85,10 +85,8 @@ export default {
                 this.user = userJson.user;
                 let documentTitle = document.title.replace("User", "@" + this.user.username);
                 document.title = documentTitle;
-            } else if (res.status === 400) {
-                console.log()
-            } else if (res.status === 404) {
-                console.log();
+            } else if (res.status !== 404) {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         async fetchUserMessages(id) {
@@ -103,10 +101,10 @@ export default {
                 let messagesJson = await res.json();
                 this.messages = messagesJson.messages.reverse();
                 this.isEmpty = false;
-            } else if (res.status === 400) {
-                console.log();
             } else if (res.status === 404) {
                 this.isEmpty = true;
+            } else if (res.status !== 404) {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         openMessage(userId, messageId) {
@@ -126,10 +124,10 @@ export default {
             });
             if (res.ok) {
                 await this.$store.dispatch("verifyAuthentication");
-            } else if (res.status === 400) {
-                console.log()
             } else if (res.status === 404) {
                 this.isEmpty = true;
+            } else if (res.status !== 404) {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         async unfollowUser() {
@@ -143,10 +141,10 @@ export default {
             });
             if (res.ok) {
                 await this.$store.dispatch("verifyAuthentication");
-            } else if (res.status === 400) {
-                console.log()
             } else if (res.status === 404) {
                 this.isEmpty = true;
+            } else if (res.status !== 404) {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         async reloadData() {

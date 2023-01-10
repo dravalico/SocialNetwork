@@ -101,10 +101,8 @@ export default {
                 } else {
                     this.$router.go();
                 }
-            } else if (res.status === 400) {
-                console.log()
-            } else if (res.status === 404) {
-                console.log();
+            } else if (res.status !== 404) {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         openMyPosts() {

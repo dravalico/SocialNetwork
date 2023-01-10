@@ -106,9 +106,8 @@ export default {
                 }
                 this.errors = errorsLog;
                 this.somethingWrong = true;
-            } else if (res.status === 500) {
-                this.errors.push("Something went wrong");
-                this.somethingWrong = true;
+            } else if (res.status !== 404) {
+                this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         checkUsername(input) {
