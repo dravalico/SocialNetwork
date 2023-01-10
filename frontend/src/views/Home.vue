@@ -15,7 +15,8 @@
                 </div>
                 <div v-else class="bordered-top row justify-content-center pt-4">
                     <p class="square centerd">In order to create a personalized feed you must first follow at least one
-                        user!</p>
+                        user!
+                    </p>
                 </div>
             </div>
         </div>

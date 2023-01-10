@@ -12,6 +12,14 @@
             </b-form-group>
 
             <button type="submit" class="btn btn-primary w-100" :disabled="!isComplete">Sign in</button>
+
+            <div class="mt-2">
+                <div v-for="(error, index) in errors" :key="index" v-show="somethingWrong">
+                    <small id="passwordError" class="block text-danger">
+                        {{ error }}
+                    </small>
+                </div>
+            </div>
         </b-form>
     </div>
 </template>
@@ -23,7 +31,9 @@ export default {
             form: {
                 username: '',
                 password: '',
-            }
+            },
+            errors: [],
+            somethingWrong: false
         }
     },
     computed: {
@@ -56,9 +66,13 @@ export default {
             } else if (res.status === 400) {
                 const errorsJson = await res.json();
                 const errors = errorsJson.error;
+                const errorsLog = [];
                 for (let i in errors) {
                     document.getElementById(errors[i].param).classList.add('is-invalid');
+                    errorsLog.push(errors[i].msg);
                 }
+                this.errors = errorsLog;
+                this.somethingWrong = true;
             } else if (res.status === 404) {
                 /*const errorsJson = await res.json();
                 const errors = errorsJson.error;*/

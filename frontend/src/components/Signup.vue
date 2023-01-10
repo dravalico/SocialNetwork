@@ -1,15 +1,22 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="w-75 mx-auto">
+    <div class="w-100 mx-auto">
         <h1 class="display-4">Create your account</h1>
         <b-form @submit.prevent="onSubmit">
-            <b-form-group label="Enter your name">
-                <b-form-input id="name" v-model="form.name" placeholder="Name"></b-form-input>
-            </b-form-group>
-
-            <b-form-group label="Enter your surname">
-                <b-form-input id="surname" v-model="form.surname" placeholder="Surname"></b-form-input>
-            </b-form-group>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-6 w-50">
+                        <b-form-group label="Enter your name">
+                            <b-form-input id="name" v-model="form.name" placeholder="Name"></b-form-input>
+                        </b-form-group>
+                    </div>
+                    <div class="col-xs-6 w-50">
+                        <b-form-group label="Enter your surname">
+                            <b-form-input id="surname" v-model="form.surname" placeholder="Surname"></b-form-input>
+                        </b-form-group>
+                    </div>
+                </div>
+            </div>
 
             <b-form-group label="Choose your username">
                 <b-form-input id="username" v-model="form.username" placeholder="Username"
@@ -23,16 +30,23 @@
 
             <b-form-group label="Confirm the password">
                 <b-form-input id="confirmPassword" type="password" v-model="form.confirmPassword"
-                    placeholder="Confirm password"></b-form-input>
+                    placeholder="Confirm password" @input="arePasswordsMatch"></b-form-input>
             </b-form-group>
 
-            <b-form-group label="You can choose to share some info about you">
+            <b-form-group label="You can choose to share some information about you">
                 <b-form-textarea no-resize id="bio" v-model="form.bio"
                     placeholder="Enter something..."></b-form-textarea>
             </b-form-group>
 
             <button type="submit" class="btn btn-primary w-100" :disabled="!isComplete">Sign up</button>
         </b-form>
+        <div class="mt-2">
+            <div v-for="(error, index) in errors" :key="index" v-show="somethingWrong">
+                <small id="passwordError" class="block text-danger">
+                    {{ error }}
+                </small>
+            </div>
+        </div>
     </div>
 </template>
   
@@ -47,7 +61,9 @@ export default {
                 password: '',
                 confirmPassword: '',
                 bio: '',
-            }
+            },
+            errors: [],
+            somethingWrong: false
         }
     },
     computed: {
@@ -84,9 +100,13 @@ export default {
             } else if (res.status === 400) {
                 const errorsJson = await res.json();
                 const errors = errorsJson.error;
+                const errorsLog = [];
                 for (let i in errors) {
                     document.getElementById(errors[i].param).classList.add('is-invalid');
+                    errorsLog.push(errors[i].msg);
                 }
+                this.errors = errorsLog;
+                this.somethingWrong = true;
             }
         },
         checkUsername(input) {
@@ -122,6 +142,16 @@ export default {
             const URL = "http://localhost:3000/api/social/search?q=".concat(input)
             xhr.open("GET", URL, true);
             xhr.send();
+        },
+        arePasswordsMatch() {
+            if (this.form.password !== '' && this.form.confirmPassword !== '') {
+                if (this.form.password !== this.form.confirmPassword) {
+                    document.getElementById("confirmPassword").classList.add('is-invalid');
+                    return false;
+                }
+            }
+            document.getElementById("confirmPassword").classList.remove('is-invalid');
+            return true;
         }
     }
 }

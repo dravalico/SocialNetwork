@@ -11,7 +11,7 @@
                 </button>
             </div>
             <div v-else>
-                <button class="llike-btn blank-button mb-3" @click.stop="addLike">
+                <button class="like-btn blank-button mb-3" @click.stop="addLike">
                     <span>
                         <b-icon-heart></b-icon-heart>
                         {{ message.likes.length }}
@@ -73,9 +73,5 @@ export default {
 
 .unlike-btn {
     color: red;
-}
-
-.unlike-btn:hover {
-    color: initial;
 }
 </style>

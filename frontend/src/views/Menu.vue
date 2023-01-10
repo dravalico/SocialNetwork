@@ -9,8 +9,10 @@
                 <h2>
                     {{ this.$store.getters.userState.user.name }} {{ this.$store.getters.userState.user.surname }}
                 </h2>
-                <h4>@{{ this.$store.getters.userState.user.username }}</h4>
-                <h6 class="font-italic">{{ this.$store.getters.userState.user.bio }}</h6>
+                <h5>@{{ this.$store.getters.userState.user.username }}</h5>
+                <div class="overflow-auto p-3 bg-light font-italic my-3" style="max-width: 260px; max-height: 100px;">
+                    {{ this.$store.getters.userState.user.bio }}
+                </div>
             </div>
             <ul class="list-group mt-2">
                 <button type="button"

@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            <h5 class="font-italic">{{ this.user.bio }}</h5>
+            <h6 class="mt-2 font-italic">{{ this.user.bio }}</h6>
         </span>
         <div id="message-div" :key="componentKey">
             <div class="pt-2" v-if="!isEmpty">

@@ -88,10 +88,6 @@ button {
     border-top: 1px solid #F0F3F4;
 }
 
-.like-btn:hover {
-    color: red;
-}
-
 .btn {
     border-radius: 50rem !important;
 }
