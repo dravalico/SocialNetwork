@@ -36,7 +36,7 @@ export default {
         }
     },
     methods: {
-        handleQuery(input) { // https://stackoverflow.com/questions/7849221/ajax-delay-for-search-on-typing-in-form-field
+        handleQuery(input) {
             let xhr = new XMLHttpRequest();
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
