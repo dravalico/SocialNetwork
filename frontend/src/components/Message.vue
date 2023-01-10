@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div>
+    <div class="scrollable mx-auto vh-100">
         <span>
             <h1 class="display-4">Message</h1>
         </span>

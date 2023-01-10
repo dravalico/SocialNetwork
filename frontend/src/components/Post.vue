@@ -4,7 +4,7 @@
         <h1 class="display-4">Create a post</h1>
         <b-form @submit.prevent="postMessage">
             <b-form-group label="Create a post of arbitrary length and share it">
-                <b-form-textarea no-resize v-model="form.text"
+                <b-form-textarea rows="8" no-resize v-model="form.text"
                     placeholder="What are you thinking about?"></b-form-textarea>
             </b-form-group>
             <button type="submit" class="btn btn-primary w-100" :disabled="isEmpty">Share it!</button>

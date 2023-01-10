@@ -69,11 +69,6 @@ export default {
             },
             immediate: true,
         },
-        messages:
-            function () {
-                console.log(this.messages);
-                this.$forceUpdate();
-            },
     },
     methods: {
         async fetchUserData(id) {
@@ -158,15 +153,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.scrollable {
-    overflow: auto !important;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-.scrollable::-webkit-scrollbar {
-    display: none;
-}
-</style>

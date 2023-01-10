@@ -39,6 +39,9 @@ export default {
 html,
 body {
     overflow: hidden;
+    position: relative;
+    min-height: 100%;
+    min-height: 100vh;
 }
 
 #app {
@@ -90,5 +93,15 @@ button {
 
 .btn {
     border-radius: 50rem !important;
+}
+
+.scrollable {
+    overflow: auto !important;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollable::-webkit-scrollbar {
+    display: none;
 }
 </style>
