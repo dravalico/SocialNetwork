@@ -72,10 +72,10 @@ export default {
 
 <style scoped>
 .like-btn:hover {
-    color: red;
+    color: #F91880
 }
 
 .unlike-btn {
-    color: red;
+    color: #F91880
 }
 </style>

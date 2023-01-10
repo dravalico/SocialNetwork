@@ -46,7 +46,7 @@
                 <button class="btn btn-primary w-100" @click="logout">Logout</button>
             </div>
         </div>
-        <div v-else>
+        <div v-else class="bordered-top mt-3">
             <div class="btn-like">
                 <router-link class="w-100 no-decoration" to="/">
                     <span class="h5">Home</span>

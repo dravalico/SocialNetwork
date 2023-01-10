@@ -2,7 +2,7 @@
     <b-modal id="no-auth" hide-header hide-footer>
         <div class="w-75 my-5 mx-auto">
             <p class="mb-4 h4" style="text-align: center;">You must be logged in to <b-icon-heart-fill
-                    style="color: red"></b-icon-heart-fill> a message
+                    style="color: #F91880"></b-icon-heart-fill> a message
             </p>
             <p style="font-weight: 300;">
                 Sign up or log in
