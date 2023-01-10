@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import Like from "./Like.vue";
-import AuthModal from "./AuthModal.vue";
+import Like from "../components/Like.vue";
+import AuthModal from "../components/AuthModal.vue";
 
 export default {
     components: {

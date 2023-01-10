@@ -20,7 +20,7 @@ const routes = [
     {
         path: "/signup",
         component: () =>
-            import(/* webpackChunkName: "signup" */ "../components/Signup.vue"),
+            import(/* webpackChunkName: "signup" */ "../views/Signup.vue"),
         meta: {
             title: "Sign up",
             requiresAuth: false,
@@ -29,7 +29,7 @@ const routes = [
     {
         path: "/signin",
         component: () =>
-            import(/* webpackChunkName: "signin" */ "../components/Signin.vue"),
+            import(/* webpackChunkName: "signin" */ "../views/Signin.vue"),
         meta: {
             title: "Sign in",
             requiresAuth: false,
@@ -38,7 +38,7 @@ const routes = [
     {
         path: "/user",
         component: () =>
-            import(/* webpackChunkName: "user" */ "../components/User.vue"),
+            import(/* webpackChunkName: "user" */ "../views/User.vue"),
         meta: {
             title: "User",
             requiresAuth: false,
@@ -48,7 +48,7 @@ const routes = [
         path: "/message",
         component: () =>
             import(
-                /* webpackChunkName: "message" */ "../components/Message.vue"
+                /* webpackChunkName: "message" */ "../views/Message.vue"
             ),
         meta: {
             title: "Message",
@@ -58,7 +58,7 @@ const routes = [
     {
         path: "/post",
         component: () =>
-            import(/* webpackChunkName: "post" */ "../components/Post.vue"),
+            import(/* webpackChunkName: "post" */ "../views/Post.vue"),
         meta: {
             title: "Create post",
             requiresAuth: true,
@@ -68,7 +68,7 @@ const routes = [
         path: "/followers",
         component: () =>
             import(
-                /* webpackChunkName: "followers" */ "../components/Followers.vue"
+                /* webpackChunkName: "followers" */ "../views/Followers.vue"
             ),
         meta: {
             title: "Your followers",
@@ -78,7 +78,7 @@ const routes = [
     {
         path: "/error",
         component: () =>
-            import(/* webpackChunkName: "error" */ "../components/Error.vue"),
+            import(/* webpackChunkName: "error" */ "../views/Error.vue"),
         meta: {
             title: "Oops",
             requiresAuth: false,
