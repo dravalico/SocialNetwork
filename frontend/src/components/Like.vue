@@ -2,9 +2,9 @@
     <div>
         <div v-if="this.$store.getters.isAuthenticated">
             <div v-if="message.likes.includes(this.$store.getters.userState.user.id)">
-                <button class="blank-button mb-3" @click.stop="removeLike">
+                <button class="unlike-btn blank-button mb-3" @click.stop="removeLike">
                     <span>
-                        <b-icon-heart-fill style="color:red"></b-icon-heart-fill>
+                        <b-icon-heart-fill></b-icon-heart-fill>
                         {{ message.likes.length }}
                     </span>
                 </button>
@@ -76,6 +76,10 @@ export default {
 
 <style scoped>
 .like-btn:hover {
+    color: red;
+}
+
+.unlike-btn {
     color: red;
 }
 </style>

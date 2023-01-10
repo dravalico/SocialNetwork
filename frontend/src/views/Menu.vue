@@ -108,10 +108,17 @@ export default {
             }
         },
         openMyPosts() {
-            this.$router.push({ path: "/user", query: { id: this.$store.getters.userState.user.id } }).catch(() => { });
+            const pathTo = "/user";
+            if (this.$route.name != pathTo) {
+                this.$router.push({ path: pathTo, query: { id: this.$store.getters.userState.user.id } }).catch(() => { });
+            }
+
         },
         openFollowers() {
-            this.$router.push({ path: "/followers" });
+            const pathTo = "/followers";
+            if (this.$route.name != pathTo) {
+                this.$router.push({ path: pathTo, query: { id: this.$store.getters.userState.user.id } }).catch(() => { });
+            }
         }
     }
 }
