@@ -88,7 +88,6 @@ export default {
 <style scoped>
 p a {
     display: contents !important;
-    text-decoration: none !important;
     color: #007bff !important;
 }
 </style>

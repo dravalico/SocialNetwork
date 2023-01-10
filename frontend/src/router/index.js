@@ -75,6 +75,10 @@ const routes = [
             requiresAuth: true,
         },
     },
+    {
+        path: "*",
+        component: Home,
+    },
 ];
 
 const router = new VueRouter({
