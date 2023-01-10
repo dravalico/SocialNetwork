@@ -2,7 +2,7 @@
     <div class="vh-100">
         <h1 class="display-4">My followers</h1>
         <div class="pt-2" v-if="!isEmpty">
-            <div class="bordered-top" v-for='follower in followersData' :key='follower.id'>
+            <div class="bordered-top" v-for="follower in followersData" :key="follower.id">
                 <button class="blank-button w-100 text-left" @click="openUser(follower.id)">
                     <h3>{{ follower.name }} {{ follower.surname }}</h3>
                     <p style="font-size:large;">
@@ -32,11 +32,11 @@ export default {
         async fetchFollowers() {
             const followersId = this.$store.getters.userState.user.followers;
             for (let index in followersId) {
-                const url = 'http://localhost:3000/api/social/users/' + followersId[index];
+                const url = "http://localhost:3000/api/social/users/" + followersId[index];
                 const res = await fetch(url, {
-                    method: 'GET',
+                    method: "GET",
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
                     },
                 });
                 if (res.ok) {

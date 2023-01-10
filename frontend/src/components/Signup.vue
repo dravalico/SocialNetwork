@@ -54,12 +54,12 @@ export default {
     data() {
         return {
             form: {
-                name: '',
-                surname: '',
-                username: '',
-                password: '',
-                confirmPassword: '',
-                bio: '',
+                name: "",
+                surname: "",
+                username: "",
+                password: "",
+                confirmPassword: "",
+                bio: "",
             },
             errors: [],
             somethingWrong: false
@@ -67,7 +67,7 @@ export default {
     },
     computed: {
         isComplete() {
-            if (this.form.name === '' || this.form.surname === '' || this.form.password === '' || this.form.confirmPassword === '') {
+            if (this.form.name === "" || this.form.surname === "" || this.form.password === "" || this.form.confirmPassword === "") {
                 return false;
             }
             return true;
@@ -76,32 +76,32 @@ export default {
     methods: {
         async onSubmit() {
             const body = {
-                'name': this.form.name,
-                'surname': this.form.surname,
-                'username': this.form.username,
-                'password': this.form.password,
-                'confirmPassword': this.form.confirmPassword,
-                'bio': this.form.bio
+                "name": this.form.name,
+                "surname": this.form.surname,
+                "username": this.form.username,
+                "password": this.form.password,
+                "confirmPassword": this.form.confirmPassword,
+                "bio": this.form.bio
             }
             for (let element in body) {
-                document.getElementById(element).classList.remove('is-invalid');
+                document.getElementById(element).classList.remove("is-invalid");
             }
-            const res = await fetch('http://localhost:3000/api/auth/signup', {
-                method: 'POST',
+            const res = await fetch("http://localhost:3000/api/auth/signup", {
+                method: "POST",
                 credentials: "include",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(body)
             });
             if (res.ok) {
-                this.$router.replace({ path: '/' })
+                this.$router.replace({ path: "/" })
             } else if (res.status === 400) {
                 const errorsJson = await res.json();
                 const errors = errorsJson.error;
                 const errorsLog = [];
                 for (let i in errors) {
-                    document.getElementById(errors[i].param).classList.add('is-invalid');
+                    document.getElementById(errors[i].param).classList.add("is-invalid");
                     errorsLog.push(errors[i].msg);
                 }
                 this.errors = errorsLog;
@@ -124,19 +124,19 @@ export default {
                                 break;
                             }
                         }
-                        document.getElementById("username").classList.add('is-invalid');
-                        document.getElementById("username").classList.remove('is-valid');
+                        document.getElementById("username").classList.add("is-invalid");
+                        document.getElementById("username").classList.remove("is-valid");
                     } else if (xhr.status === 404) {
                         isValid = true;
                     } else if (xhr.status === 400) {
                         isValid = false;
                     }
                     if (isValid) {
-                        document.getElementById("username").classList.add('is-valid');
-                        document.getElementById("username").classList.remove('is-invalid');
+                        document.getElementById("username").classList.add("is-valid");
+                        document.getElementById("username").classList.remove("is-invalid");
                     } else {
-                        document.getElementById("username").classList.add('is-invalid');
-                        document.getElementById("username").classList.remove('is-valid');
+                        document.getElementById("username").classList.add("is-invalid");
+                        document.getElementById("username").classList.remove("is-valid");
                     }
                 }
             };
@@ -145,13 +145,13 @@ export default {
             xhr.send();
         },
         arePasswordsMatch() {
-            if (this.form.password !== '' && this.form.confirmPassword !== '') {
+            if (this.form.password !== "" && this.form.confirmPassword !== "") {
                 if (this.form.password !== this.form.confirmPassword) {
-                    document.getElementById("confirmPassword").classList.add('is-invalid');
+                    document.getElementById("confirmPassword").classList.add("is-invalid");
                     return false;
                 }
             }
-            document.getElementById("confirmPassword").classList.remove('is-invalid');
+            document.getElementById("confirmPassword").classList.remove("is-invalid");
             return true;
         }
     }

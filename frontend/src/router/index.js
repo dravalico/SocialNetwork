@@ -78,9 +78,7 @@ const routes = [
     {
         path: "/error",
         component: () =>
-            import(
-                /* webpackChunkName: "followers" */ "../components/Error.vue"
-            ),
+            import(/* webpackChunkName: "error" */ "../components/Error.vue"),
         meta: {
             title: "Oops",
             requiresAuth: false,

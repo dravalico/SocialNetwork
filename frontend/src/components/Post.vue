@@ -16,13 +16,13 @@ export default {
     data() {
         return {
             form: {
-                text: '',
+                text: "",
             }
         }
     },
     computed: {
         isEmpty() {
-            if (this.form.text === '') {
+            if (this.form.text === "") {
                 return true;
             }
             return false;
@@ -30,14 +30,14 @@ export default {
     },
     methods: {
         async postMessage() {
-            const url = 'http://localhost:3000/api/social/messages';
+            const url = "http://localhost:3000/api/social/messages";
             const res = await fetch(url, {
-                method: 'POST',
+                method: "POST",
                 credentials: "include",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ 'text': this.form.text })
+                body: JSON.stringify({ "text": this.form.text })
             });
             if (res.ok) {
                 this.$router.push({ path: "/" }).catch(() => { });

@@ -74,7 +74,7 @@ export default {
         }
     },
     watch: {
-        '$store.getters.isAuthenticated'() {
+        "$store.getters.isAuthenticated"() {
             this.isAuthenticated = this.$store.getters.isAuthenticated;
         }
     },
@@ -86,12 +86,12 @@ export default {
             }
         },
         async logout() {
-            const url = 'http://localhost:3000/api/auth/logout';
+            const url = "http://localhost:3000/api/auth/logout";
             const res = await fetch(url, {
-                method: 'GET',
+                method: "GET",
                 credentials: "include",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             if (res.ok) {

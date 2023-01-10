@@ -17,24 +17,24 @@
 </template>
 
 <script>
-import Menu from './views/Menu.vue';
-import Search from './views/Search.vue';
+import Menu from "./views/Menu.vue";
+import Search from "./views/Search.vue";
 
 export default {
-    name: 'App',
+    name: "App",
     components: {
         Menu,
         Search
     },
     metaInfo: {
-        title: 'wpSocial',
-        titleTemplate: '%s | wspSocial'
+        title: "wpSocial",
+        titleTemplate: "%s | wspSocial"
     }
 }
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
 
 html,
 body {
@@ -53,7 +53,7 @@ body {
 }
 
 #app {
-    font-family: 'Raleway', sans-serif;
+    font-family: "Raleway", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #2c3e50;

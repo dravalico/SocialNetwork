@@ -9,7 +9,7 @@
         <div id="result-div" v-if="isVisible" class="overflow-auto shadow-sm mb-5 bg-white w-100"
             style="max-height: 10%;">
             <div v-if="!isEmpty">
-                <div class="w-100" v-for='user in users' :key='user.id'>
+                <div class="w-100" v-for="user in users" :key="user.id">
                     <button class="text-left blank-button w-100 py-3 px-3" @click="openUser(user.id)">
                         <span style="font-weight: bold;">{{ user.name }} {{ user.surname }}</span>
                         <br>
@@ -29,10 +29,10 @@ export default {
     data() {
         return {
             isVisible: false,
-            isEmpty: '',
-            input: '',
+            isEmpty: "",
+            input: "",
             users: [],
-            error: '',
+            error: "",
         }
     },
     methods: {
@@ -63,7 +63,7 @@ export default {
         },
         openUser(id) {
             this.isVisible = false;
-            this.input = '';
+            this.input = "";
             const pathTo = "/user";
             if (this.$route.name != pathTo) {
                 this.$router.push({ path: pathTo, query: { id: id } }).catch(() => { });

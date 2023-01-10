@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import Like from './Like.vue';
-import AuthModal from './AuthModal.vue';
+import Like from "./Like.vue";
+import AuthModal from "./AuthModal.vue";
 
 export default {
     components: {
@@ -43,7 +43,7 @@ export default {
         }
     },
     watch: {
-        '$route.query': {
+        "$route.query": {
             handler(obj) {
                 this.user = {};
                 this.fetchUser(obj.userId);
@@ -54,11 +54,11 @@ export default {
     },
     methods: {
         async fetchUser(userId) {
-            const url = 'http://localhost:3000/api/social/users/' + userId;
+            const url = "http://localhost:3000/api/social/users/" + userId;
             const res = await fetch(url, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             if (res.ok) {
@@ -69,11 +69,11 @@ export default {
             }
         },
         async fetchMessage(userId, messageId) {
-            const url = 'http://localhost:3000/api/social/messages/' + userId + "/" + messageId;
+            const url = "http://localhost:3000/api/social/messages/" + userId + "/" + messageId;
             const res = await fetch(url, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             if (res.ok) {
@@ -87,7 +87,7 @@ export default {
             await this.fetchMessage(this.user.id, this.message.id);
         },
         showModal() {
-            this.$bvModal.show('no-auth')
+            this.$bvModal.show("no-auth")
         },
         openUser() {
             const pathTo = "/user";

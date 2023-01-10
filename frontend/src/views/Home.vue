@@ -4,7 +4,7 @@
             <h1 class="display-4">Feed</h1>
             <div id="message-div">
                 <div class="pt-3" v-if="!isEmpty">
-                    <div class="bordered-top" v-for='message in messages' :key='message.id'>
+                    <div class="bordered-top" v-for="message in messages" :key="message.id">
                         <button class="blank-button w-100 text-left"
                             @click="openMessage(message.idCreator, message.id)">
                             <p>On {{ message.date.split("T")[0] }} said</p>
@@ -27,8 +27,8 @@
                 As a guest you can search for users by name, surname and username. You will be able to see all their
                 messages and the likes they have received.
             </p>
-            <p>You won't be able to like posts, you won't be able to create
-                messages and you won't be able to have a personalized feed. For all these actions,
+            <p>You won"t be able to like posts, you won"t be able to create
+                messages and you won"t be able to have a personalized feed. For all these actions,
                 <a href="/#/signup">register</a>, or if you
                 are already registered, <a href="/#/signin">log in</a>.
             </p>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import Like from '../components/Like.vue';
+import Like from "../components/Like.vue";
 
 export default {
     components: {
@@ -56,12 +56,12 @@ export default {
     },
     methods: {
         async getFeed() {
-            const url = 'http://localhost:3000/api/social/feed';
+            const url = "http://localhost:3000/api/social/feed";
             const res = await fetch(url, {
-                method: 'GET',
+                method: "GET",
                 credentials: "include",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             if (res.ok) {

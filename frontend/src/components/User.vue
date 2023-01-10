@@ -25,7 +25,7 @@
         </span>
         <div id="message-div" :key="componentKey">
             <div class="pt-2" v-if="!isEmpty">
-                <div class="bordered-top" v-for='message in messages' :key='message.id'>
+                <div class="bordered-top" v-for="message in messages" :key="message.id">
                     <button class="blank-button w-100 text-left" @click="openMessage(message.idCreator, message.id)">
                         <p>On {{ message.date.split("T")[0] }} said</p>
                         <p class="ml-3" style="font-weight: 600;">{{ message.text }}</p>
@@ -43,8 +43,8 @@
 </template>
 
 <script>
-import Like from './Like.vue';
-import AuthModal from './AuthModal.vue';
+import Like from "./Like.vue";
+import AuthModal from "./AuthModal.vue";
 
 export default {
     data() {
@@ -60,7 +60,7 @@ export default {
         AuthModal
     },
     watch: {
-        '$route.query': {
+        "$route.query": {
             handler(obj) {
                 this.isEmpty = true;
                 this.user = {};
@@ -73,11 +73,11 @@ export default {
     },
     methods: {
         async fetchUserData(id) {
-            const url = 'http://localhost:3000/api/social/users/' + id;
+            const url = "http://localhost:3000/api/social/users/" + id;
             const res = await fetch(url, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             if (res.ok) {
@@ -90,11 +90,11 @@ export default {
             }
         },
         async fetchUserMessages(id) {
-            const url = 'http://localhost:3000/api/social/messages/' + id;
+            const url = "http://localhost:3000/api/social/messages/" + id;
             const res = await fetch(url, {
-                method: 'GET',
+                method: "GET",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             if (res.ok) {
@@ -114,12 +114,12 @@ export default {
             }
         },
         async followUser() {
-            const url = 'http://localhost:3000/api/social/followers/' + this.user.id;
+            const url = "http://localhost:3000/api/social/followers/" + this.user.id;
             const res = await fetch(url, {
-                method: 'POST',
-                credentials: 'include',
+                method: "POST",
+                credentials: "include",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             if (res.ok) {
@@ -131,12 +131,12 @@ export default {
             }
         },
         async unfollowUser() {
-            const url = 'http://localhost:3000/api/social/followers/' + this.user.id;
+            const url = "http://localhost:3000/api/social/followers/" + this.user.id;
             const res = await fetch(url, {
-                method: 'DELETE',
-                credentials: 'include',
+                method: "DELETE",
+                credentials: "include",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             if (res.ok) {
@@ -151,7 +151,7 @@ export default {
             await this.fetchUserMessages(this.user.id);
         },
         showModal() {
-            this.$bvModal.show('no-auth')
+            this.$bvModal.show("no-auth")
         }
     }
 }

@@ -31,40 +31,40 @@
 
 <script>
 export default {
-    props: ['message'],
+    props: ["message"],
     methods: {
         async addLike() {
-            const url = 'http://localhost:3000/api/social/like/' + this.message.id;
+            const url = "http://localhost:3000/api/social/like/" + this.message.id;
             const res = await fetch(url, {
-                method: 'POST',
-                credentials: 'include',
+                method: "POST",
+                credentials: "include",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             if (res.ok) {
-                this.$emit('liked-event');
+                this.$emit("liked-event");
             } else {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         async removeLike() {
-            const url = 'http://localhost:3000/api/social/like/' + this.message.id;
+            const url = "http://localhost:3000/api/social/like/" + this.message.id;
             const res = await fetch(url, {
-                method: 'DELETE',
-                credentials: 'include',
+                method: "DELETE",
+                credentials: "include",
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
             });
             if (res.ok) {
-                this.$emit('unliked-event');
+                this.$emit("unliked-event");
             } else {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }
         },
         modal() {
-            this.$emit('auth-event');
+            this.$emit("auth-event");
         }
     }
 }
