@@ -17,18 +17,22 @@
                         message.date.split("T")[1].split(":")[1]
                     }}
                 </p>
-                <Like :message="message" @liked-event="reloadData" @unliked-event="reloadData" />
+                <Like :message="message" @liked-event="reloadData" @unliked-event="reloadData"
+                    @auth-event="showModal" />
             </div>
         </div>
+        <Modal />
     </div>
 </template>
 
 <script>
 import Like from './Like.vue';
+import Modal from './Modal.vue';
 
 export default {
     components: {
-        Like
+        Like,
+        Modal
     },
     data() {
         return {
@@ -83,6 +87,9 @@ export default {
         },
         async reloadData() {
             await this.fetchMessage(this.user.id, this.message.id);
+        },
+        showModal() {
+            this.$bvModal.show('no-auth')
         }
     }
 }

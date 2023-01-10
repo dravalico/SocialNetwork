@@ -14,6 +14,7 @@ const routes = [
         component: Home,
         meta: {
             title: "Home",
+            requiresAuth: false,
         },
     },
     {
@@ -22,6 +23,7 @@ const routes = [
             import(/* webpackChunkName: "signup" */ "../components/Signup.vue"),
         meta: {
             title: "Sign up",
+            requiresAuth: false,
         },
     },
     {
@@ -30,6 +32,7 @@ const routes = [
             import(/* webpackChunkName: "signin" */ "../components/Signin.vue"),
         meta: {
             title: "Sign in",
+            requiresAuth: false,
         },
     },
     {
@@ -38,6 +41,7 @@ const routes = [
             import(/* webpackChunkName: "user" */ "../components/User.vue"),
         meta: {
             title: "User",
+            requiresAuth: false,
         },
     },
     {
@@ -48,6 +52,7 @@ const routes = [
             ),
         meta: {
             title: "Message",
+            requiresAuth: false,
         },
     },
     {
@@ -56,6 +61,7 @@ const routes = [
             import(/* webpackChunkName: "post" */ "../components/Post.vue"),
         meta: {
             title: "Create post",
+            requiresAuth: true,
         },
     },
     {
@@ -66,6 +72,7 @@ const routes = [
             ),
         meta: {
             title: "Your followers",
+            requiresAuth: true,
         },
     },
 ];
@@ -85,6 +92,20 @@ router.afterEach((to) => {
 
 router.beforeEach(async (to, from, next) => {
     await store.dispatch("verifyAuthentication");
+    if (to.meta.requiresAuth && !store.getters.isAuthenticated) {
+        alert("You need to be logged in");
+        next("/signin");
+        return;
+    }
+    if (store.getters.isAuthenticated) {
+        if (to.path === "/signup" || to.path === "/signin") {
+            alert(
+                "Logout to be able to register a new one or access an existing one"
+            );
+            next("/");
+            return;
+        }
+    }
     next();
 });
 

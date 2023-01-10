@@ -2,9 +2,9 @@
     <div>
         <div v-if="this.$store.getters.isAuthenticated">
             <div v-if="message.likes.includes(this.$store.getters.userState.user.id)">
-                <button class="unlike-btn blank-button mb-3" @click.stop="removeLike">
+                <button class="blank-button mb-3" @click.stop="removeLike">
                     <span>
-                        <b-icon-heart></b-icon-heart>
+                        <b-icon-heart-fill style="color:red"></b-icon-heart-fill>
                         {{ message.likes.length }}
                     </span>
                 </button>
@@ -17,6 +17,14 @@
                     </span>
                 </button>
             </div>
+        </div>
+        <div v-else>
+            <button class="like-btn blank-button mb-3" @click.stop="modal">
+                <span>
+                    <b-icon-heart></b-icon-heart>
+                    {{ message.likes.length }}
+                </span>
+            </button>
         </div>
     </div>
 </template>
@@ -58,17 +66,16 @@ export default {
             } else if (res.status === 404) {
                 console.log();
             }
+        },
+        modal() {
+            this.$emit('auth-event');
         }
     }
 }
 </script>
 
 <style scoped>
-.llike-btn:hover {
-    color: red;
-}
-
-.unlike-btn {
+.like-btn:hover {
     color: red;
 }
 </style>

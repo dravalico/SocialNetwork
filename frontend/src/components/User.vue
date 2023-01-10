@@ -29,7 +29,8 @@
                     <button class="blank-button w-100 text-left" @click="openMessage(message.idCreator, message.id)">
                         <p>On {{ message.date.split("T")[0] }} said</p>
                         <p class="ml-3" style="font-weight: 600;">{{ message.text }}</p>
-                        <Like :message="message" @liked-event="reloadData" @unliked-event="reloadData" />
+                        <Like :message="message" @liked-event="reloadData" @unliked-event="reloadData"
+                            @auth-event="showModal" />
                     </button>
                 </div>
             </div>
@@ -37,11 +38,13 @@
                 <p class="square centerd">No messages yet</p>
             </div>
         </div>
+        <Modal />
     </div>
 </template>
 
 <script>
 import Like from './Like.vue';
+import Modal from './Modal.vue';
 
 export default {
     data() {
@@ -53,7 +56,8 @@ export default {
         }
     },
     components: {
-        Like
+        Like,
+        Modal
     },
     watch: {
         '$route.query': {
@@ -147,6 +151,9 @@ export default {
         },
         async reloadData() {
             await this.fetchUserMessages(this.user.id);
+        },
+        showModal() {
+            this.$bvModal.show('no-auth')
         }
     }
 }

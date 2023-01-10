@@ -86,7 +86,7 @@ a {
 
 .blank-button:hover {
     border: none;
-    background-color: #edf2fb;
+    background-color: #f7f9fd;
 }
 
 input,
