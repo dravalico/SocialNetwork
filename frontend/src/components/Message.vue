@@ -4,8 +4,10 @@
             <h1 class="display-4">Message</h1>
         </span>
         <span>
-            <h4>{{ this.user.name }} {{ this.user.surname }}</h4>
-            <h5>@{{ this.user.username }}</h5>
+            <button class="text-left user-btn" @click="openUser">
+                <h4 id="person">{{ this.user.name }} {{ this.user.surname }}</h4>
+                <h5>@{{ this.user.username }}</h5>
+            </button>
         </span>
         <div class="bordered-top mt-3">
             <p class="mt-3" style="font-weight: 800;">
@@ -90,7 +92,24 @@ export default {
         },
         showModal() {
             this.$bvModal.show('no-auth')
+        },
+        openUser() {
+            const pathTo = "/user";
+            if (this.$route.name != pathTo) {
+                this.$router.push({ path: pathTo, query: { id: this.user.id } }).catch(() => { });
+            }
         }
     }
 }
 </script>
+
+<style scoped>
+#person:hover {
+    text-decoration: underline !important;
+}
+
+.user-btn {
+    background: inherit;
+    border: none;
+}
+</style>

@@ -16,7 +16,7 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
     res.header("Access-Control-Allow-Headers", "content-type");
     res.header("Access-Control-Allow-Credentials", true);
-    if ("OPTIONS" == req.method) {
+    if ("OPTIONS" === req.method) {
         res.status(200).send();
     } else {
         next();

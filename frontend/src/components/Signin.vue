@@ -60,6 +60,7 @@ export default {
                 },
                 body: JSON.stringify(body)
             });
+            this.errors = [];
             if (res.ok) {
                 this.$router.replace({ path: '/' });
             } else if (res.status === 400) {
@@ -73,8 +74,8 @@ export default {
                 this.errors = errorsLog;
                 this.somethingWrong = true;
             } else if (res.status === 404) {
-                /*const errorsJson = await res.json();
-                const errors = errorsJson.error;*/
+                this.errors.push("The user does not exist");
+                this.somethingWrong = true;
             }
         },
     }

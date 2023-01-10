@@ -26,4 +26,8 @@
 .modal-btn:hover {
     background-color: #f7f9fd;
 }
+
+.modal-content {
+    border-radius: 50px;
+}
 </style>
