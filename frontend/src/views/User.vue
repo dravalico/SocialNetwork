@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto vh-100">
+    <div id="scrollable" class="mx-auto vh-100">
         <div>
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
             <div>
@@ -21,7 +21,7 @@
             <div class="pt-2" v-if="!isEmpty">
                 <div class="bordered-top" v-for="message in messages" :key="message.id">
                     <MessagePreview :message="message" :user="user" @liked-event="fetchUserMessages(this.user.id)"
-                        @unliked-event="fetchUserMessages(this.user.id)" />
+                        @unliked-event="fetchUserMessages(this.user.id)" @scroll-event="scrollTop" />
                 </div>
             </div>
             <div v-else class="bordered-top row justify-content-center pt-4">
@@ -136,6 +136,9 @@ export default {
         },
         showModal() {
             this.$bvModal.show("no-auth")
+        },
+        scrollTop() {
+            document.getElementById("scrollable").scrollIntoView();
         }
     }
 }
