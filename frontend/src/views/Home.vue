@@ -9,7 +9,7 @@
                             @unliked-event="getFeed" />
                     </div>
                 </div>
-                <div v-else class="bordered-top row justify-content-center pt-4">
+                <div v-else class="bordered-top pt-2">
                     <p class="square centerd">
                         To create a custom feed, you must first follow at least one user. In addition, this user must
                         have shared at least one message.
@@ -24,7 +24,8 @@
                 As a guest you can search for users by name, surname and username. You will be able to see all their
                 messages and the likes they have received.
             </p>
-            <p>You won"t be able to like posts, you won"t be able to create
+            <p>
+                You won"t be able to like posts, you won"t be able to create
                 messages and you won"t be able to have a personalized feed. For all these actions,
                 <a href="/#/signup">register</a>, or if you
                 are already registered, <a href="/#/signin">log in</a>.
