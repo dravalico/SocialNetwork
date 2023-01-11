@@ -89,6 +89,7 @@ router.post(
     "",
     [
         body("text")
+            .trim()
             .notEmpty()
             .withMessage("The message must be not empty")
             .isString()

@@ -7,6 +7,13 @@
                     placeholder="What are you thinking about?"></b-form-textarea>
             </b-form-group>
             <button type="submit" class="btn btn-primary w-100" :disabled="isEmpty">Share it!</button>
+            <div class="mt-2">
+                <div v-for="(error, index) in errors" :key="index" v-show="somethingWrong">
+                    <small id="passwordError" class="block text-danger">
+                        {{ error }}
+                    </small>
+                </div>
+            </div>
         </b-form>
     </div>
 </template>
@@ -17,7 +24,9 @@ export default {
         return {
             form: {
                 text: "",
-            }
+            },
+            errors: [],
+            somethingWrong: false
         }
     },
     computed: {
@@ -42,8 +51,14 @@ export default {
             if (res.ok) {
                 this.$router.push({ path: "/" }).catch(() => { });
             } else if (res.status === 400) {
-                console.log()
-                // TODO
+                const errorsJson = await res.json();
+                const errors = errorsJson.error;
+                const errorsLog = [];
+                for (let i in errors) {
+                    errorsLog.push(errors[i].msg);
+                }
+                this.errors = errorsLog;
+                this.somethingWrong = true;
             } else {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }

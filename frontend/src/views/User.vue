@@ -2,7 +2,7 @@
     <div class="mx-auto vh-100">
         <div>
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
-            <div class="container">
+            <div>
                 <h4>@{{ this.user.username }}</h4>
                 <div v-if="this.$store.getters.isAuthenticated">
                     <div v-if="this.$store.getters.userState.user.id != this.user.id">
@@ -55,14 +55,14 @@ export default {
                 this.isEmpty = true;
                 this.user = {};
                 this.messages = [];
-                this.fetchUserData(obj.id);
+                this.fetchUser(obj.id);
                 this.fetchUserMessages(obj.id);
             },
             immediate: true,
         },
     },
     methods: {
-        async fetchUserData(id) {
+        async fetchUser(id) {
             const url = "http://localhost:3000/api/social/users/" + id;
             const res = await fetch(url, {
                 method: "GET",
