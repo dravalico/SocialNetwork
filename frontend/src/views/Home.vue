@@ -3,16 +3,10 @@
         <div v-if=this.$store.getters.isAuthenticated>
             <h1 class="display-4">Feed</h1>
             <div id="message-div">
-                <div class="pt-3" v-if="!isEmpty">
+                <div class="pt-2" v-if="!isEmpty">
                     <div class="bordered-top" v-for="(message, index) in messages" :key="message.id">
-                        <button class="blank-button w-100 text-left"
-                            @click="openMessage(message.idCreator, message.id)">
-                            <UserBtn :user="usernames[index]" />
-                            <p class="mt-2 ml-3" style="font-weight: 600;">{{ message.text }}</p>
-                            <p>{{ message.date.split("T")[0] }}
-                                <Like :message="message" @liked-event="getFeed" @unliked-event="getFeed" />
-                            </p>
-                        </button>
+                        <MessagePreview :message="message" :user="users[index]" @liked-event="getFeed"
+                            @unliked-event="getFeed" />
                     </div>
                 </div>
                 <div v-else class="bordered-top row justify-content-center pt-4">
@@ -39,19 +33,17 @@
 </template>
 
 <script>
-import Like from "../components/Like.vue";
-import UserBtn from "../components/UserBtn.vue";
+import MessagePreview from "../components/MessagePreview.vue";
 
 export default {
     components: {
-        Like,
-        UserBtn
+        MessagePreview
     },
     data() {
         return {
             isEmpty: true,
             messages: [],
-            usernames: []
+            users: []
         }
     },
     async beforeMount() {
@@ -82,12 +74,6 @@ export default {
                 this.isEmpty = true;
             }
         },
-        openMessage(userId, messageId) {
-            const pathTo = "/message";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo, query: { userId: userId, messageId: messageId } });
-            }
-        },
         async fetchUsername(userId) {
             const url = "http://localhost:3000/api/social/users/" + userId;
             let user = await fetch(url, {
@@ -98,7 +84,7 @@ export default {
             });
             if (user.ok) {
                 const userJson = await user.json();
-                this.usernames.push(userJson.user);
+                this.users.push(userJson.user);
             } else {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }

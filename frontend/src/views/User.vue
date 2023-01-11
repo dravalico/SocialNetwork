@@ -20,12 +20,8 @@
         <div id="message-div" :key="componentKey">
             <div class="pt-2" v-if="!isEmpty">
                 <div class="bordered-top" v-for="message in messages" :key="message.id">
-                    <button class="blank-button w-100 text-left" @click="openMessage(message.idCreator, message.id)">
-                        <p>On {{ message.date.split("T")[0] }} said</p>
-                        <p class="ml-3" style="font-weight: 600;">{{ message.text }}</p>
-                        <Like :message="message" @liked-event="reloadData" @unliked-event="reloadData"
-                            @auth-event="showModal" />
-                    </button>
+                    <MessagePreview :message="message" :user="user" @liked-event="fetchUserMessages(this.user.id)"
+                        @unliked-event="fetchUserMessages(this.user.id)" />
                 </div>
             </div>
             <div v-else class="bordered-top row justify-content-center pt-4">
@@ -37,7 +33,7 @@
 </template>
 
 <script>
-import Like from "../components/Like.vue";
+import MessagePreview from "../components/MessagePreview.vue";
 import AuthModal from "../components/AuthModal.vue";
 
 export default {
@@ -50,8 +46,8 @@ export default {
         }
     },
     components: {
-        Like,
-        AuthModal
+        AuthModal,
+        MessagePreview
     },
     watch: {
         "$route.query": {
@@ -99,12 +95,6 @@ export default {
                 this.isEmpty = true;
             } else if (res.status !== 404) {
                 this.$router.push({ path: "/error" }).catch(() => { });
-            }
-        },
-        openMessage(userId, messageId) {
-            const pathTo = "/message";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo, query: { userId: userId, messageId: messageId } }).catch(() => { });
             }
         },
         async followUser() {

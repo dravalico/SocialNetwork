@@ -64,8 +64,8 @@ export default {
         openUser(id) {
             this.isVisible = false;
             this.input = "";
-            const pathTo = "/user";
-            if (this.$route.name != pathTo) {
+            const pathTo = "/user?id=" + id;
+            if (this.$route.fullPath != pathTo) {
                 this.$router.push({ path: pathTo, query: { id: id } }).catch(() => { });
             }
         }

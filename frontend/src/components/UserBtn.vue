@@ -12,9 +12,11 @@ export default {
     props: ["user"],
     methods: {
         openUser() {
-            const pathTo = "/user";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo, query: { id: this.user.id } }).catch(() => { });
+            const pathTo = "/user?id=" + this.user.id;
+            if (this.$route.fullPath != pathTo) {
+                this.$router.push({ path: "/user", query: { id: this.user.id } }).catch(() => { });
+            } else {
+                window.scrollTo(0, 2);
             }
         }
     }

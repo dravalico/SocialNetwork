@@ -82,7 +82,7 @@ export default {
     methods: {
         goHome() {
             const pathTo = "/";
-            if (this.$route.name != pathTo) {
+            if (this.$route.fullPath != pathTo) {
                 this.$router.push({ path: pathTo }).catch(() => { });
             }
         },
@@ -107,17 +107,11 @@ export default {
             }
         },
         openMyPosts() {
-            const pathTo = "/user";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo, query: { id: this.$store.getters.userState.user.id } }).catch(() => { });
-            }
+            this.$router.push({ path: "/user", query: { id: this.$store.getters.userState.user.id } }).catch(() => { });
 
         },
         openFollowers() {
-            const pathTo = "/followers";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo, query: { id: this.$store.getters.userState.user.id } }).catch(() => { });
-            }
+            this.$router.push({ path: "/followers", query: { id: this.$store.getters.userState.user.id } }).catch(() => { });
         }
     }
 }

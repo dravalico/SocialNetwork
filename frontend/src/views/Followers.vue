@@ -51,10 +51,7 @@ export default {
             }
         },
         openUser(id) {
-            const pathTo = "/user";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo, query: { id: id } }).catch(() => { });
-            }
+            this.$router.push({ path: "/user", query: { id: id } }).catch(() => { });
         }
     }
 }
