@@ -1,0 +1,112 @@
+[
+    {
+        "id": 1,
+        "name": "Howard",
+        "surname": "Wolowitz",
+        "username": "FrootLoops",
+        "password": "Engineer",
+        "bio": "I am an astronaut",
+        "followers": [
+            4,
+            5
+        ],
+        "following": [
+            2,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Penny",
+        "surname": "Teller",
+        "username": "SerialApeist",
+        "password": "notanactress",
+        "bio": "Oh, I get it. Like CP-3O…What happened to me?!",
+        "followers": [
+            1,
+            3,
+            4,
+            5
+        ],
+        "following": [
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Sheldon",
+        "surname": "Cooper",
+        "username": "Moonpie",
+        "password": "NobelPrize",
+        "bio": "I am not crazy, my mother had me tested",
+        "followers": [
+            2,
+            7
+        ],
+        "following": [
+            2,
+            4,
+            7
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Leonard",
+        "surname": "Hofstadter",
+        "username": "honey",
+        "password": "Penny123",
+        "bio": "12 years after high school and I’m still at the nerd table",
+        "followers": [
+            1,
+            2
+        ],
+        "following": [
+            1,
+            2,
+            3
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Bernadette",
+        "surname": "Rostenkowski",
+        "username": "Bernie",
+        "password": "Howard!!",
+        "bio": "I'm too small for Twister. And roller coasters. And sitting with my feet on the floor. Hope you enjoyed the prenatal cigarettes, Mom.",
+        "followers": [
+            1,
+            2
+        ],
+        "following": [
+            1,
+            2
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Raj",
+        "surname": "Koothrappali",
+        "username": "Koothrappali",
+        "password": "Cinnamon",
+        "bio": "Thor and Dr. Jones",
+        "followers": [],
+        "following": []
+    },
+    {
+        "id": 7,
+        "name": "Amy Farrah",
+        "surname": "Fowler",
+        "username": "amy",
+        "password": "Neurobiologist",
+        "bio": "",
+        "followers": [
+            3
+        ],
+        "following": [
+            3
+        ]
+    }
+]

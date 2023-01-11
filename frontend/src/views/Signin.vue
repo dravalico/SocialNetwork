@@ -7,7 +7,8 @@
             </b-form-group>
 
             <b-form-group label="Enter your password">
-                <b-form-input id="password" class="mb-1" v-model="form.password" placeholder="Password"></b-form-input>
+                <b-form-input id="password" type="password" class="mb-1" v-model="form.password"
+                    placeholder="Password"></b-form-input>
             </b-form-group>
 
             <button type="submit" class="btn btn-primary w-100" :disabled="!isComplete">Sign in</button>

@@ -7,7 +7,10 @@ const { User } = require("../db/models/user.js");
 const { getLastElementId } = require("../util.js");
 
 function generateJWT(id, username) {
-    return jwt.sign({ id: id, username: username }, process.env.JWT_PRIVATE_KEY);
+    return jwt.sign(
+        { id: id, username: username },
+        process.env.JWT_PRIVATE_KEY
+    );
 }
 
 router.post(
@@ -17,25 +20,25 @@ router.post(
             .trim()
             .isString()
             .withMessage("The name must be a string")
-            .isLength({ min: 2, max: 12 })
+            .isLength({ min: 2, max: 20 })
             .withMessage(
-                "The name must have minimum length of 2 and maximum length of 12"
+                "The name must have minimum length of 2 and maximum length of 20"
             ),
         body("surname")
             .trim()
             .isString()
             .withMessage("The surname must be a string")
-            .isLength({ min: 2, max: 12 })
+            .isLength({ min: 2, max: 20 })
             .withMessage(
-                "The name must have minimum length of 2 and maximum length of 12"
+                "The surname must have minimum length of 2 and maximum length of 20"
             ),
         body("username")
             .trim()
             .isString()
             .withMessage("The username must be a string")
-            .isLength({ min: 4, max: 12 })
+            .isLength({ min: 4, max: 20 })
             .withMessage(
-                "The name must have minimum length of 2 and maximum length of 12"
+                "The name must have minimum length of 2 and maximum length of 20"
             ),
         body("password")
             .trim()
@@ -47,7 +50,7 @@ router.post(
             .isString()
             .withMessage("The bio must be a string")
             .isLength({ min: 0, max: 250 })
-            .withMessage("The password must have maximum length of 250")
+            .withMessage("The bio must have maximum length of 250")
             .trim(),
         body("confirmPassword").custom((value, { req }) => {
             if (value !== req.body.password) {
