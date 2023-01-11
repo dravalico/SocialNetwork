@@ -2,7 +2,7 @@
     <div class="vh-100">
         <div v-if=this.$store.getters.isAuthenticated>
             <h1 class="display-4">Feed</h1>
-            <div id="message-div">
+            <div id="message-div" v-if="dataLoaded">
                 <div class="pt-2" v-if="!isEmpty">
                     <div class="bordered-top" v-for="(message, index) in messages" :key="message.id">
                         <MessagePreview :message="message" :user="users[index]" @liked-event="getFeed"
@@ -10,8 +10,9 @@
                     </div>
                 </div>
                 <div v-else class="bordered-top row justify-content-center pt-4">
-                    <p class="square centerd">In order to create a personalized feed you must first follow at least one
-                        user!
+                    <p class="square centerd">
+                        To create a custom feed, you must first follow at least one user. In addition, this user must
+                        have shared at least one message.
                     </p>
                 </div>
             </div>
@@ -43,15 +44,17 @@ export default {
         return {
             isEmpty: true,
             messages: [],
-            users: []
+            users: [],
+            dataLoaded: false
         }
     },
-    async beforeMount() {
+    async created() {
         if (this.$store.getters.isAuthenticated) {
             await this.getFeed();
             for (let index in this.messages) {
                 await this.fetchUsername(this.messages[index].idCreator);
             }
+            this.dataLoaded = true;
         }
     },
     methods: {
