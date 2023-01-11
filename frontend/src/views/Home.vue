@@ -3,13 +3,13 @@
         <div v-if=this.$store.getters.isAuthenticated>
             <h1 class="display-4">Feed</h1>
             <div id="message-div" v-if="dataLoaded">
-                <div class="pt-2" v-if="!isEmpty">
+                <div class="mt-3" v-if="!isEmpty">
                     <div class="bordered-top" v-for="(message, index) in messages" :key="message.id">
                         <MessagePreview :message="message" :user="users[index]" @liked-event="getFeed"
                             @unliked-event="getFeed" />
                     </div>
                 </div>
-                <div v-else class="bordered-top pt-2">
+                <div v-else class="bordered-top mt-3">
                     <p class="square centerd">
                         To create a custom feed, you must first follow at least one user. In addition, this user must
                         have shared at least one message.
@@ -19,17 +19,19 @@
         </div>
         <div v-else class="guest">
             <h1 class="display-4">Welcome, guest</h1>
-            <p>
-                Welcome to wpSocial!
-                As a guest you can search for users by name, surname and username. You will be able to see all their
-                messages and the likes they have received.
-            </p>
-            <p>
-                You won"t be able to like posts, you won"t be able to create
-                messages and you won"t be able to have a personalized feed. For all these actions,
-                <a href="/#/signup">register</a>, or if you
-                are already registered, <a href="/#/signin">log in</a>.
-            </p>
+            <div class="bordered-top mt-3">
+                <p>
+                    Welcome to wpSocial!
+                    As a guest you can search for users by name, surname and username. You will be able to see all their
+                    messages and the likes they have received.
+                </p>
+                <p>
+                    You won"t be able to like posts, you won"t be able to create
+                    messages and you won"t be able to have a personalized feed. For all these actions,
+                    <a href="/#/signup">register</a>, or if you
+                    are already registered, <a href="/#/signin">log in</a>.
+                </p>
+            </div>
         </div>
     </div>
 </template>
