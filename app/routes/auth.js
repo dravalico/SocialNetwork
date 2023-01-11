@@ -16,33 +16,33 @@ router.post(
     "/signup",
     [
         body("name")
+            .trim()
             .isString()
             .withMessage("The name must be a string")
             .isLength({ min: 2 })
-            .withMessage("The name must have minimum length of 2")
-            .trim(),
+            .withMessage("The name must have minimum length of 2"),
         body("surname")
+            .trim()
             .isString()
             .withMessage("The surname must be a string")
             .isLength({ min: 2 })
-            .withMessage("The surname must have minimum length of 2")
-            .trim(),
+            .withMessage("The surname must have minimum length of 2"),
         body("username")
+            .trim()
             .isString()
             .withMessage("The username must be a string")
             .isLength({ min: 4 })
-            .withMessage("The username must have minimum length of 4")
-            .trim(),
+            .withMessage("The username must have minimum length of 4"),
         body("password")
+            .trim()
             .isString()
             .withMessage("The password must be a string")
             .isLength({ min: 8 })
-            .withMessage("The password must have minimum length of 8")
-            .trim(),
+            .withMessage("The password must have minimum length of 8"),
         body("bio").isString().withMessage("The bio must be a string").trim(),
         body("confirmPassword").custom((value, { req }) => {
             if (value !== req.body.password) {
-                throw new Error("confirm password does not match");
+                throw new Error("Confirm password does not match");
             }
             return true;
         }),
@@ -88,17 +88,17 @@ router.post(
     "/signin",
     [
         body("username")
+            .trim()
             .isString()
             .withMessage("The username must be a string")
             .isLength({ min: 4 })
-            .withMessage("The username must have minimum length of 4")
-            .trim(),
+            .withMessage("The username must have minimum length of 4"),
         body("password")
+            .trim()
             .isString()
             .withMessage("The password must be a string")
             .isLength({ min: 8 })
-            .withMessage("The password must have minimum length of 8")
-            .trim(),
+            .withMessage("The password must have minimum length of 8"),
     ],
     async (req, res) => {
         const error = validationResult(req);

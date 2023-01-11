@@ -90,11 +90,11 @@ router.get(
     "/search",
     [
         query("q")
+            .trim()
             .notEmpty()
             .withMessage("The query must be not empty")
             .isString()
-            .withMessage("The query must be a string")
-            .trim(),
+            .withMessage("The query must be a string"),
     ],
     async (req, res) => {
         const error = validationResult(req);
