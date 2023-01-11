@@ -64,6 +64,8 @@ UserSchema.methods.comparePassword = function (candidatePassword, callback) {
     });
 };
 
+// https://github.com/codefreshdemo/cf-example-manage-mongodb
+// https://stackoverflow.com/questions/5794834/how-to-access-a-preexisting-collection-with-mongoose
 const User = mongoose.model("User", UserSchema, "user");
 
 module.exports = { User };
