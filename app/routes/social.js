@@ -20,7 +20,7 @@ router.get(
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
             try {
-                const userWithId = await User.findOne({ id: req.params.id });
+                let userWithId = await User.findOne({ id: req.params.id });
                 if (userWithId) {
                     userWithId = userWithId.toObject();
                     delete userWithId._id;

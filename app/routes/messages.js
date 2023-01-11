@@ -95,30 +95,35 @@ router.post(
             .withMessage("The message must be a string"),
     ],
     async (req, res) => {
-        if (req.isAuth) {
-            let idCreator = req.id;
-            let messageToInsert = {};
-            messageToInsert.id = (await getLastElementId(Message)) + 1;
-            messageToInsert.idCreator = idCreator;
-            messageToInsert.date = new Date().toISOString();
-            messageToInsert.text = req.body.text;
-            messageToInsert.likes = [];
-            try {
-                const message = new Message({ ...messageToInsert });
-                let insertedMessage = await message.save();
-                delete insertedMessage._id;
-                return res
-                    .status(StatusCodes.CREATED)
-                    .json({ message: insertedMessage });
-            } catch {
-                return res
-                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                    .json({ error: "Server error" });
-            }
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
-            return res
-                .status(StatusCodes.UNAUTHORIZED)
-                .json({ error: "Unauthorized" });
+            if (req.isAuth) {
+                let idCreator = req.id;
+                let messageToInsert = {};
+                messageToInsert.id = (await getLastElementId(Message)) + 1;
+                messageToInsert.idCreator = idCreator;
+                messageToInsert.date = new Date().toISOString();
+                messageToInsert.text = req.body.text;
+                messageToInsert.likes = [];
+                try {
+                    const message = new Message({ ...messageToInsert });
+                    let insertedMessage = await message.save();
+                    delete insertedMessage._id;
+                    return res
+                        .status(StatusCodes.CREATED)
+                        .json({ message: insertedMessage });
+                } catch {
+                    return res
+                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                        .json({ error: "Server error" });
+                }
+            } else {
+                return res
+                    .status(StatusCodes.UNAUTHORIZED)
+                    .json({ error: "Unauthorized" });
+            }
         }
     }
 );

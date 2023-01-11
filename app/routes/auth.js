@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const { StatusCodes, NO_CONTENT } = require("http-status-codes");
-const { cookies, body, validationResult } = require("express-validator");
+const { StatusCodes } = require("http-status-codes");
+const { body, validationResult } = require("express-validator");
 const { User } = require("../db/models/user.js");
 const { getLastElementId } = require("../util.js");
 
