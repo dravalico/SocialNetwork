@@ -45,7 +45,12 @@ router.post(
             .withMessage("The password must be a string")
             .isLength({ min: 8 })
             .withMessage("The password must have minimum length of 8"),
-        body("bio").isString().withMessage("The bio must be a string").trim(),
+        body("bio")
+            .isString()
+            .withMessage("The bio must be a string")
+            .isLength({ min: 0, max: 250 })
+            .withMessage("The password must have maximum length of 250")
+            .trim(),
         body("confirmPassword").custom((value, { req }) => {
             if (value !== req.body.password) {
                 throw new Error("Confirm password does not match");
