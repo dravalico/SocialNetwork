@@ -1,28 +1,22 @@
 <template>
     <div class="mx-auto vh-100">
-        <span>
+        <div>
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
             <div class="container">
-                <div class="row">
-                    <div class="col-xs-6" style="width: 30%!important">
-                        <h3>@{{ this.user.username }}</h3>
-                    </div>
-                    <div class="col-xs-6">
-                        <div v-if="this.$store.getters.isAuthenticated">
-                            <div v-if="this.$store.getters.userState.user.id != this.user.id">
-                                <div v-if="this.$store.getters.userState.user.following.includes(this.user.id)">
-                                    <button class="btn btn-primary mb-1" @click="unfollowUser">Unfollow</button>
-                                </div>
-                                <div v-else>
-                                    <button class="btn btn-primary mb-1" @click="followUser">Follow</button>
-                                </div>
-                            </div>
+                <h4>@{{ this.user.username }}</h4>
+                <div v-if="this.$store.getters.isAuthenticated">
+                    <div v-if="this.$store.getters.userState.user.id != this.user.id">
+                        <div v-if="this.$store.getters.userState.user.following.includes(this.user.id)">
+                            <button class="btn btn-primary mb-1" @click="unfollowUser">Unfollow</button>
+                        </div>
+                        <div v-else>
+                            <button class="btn btn-primary mb-1" @click="followUser">Follow</button>
                         </div>
                     </div>
                 </div>
             </div>
             <h6 class="mt-2 font-italic">{{ this.user.bio }}</h6>
-        </span>
+        </div>
         <div id="message-div" :key="componentKey">
             <div class="pt-2" v-if="!isEmpty">
                 <div class="bordered-top" v-for="message in messages" :key="message.id">
