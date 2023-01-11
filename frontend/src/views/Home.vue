@@ -4,12 +4,14 @@
             <h1 class="display-4">Feed</h1>
             <div id="message-div">
                 <div class="pt-3" v-if="!isEmpty">
-                    <div class="bordered-top" v-for="message in messages" :key="message.id">
+                    <div class="bordered-top" v-for="(message, index) in messages" :key="message.id">
                         <button class="blank-button w-100 text-left"
                             @click="openMessage(message.idCreator, message.id)">
-                            <p>On {{ message.date.split("T")[0] }} said</p>
-                            <p class="ml-3" style="font-weight: 600;">{{ message.text }}</p>
-                            <Like :message="message" @liked-event="reloadData" @unliked-event="reloadData" />
+                            <UserBtn :user="usernames[index]" />
+                            <p class="mt-2 ml-3" style="font-weight: 600;">{{ message.text }}</p>
+                            <p>{{ message.date.split("T")[0] }}
+                                <Like :message="message" @liked-event="getFeed" @unliked-event="getFeed" />
+                            </p>
                         </button>
                     </div>
                 </div>
@@ -38,20 +40,26 @@
 
 <script>
 import Like from "../components/Like.vue";
+import UserBtn from "../components/UserBtn.vue";
 
 export default {
     components: {
-        Like
+        Like,
+        UserBtn
     },
     data() {
         return {
             isEmpty: true,
-            messages: []
+            messages: [],
+            usernames: []
         }
     },
-    beforeMount() {
+    async beforeMount() {
         if (this.$store.getters.isAuthenticated) {
-            this.getFeed();
+            await this.getFeed();
+            for (let index in this.messages) {
+                await this.fetchUsername(this.messages[index].idCreator);
+            }
         }
     },
     methods: {
@@ -68,6 +76,8 @@ export default {
                 let feedJson = await res.json();
                 this.messages = feedJson.feed;
                 this.isEmpty = false;
+            } else if (res.status === 500) {
+                this.$router.push({ path: "/error" }).catch(() => { });
             } else {
                 this.isEmpty = true;
             }
@@ -78,8 +88,20 @@ export default {
                 this.$router.push({ path: pathTo, query: { userId: userId, messageId: messageId } });
             }
         },
-        async reloadData() {
-            await this.getFeed();
+        async fetchUsername(userId) {
+            const url = "http://localhost:3000/api/social/users/" + userId;
+            let user = await fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (user.ok) {
+                const userJson = await user.json();
+                this.usernames.push(userJson.user);
+            } else {
+                this.$router.push({ path: "/error" }).catch(() => { });
+            }
         }
     }
 }

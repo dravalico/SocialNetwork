@@ -4,10 +4,7 @@
             <h1 class="display-4">Message</h1>
         </span>
         <span>
-            <button class="text-left user-btn" @click="openUser">
-                <h4 id="person">{{ this.user.name }} {{ this.user.surname }}</h4>
-                <h5>@{{ this.user.username }}</h5>
-            </button>
+            <UserBtn :user="this.user" />
         </span>
         <div class="bordered-top mt-3">
             <p class="mt-3" style="font-weight: 800;">
@@ -15,9 +12,8 @@
             </p>
             <div class="bordered-top">
                 <p>
-                    On {{ message.date.split("T")[0] }} at {{ message.date.split("T")[1].split(":")[0] }}:{{
-                        message.date.split("T")[1].split(":")[1]
-                    }}
+                    On {{ message.date.split("T")[0] }} at
+                    {{ message.date.split("T")[1].split(":")[0] }}:{{ message.date.split("T")[1].split(":")[1] }}
                 </p>
                 <Like :message="message" @liked-event="reloadData" @unliked-event="reloadData"
                     @auth-event="showModal" />
@@ -30,11 +26,13 @@
 <script>
 import Like from "../components/Like.vue";
 import AuthModal from "../components/AuthModal.vue";
+import UserBtn from "../components/UserBtn.vue";
 
 export default {
     components: {
         Like,
-        AuthModal
+        AuthModal,
+        UserBtn
     },
     data() {
         return {
@@ -88,24 +86,7 @@ export default {
         },
         showModal() {
             this.$bvModal.show("no-auth")
-        },
-        openUser() {
-            const pathTo = "/user";
-            if (this.$route.name != pathTo) {
-                this.$router.push({ path: pathTo, query: { id: this.user.id } }).catch(() => { });
-            }
         }
     }
 }
 </script>
-
-<style scoped>
-#person:hover {
-    text-decoration: underline !important;
-}
-
-.user-btn {
-    background: inherit;
-    border: none;
-}
-</style>
