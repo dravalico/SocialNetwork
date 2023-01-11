@@ -4,7 +4,7 @@
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-6 w-25">
+                    <div class="col-xs-6" style="width: 30%!important">
                         <h3>@{{ this.user.username }}</h3>
                     </div>
                     <div class="col-xs-6">
