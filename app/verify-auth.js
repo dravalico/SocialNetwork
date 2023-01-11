@@ -1,16 +1,19 @@
 const jwt = require("jsonwebtoken");
-
-const SECRET_KEY_JWT = "will it work?";
+const { jwtCookieName, privateKey } = require("./config.js");
 
 const isAuth = async (req, res, next) => {
-    const cookie = await req.cookies["jwtoken"];
+    const cookie = await req.cookies[jwtCookieName];
     if (!cookie) {
         req.isAuth = false;
     } else {
-        const decoded = jwt.verify(cookie, SECRET_KEY_JWT);
-        req.id = decoded.id;
-        req.username = decoded.username;
-        req.isAuth = true;
+        try {
+            const decoded = jwt.verify(cookie, privateKey);
+            req.id = decoded.id;
+            req.username = decoded.username;
+            req.isAuth = true;
+        } catch {
+            req.isAuth = false;
+        }
     }
     return next();
 };

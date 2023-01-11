@@ -87,8 +87,7 @@ export default {
             }
         },
         async logout() {
-            const url = "http://localhost:3000/api/auth/logout";
-            const res = await fetch(url, {
+            const res = await fetchApi("/auth/logout", {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -105,10 +104,6 @@ export default {
             } else if (res.status !== 404) {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }
-        },
-        openMyPosts() {
-            this.$router.push({ path: "/user", query: { id: this.$store.getters.userState.user.id } }).catch(() => { });
-
         },
         openFollowers() {
             this.$router.push({ path: "/followers", query: { id: this.$store.getters.userState.user.id } }).catch(() => { });

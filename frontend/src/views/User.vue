@@ -63,8 +63,7 @@ export default {
     },
     methods: {
         async fetchUser(id) {
-            const url = "http://localhost:3000/api/social/users/" + id;
-            const res = await fetch(url, {
+            const res = await fetchApi("/social/users/" + id, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -80,8 +79,7 @@ export default {
             }
         },
         async fetchUserMessages(id) {
-            const url = "http://localhost:3000/api/social/messages/" + id;
-            const res = await fetch(url, {
+            const res = await fetchApi("/social/messages/" + id, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -98,8 +96,7 @@ export default {
             }
         },
         async followUser() {
-            const url = "http://localhost:3000/api/social/followers/" + this.user.id;
-            const res = await fetch(url, {
+            const res = await fetchApi("/social/followers/" + this.user.id, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -115,8 +112,7 @@ export default {
             }
         },
         async unfollowUser() {
-            const url = "http://localhost:3000/api/social/followers/" + this.user.id;
-            const res = await fetch(url, {
+            const res = await fetchApi("/social/followers/" + this.user.id, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {

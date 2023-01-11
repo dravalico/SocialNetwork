@@ -3,7 +3,6 @@ import Vuex from "vuex";
 
 // https://github.com/gabbyprecious/vue-blog/blob/master/src/store/modules/auth.js
 Vue.use(Vuex);
-const API_BASE = "http://localhost:3000/" + "api/social";
 export default new Vuex.Store({
     state: {
         user: null,
@@ -20,7 +19,7 @@ export default new Vuex.Store({
     },
     actions: {
         async verifyAuthentication() {
-            const res = await fetch(API_BASE + "/whoami", {
+            const res = await fetchApi("/social/whoami", {
                 method: "GET",
                 credentials: "include",
                 headers: {

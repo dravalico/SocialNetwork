@@ -52,8 +52,7 @@ export default {
     },
     methods: {
         async fetchUser(userId) {
-            const url = "http://localhost:3000/api/social/users/" + userId;
-            const res = await fetch(url, {
+            const res = await fetchApi("/social/users/" + userId, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -67,8 +66,7 @@ export default {
             }
         },
         async fetchMessage(userId, messageId) {
-            const url = "http://localhost:3000/api/social/messages/" + userId + "/" + messageId;
-            const res = await fetch(url, {
+            const res = await fetchApi("/social/messages/" + userId + "/" + messageId, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

@@ -34,8 +34,7 @@ export default {
     props: ["message"],
     methods: {
         async addLike() {
-            const url = "http://localhost:3000/api/social/like/" + this.message.id;
-            const res = await fetch(url, {
+            const res = await fetchApi("/social/like/" + this.message.id, {
                 method: "POST",
                 credentials: "include",
                 headers: {
@@ -49,8 +48,7 @@ export default {
             }
         },
         async removeLike() {
-            const url = "http://localhost:3000/api/social/like/" + this.message.id;
-            const res = await fetch(url, {
+            const res = await fetchApi("/social/like/" + this.message.id, {
                 method: "DELETE",
                 credentials: "include",
                 headers: {

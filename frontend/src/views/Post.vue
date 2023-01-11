@@ -39,8 +39,7 @@ export default {
     },
     methods: {
         async postMessage() {
-            const url = "http://localhost:3000/api/social/messages";
-            const res = await fetch(url, {
+            const res = await fetchApi("/social/messages", {
                 method: "POST",
                 credentials: "include",
                 headers: {

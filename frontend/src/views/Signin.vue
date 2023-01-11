@@ -52,7 +52,7 @@ export default {
             for (let element in body) {
                 document.getElementById(element).classList.remove("is-invalid");
             }
-            const res = await fetch("http://localhost:3000/api/auth/signin", {
+            const res = await fetchApi("/auth/signin", {
                 method: "POST",
                 credentials: "include",
                 headers: {

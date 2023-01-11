@@ -5,11 +5,10 @@ const { StatusCodes } = require("http-status-codes");
 const { body, validationResult } = require("express-validator");
 const { User } = require("../db/models/user.js");
 const { getLastElementId } = require("../util.js");
-
-const SECRET_KEY_JWT = "will it work?";
+const { jwtCookieName, privateKey } = require("../config.js");
 
 function generateJWT(id, username) {
-    return jwt.sign({ id: id, username: username }, SECRET_KEY_JWT);
+    return jwt.sign({ id: id, username: username }, privateKey);
 }
 
 router.post(
@@ -80,7 +79,7 @@ router.post(
                 delete insertedUser.password;
                 delete insertedUser._id;
                 return res
-                    .cookie("jwtoken", token, {
+                    .cookie(jwtCookieName, token, {
                         maxAge: 1296000000,
                         httpOnly: true,
                     })
@@ -131,7 +130,7 @@ router.post(
                             delete user._id;
                             delete user.password;
                             return res
-                                .cookie("jwtoken", token, {
+                                .cookie(jwtCookieName, token, {
                                     maxAge: 1296000000,
                                     httpOnly: true,
                                 })

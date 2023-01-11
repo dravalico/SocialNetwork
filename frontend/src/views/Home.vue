@@ -59,8 +59,7 @@ export default {
     },
     methods: {
         async getFeed() {
-            const url = "http://localhost:3000/api/social/feed";
-            const res = await fetch(url, {
+            const res = await fetchApi("/social/feed", {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -78,8 +77,7 @@ export default {
             }
         },
         async fetchUsername(userId) {
-            const url = "http://localhost:3000/api/social/users/" + userId;
-            let user = await fetch(url, {
+            let user = await fetchApi("/social/users/" + userId, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

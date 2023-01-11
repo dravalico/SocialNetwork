@@ -32,8 +32,7 @@ export default {
         async fetchFollowers() {
             const followersId = this.$store.getters.userState.user.followers;
             for (let index in followersId) {
-                const url = "http://localhost:3000/api/social/users/" + followersId[index];
-                const res = await fetch(url, {
+                const res = await fetchApi("/social/users/" + followersId[index], {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

@@ -9,6 +9,7 @@ const socialApi = require("./routes/social.js");
 const test = require("./routetest.js");
 const { isAuth } = require("./verify-auth.js");
 var cookieParser = require("cookie-parser");
+const { port } = require("./config.js");
 
 app.use(cookieParser());
 app.use(function (req, res, next) {
@@ -34,8 +35,8 @@ app.use("/api/social/like", likesApi);
 app.use("/api/social", socialApi);
 app.use("/api/test", test);
 
-app.listen(3000, () => {
-    console.info("INFO: Server running");
+app.listen(port, () => {
+    console.info("INFO: Server running on port " + port);
     mongoosedb.connect();
     console.info("INFO: Connected to MongoDB");
 });
