@@ -19,20 +19,26 @@ router.post(
             .trim()
             .isString()
             .withMessage("The name must be a string")
-            .isLength({ min: 2 })
-            .withMessage("The name must have minimum length of 2"),
+            .isLength({ min: 2, max: 12 })
+            .withMessage(
+                "The name must have minimum length of 2 and maximum length of 12"
+            ),
         body("surname")
             .trim()
             .isString()
             .withMessage("The surname must be a string")
-            .isLength({ min: 2 })
-            .withMessage("The surname must have minimum length of 2"),
+            .isLength({ min: 2, max: 12 })
+            .withMessage(
+                "The name must have minimum length of 2 and maximum length of 12"
+            ),
         body("username")
             .trim()
             .isString()
             .withMessage("The username must be a string")
-            .isLength({ min: 4 })
-            .withMessage("The username must have minimum length of 4"),
+            .isLength({ min: 4, max: 12 })
+            .withMessage(
+                "The name must have minimum length of 2 and maximum length of 12"
+            ),
         body("password")
             .trim()
             .isString()
@@ -91,8 +97,10 @@ router.post(
             .trim()
             .isString()
             .withMessage("The username must be a string")
-            .isLength({ min: 4 })
-            .withMessage("The username must have minimum length of 4"),
+            .isLength({ min: 4, max: 12 })
+            .withMessage(
+                "The name must have minimum length of 2 and maximum length of 12"
+            ),
         body("password")
             .trim()
             .isString()
