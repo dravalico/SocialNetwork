@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "Andrea",
+        "surname": "De Lorenzo",
+        "username": "12345",
+        "password": "12345678",
+        "bio": "",
+        "followers": [],
+        "following": []
+    },
+    {
+        "id": 2,
+        "name": "Andrea",
+        "surname": "De Lorenzo",
+        "username": "123456",
+        "password": "12345678",
+        "bio": "",
+        "followers": [],
+        "following": []
+    },
+    {
+        "id": 3,
+        "name": "Andrea",
+        "surname": "De Lorenzo",
+        "username": "lolllo",
+        "password": "12345678",
+        "bio": "",
+        "followers": [],
+        "following": []
+    }
+]
