@@ -20,37 +20,44 @@ router.post(
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
             if (req.isAuth) {
-                let id = req.id;
+                const id = req.id;
                 const idToLike = req.params.idMessage;
-                let user = await User.findOne({ id: id });
-                let messageToLike = await Message.findOne({ id: idToLike });
-                if (user) {
-                    if (messageToLike) {
-                        if (!messageToLike.likes.includes(id)) {
-                            messageToLike = await Message.findOneAndUpdate(
-                                { id: idToLike },
-                                { $push: { likes: id } }
-                            );
-                            messageToLike = await Message.findOne({
-                                id: idToLike,
-                            });
-                            return res
-                                .status(StatusCodes.OK)
-                                .json({ message: messageToLike });
+                try {
+                    const user = await User.findOne({ id: id });
+                    let messageToLike = await Message.findOne({ id: idToLike });
+                    if (user) {
+                        if (messageToLike) {
+                            if (!messageToLike.likes.includes(id)) {
+                                messageToLike = await Message.findOneAndUpdate(
+                                    { id: idToLike },
+                                    { $push: { likes: id } }
+                                );
+                                messageToLike = await Message.findOne({
+                                    id: idToLike,
+                                });
+                                delete messageToLike._id;
+                                return res
+                                    .status(StatusCodes.OK)
+                                    .json({ message: messageToLike });
+                            } else {
+                                return res
+                                    .status(StatusCodes.CONFLICT)
+                                    .json({ error: "Already liked" });
+                            }
                         } else {
                             return res
-                                .status(StatusCodes.CONFLICT)
-                                .json({ error: "Already liked" });
+                                .status(StatusCodes.NOT_FOUND)
+                                .json({ error: "Message not found" });
                         }
                     } else {
                         return res
                             .status(StatusCodes.NOT_FOUND)
-                            .json({ error: "Message not found" });
+                            .json({ error: "User not found" });
                     }
-                } else {
+                } catch {
                     return res
-                        .status(StatusCodes.NOT_FOUND)
-                        .json({ error: "User not found" });
+                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                        .json({ error: "Server error" });
                 }
             } else {
                 return res
@@ -76,37 +83,47 @@ router.delete(
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
             if (req.isAuth) {
-                let id = req.id;
+                const id = req.id;
                 const idToUnlike = req.params.idMessage;
-                let user = await User.findOne({ id: id });
-                let messageToUnlike = await Message.findOne({ id: idToUnlike });
-                if (user) {
-                    if (messageToUnlike) {
-                        if (messageToUnlike.likes.includes(id)) {
-                            messageToUnlike = await Message.findOneAndUpdate(
-                                { id: idToUnlike },
-                                { $pull: { likes: id } }
-                            );
-                            messageToUnlike = await Message.findOne({
-                                id: idToUnlike,
-                            });
-                            return res
-                                .status(StatusCodes.OK)
-                                .json({ message: messageToUnlike });
+                try {
+                    const user = await User.findOne({ id: id });
+                    let messageToUnlike = await Message.findOne({
+                        id: idToUnlike,
+                    });
+                    if (user) {
+                        if (messageToUnlike) {
+                            if (messageToUnlike.likes.includes(id)) {
+                                messageToUnlike =
+                                    await Message.findOneAndUpdate(
+                                        { id: idToUnlike },
+                                        { $pull: { likes: id } }
+                                    );
+                                messageToUnlike = await Message.findOne({
+                                    id: idToUnlike,
+                                });
+                                delete messageToUnlike._id;
+                                return res
+                                    .status(StatusCodes.OK)
+                                    .json({ message: messageToUnlike });
+                            } else {
+                                return res
+                                    .status(StatusCodes.CONFLICT)
+                                    .json({ error: "Not liked yet" });
+                            }
                         } else {
                             return res
-                                .status(StatusCodes.CONFLICT)
-                                .json({ error: "Not liked yet" });
+                                .status(StatusCodes.NOT_FOUND)
+                                .json({ error: "Message not found" });
                         }
                     } else {
                         return res
                             .status(StatusCodes.NOT_FOUND)
-                            .json({ error: "Message not found" });
+                            .json({ error: "User not found" });
                     }
-                } else {
+                } catch {
                     return res
-                        .status(StatusCodes.NOT_FOUND)
-                        .json({ error: "User not found" });
+                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                        .json({ error: "Server error" });
                 }
             } else {
                 return res

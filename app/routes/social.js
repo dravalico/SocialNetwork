@@ -19,16 +19,24 @@ router.get(
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
-            const userWithId = await User.findOne(
-                { id: req.params.id },
-                "id name surname username bio followers following"
-            );
-            if (userWithId) {
-                return res.status(StatusCodes.OK).json({ user: userWithId });
-            } else {
+            try {
+                const userWithId = await User.findOne({ id: req.params.id });
+                if (userWithId) {
+                    userWithId = userWithId.toObject();
+                    delete userWithId._id;
+                    delete userWithId.password;
+                    return res
+                        .status(StatusCodes.OK)
+                        .json({ user: userWithId });
+                } else {
+                    return res
+                        .status(StatusCodes.NOT_FOUND)
+                        .json({ error: "User not found" });
+                }
+            } catch {
                 return res
-                    .status(StatusCodes.NOT_FOUND)
-                    .json({ error: "User not found" });
+                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                    .json({ error: "Server error" });
             }
         }
     }
@@ -36,34 +44,40 @@ router.get(
 
 router.get("/feed", async (req, res) => {
     if (req.isAuth) {
-        const user = await User.findOne({ id: req.id });
-        let numberOfMessages = req.query.q;
-        if (numberOfMessages == null) {
-            numberOfMessages = 10;
-        }
-        if (user) {
-            if (user.following.length !== 0) {
-                const feed = await Message.find({
-                    idCreator: { $in: user.following },
-                })
-                    .sort({ id: -1 })
-                    .limit(numberOfMessages);
-                if (feed.length !== 0) {
-                    return res.status(StatusCodes.OK).json({ feed: feed });
+        try {
+            const user = await User.findOne({ id: req.id });
+            let numberOfMessages = req.query.q;
+            if (numberOfMessages == null) {
+                numberOfMessages = 10;
+            }
+            if (user) {
+                if (user.following.length !== 0) {
+                    const feed = await Message.find({
+                        idCreator: { $in: user.following },
+                    })
+                        .sort({ id: -1 })
+                        .limit(numberOfMessages);
+                    if (feed.length !== 0) {
+                        return res.status(StatusCodes.OK).json({ feed: feed });
+                    } else {
+                        return res
+                            .status(StatusCodes.NOT_FOUND)
+                            .json({ error: "No messages found" });
+                    }
                 } else {
                     return res
-                        .status(StatusCodes.NOT_FOUND)
-                        .json({ error: "No messages found" });
+                        .status(StatusCodes.CONFLICT)
+                        .json({ error: "No following yet" });
                 }
             } else {
                 return res
-                    .status(StatusCodes.CONFLICT)
-                    .json({ error: "No following yet" });
+                    .status(StatusCodes.NOT_FOUND)
+                    .json({ error: "User not found" });
             }
-        } else {
+        } catch {
             return res
-                .status(StatusCodes.NOT_FOUND)
-                .json({ error: "User not found" });
+                .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                .json({ error: "Server error" });
         }
     } else {
         return res
@@ -88,22 +102,26 @@ router.get(
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
             const query = req.query.q;
-            const users = await User.find(
-                {
+            try {
+                const users = await User.find({
                     $or: [
                         { name: { $regex: query, $options: "i" } },
                         { surname: { $regex: query, $options: "i" } },
                         { username: { $regex: query, $options: "i" } },
                     ],
-                },
-                "id username name surname bio"
-            ); // https://stackoverflow.com/questions/63770258/how-to-use-query-mongoose-using-a-like-operator-similar-to-that-of-sql
-            if (users.length !== 0) {
-                return res.status(StatusCodes.OK).json({ users: users });
-            } else {
+                }); // https://stackoverflow.com/questions/63770258/how-to-use-query-mongoose-using-a-like-operator-similar-to-that-of-sql
+                if (users.length !== 0) {
+                    // TODO delete _ids and passwords
+                    return res.status(StatusCodes.OK).json({ users: users });
+                } else {
+                    return res
+                        .status(StatusCodes.NOT_FOUND)
+                        .json({ error: "No matches with query" });
+                }
+            } catch {
                 return res
-                    .status(StatusCodes.NOT_FOUND)
-                    .json({ error: "No matches with query" });
+                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                    .json({ error: "Server error" });
             }
         }
     }
@@ -111,13 +129,19 @@ router.get(
 
 router.get("/whoami", async (req, res) => {
     if (req.isAuth) {
-        const userWithId = await User.findOne({ id: req.id });
-        if (userWithId) {
-            return res.status(StatusCodes.OK).json({ user: userWithId });
-        } else {
+        try {
+            const userWithId = await User.findOne({ id: req.id });
+            if (userWithId) {
+                return res.status(StatusCodes.OK).json({ user: userWithId });
+            } else {
+                return res
+                    .status(StatusCodes.NOT_FOUND)
+                    .json({ error: "User not found" });
+            }
+        } catch {
             return res
-                .status(StatusCodes.NOT_FOUND)
-                .json({ error: "User not found" });
+                .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                .json({ error: "Server error" });
         }
     } else {
         return res

@@ -63,18 +63,23 @@ router.post(
             userToInsert.followersId = [];
             userToInsert.followingId = [];
             const token = generateJWT(userToInsert.id, userToInsert.username);
-            const insertedUser = await new User({ ...userToInsert })
-                .save()
-                .catch(() => {
-                    return res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-                });
-            return res
-                .cookie("jwtoken", token, {
-                    maxAge: 1296000000,
-                    httpOnly: true,
-                })
-                .status(StatusCodes.CREATED)
-                .json(userToInsert);
+            try {
+                let insertedUser = await new User({ ...userToInsert }).save();
+                insertedUser = insertedUser.toObject();
+                delete insertedUser.password;
+                delete insertedUser._id;
+                return res
+                    .cookie("jwtoken", token, {
+                        maxAge: 1296000000,
+                        httpOnly: true,
+                    })
+                    .status(StatusCodes.CREATED)
+                    .json(insertedUser);
+            } catch {
+                return res
+                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                    .json({ error: "Server error" });
+            }
         }
     }
 );
@@ -101,30 +106,38 @@ router.post(
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
             const userToLogin = req.body;
-            const user = await User.findOne({
-                username: userToLogin.username,
-            });
-            if (user) {
-                user.comparePassword(userToLogin.password, (err, match) => {
-                    if (match && !err) {
-                        const token = generateJWT(user.id, user.username);
-                        return res
-                            .cookie("jwtoken", token, {
-                                maxAge: 1296000000,
-                                httpOnly: true,
-                            })
-                            .status(StatusCodes.OK)
-                            .json(user);
-                    } else {
+            try {
+                let user = await User.findOne({
+                    username: userToLogin.username,
+                });
+                if (user) {
+                    user.comparePassword(userToLogin.password, (err, match) => {
+                        if (match && !err) {
+                            const token = generateJWT(user.id, user.username);
+                            user = user.toObject();
+                            delete user._id;
+                            delete user.password;
+                            return res
+                                .cookie("jwtoken", token, {
+                                    maxAge: 1296000000,
+                                    httpOnly: true,
+                                })
+                                .status(StatusCodes.OK)
+                                .json(user);
+                        }
                         return res
                             .status(StatusCodes.FORBIDDEN)
                             .json("Invalid credentials");
-                    }
-                });
-            } else {
+                    });
+                } else {
+                    return res.status(StatusCodes.NOT_FOUND).json({
+                        error: "No user with those credentials",
+                    });
+                }
+            } catch {
                 return res
-                    .status(StatusCodes.NOT_FOUND)
-                    .json({ error: "No user with those credentials" });
+                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                    .json({ error: "Server error" });
             }
         }
     }

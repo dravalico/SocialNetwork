@@ -19,17 +19,24 @@ router.get(
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
-            const messagesFromUser = await Message.find({
-                idCreator: req.params.userId,
-            });
-            if (messagesFromUser.length !== 0) {
+            try {
+                let messagesFromUser = await Message.find({
+                    idCreator: req.params.userId,
+                });
+                if (messagesFromUser.length !== 0) {
+                    // TODO delete _ids
+                    return res
+                        .status(StatusCodes.OK)
+                        .json({ messages: messagesFromUser });
+                } else {
+                    return res
+                        .status(StatusCodes.NOT_FOUND)
+                        .json({ error: "No messages" });
+                }
+            } catch {
                 return res
-                    .status(StatusCodes.OK)
-                    .json({ messages: messagesFromUser });
-            } else {
-                return res
-                    .status(StatusCodes.NOT_FOUND)
-                    .json({ error: "No messages" });
+                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                    .json({ error: "Server error" });
             }
         }
     }
@@ -54,16 +61,25 @@ router.get(
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
-            const message = await Message.findOne({
-                idCreator: req.params.userId,
-                id: req.params.idMsg,
-            });
-            if (message) {
-                return res.status(StatusCodes.OK).json({ message: message });
-            } else {
+            try {
+                let message = await Message.findOne({
+                    idCreator: req.params.userId,
+                    id: req.params.idMsg,
+                });
+                if (message) {
+                    delete message._id;
+                    return res
+                        .status(StatusCodes.OK)
+                        .json({ message: message });
+                } else {
+                    return res
+                        .status(StatusCodes.NOT_FOUND)
+                        .json({ error: "No message" });
+                }
+            } catch {
                 return res
-                    .status(StatusCodes.NOT_FOUND)
-                    .json({ error: "No message" });
+                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                    .json({ error: "Server error" });
             }
         }
     }
@@ -87,15 +103,22 @@ router.post(
             messageToInsert.date = new Date().toISOString();
             messageToInsert.text = req.body.text;
             messageToInsert.likes = [];
-            const message = new Message({ ...messageToInsert });
-            const insertedMessage = await message.save().catch((err) => {
-                return res.status(StatusCodes.INTERNAL_SERVER_ERROR);
-            });
-            return res
-                .status(StatusCodes.CREATED)
-                .json({ message: messageToInsert });
+            try {
+                const message = new Message({ ...messageToInsert });
+                let insertedMessage = await message.save();
+                delete insertedMessage._id;
+                return res
+                    .status(StatusCodes.CREATED)
+                    .json({ message: insertedMessage });
+            } catch {
+                return res
+                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                    .json({ error: "Server error" });
+            }
         } else {
-            return res.status(StatusCodes.UNAUTHORIZED).json({ error: "Unauthorized" });;
+            return res
+                .status(StatusCodes.UNAUTHORIZED)
+                .json({ error: "Unauthorized" });
         }
     }
 );

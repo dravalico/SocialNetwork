@@ -18,21 +18,21 @@ router.get(
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
         } else {
-            const userWithId = await User.findOne({ id: req.params.id });
-            if (userWithId) {
-                const followersId = userWithId.followers;
-                let followers = [];
-                for (const followerId of followersId) {
-                    let follower = await User.findOne({ id: followerId });
-                    followers.push(follower.username);
+            try {
+                let userWithId = await User.findOne({ id: req.params.id });
+                if (userWithId) {
+                    return res
+                        .status(StatusCodes.OK)
+                        .json({ followers: userWithId.followers });
+                } else {
+                    return res
+                        .status(StatusCodes.NOT_FOUND)
+                        .json({ error: "User not found" });
                 }
+            } catch {
                 return res
-                    .status(StatusCodes.OK)
-                    .json({ followers: followers });
-            } else {
-                return res
-                    .status(StatusCodes.NOT_FOUND)
-                    .json({ error: "User not found" });
+                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                    .json({ error: "Server error" });
             }
         }
     }
@@ -60,29 +60,40 @@ router.post(
                         .status(StatusCodes.CONFLICT)
                         .json({ error: "Cannot follow itself" });
                 }
-                let user = await User.findOne({ id: id });
-                let userToFollow = await User.findOne({ id: idToFollow });
-                if (user && userToFollow) {
-                    if (!user.following.includes(idToFollow)) {
-                        user = await User.findOneAndUpdate(
-                            { id: id },
-                            { $push: { following: idToFollow } }
-                        );
-                        userToFollow = await User.findOneAndUpdate(
-                            { id: idToFollow },
-                            { $push: { followers: id } }
-                        );
-                        user = await User.findOne({ id: id });
-                        return res.status(StatusCodes.OK).json({ user: user });
+                try {
+                    let user = await User.findOne({ id: id });
+                    let userToFollow = await User.findOne({ id: idToFollow });
+                    if (user && userToFollow) {
+                        if (!user.following.includes(idToFollow)) {
+                            user = await User.findOneAndUpdate(
+                                { id: id },
+                                { $push: { following: idToFollow } }
+                            );
+                            userToFollow = await User.findOneAndUpdate(
+                                { id: idToFollow },
+                                { $push: { followers: id } }
+                            );
+                            user = await User.findOne({ id: id });
+                            user = user.toObject();
+                            delete user._id;
+                            delete user.password;
+                            return res
+                                .status(StatusCodes.OK)
+                                .json({ user: user });
+                        } else {
+                            return res
+                                .status(StatusCodes.CONFLICT)
+                                .json({ error: "Already following" });
+                        }
                     } else {
                         return res
-                            .status(StatusCodes.CONFLICT)
-                            .json({ error: "Already following" });
+                            .status(StatusCodes.NOT_FOUND)
+                            .json({ error: "User not found" });
                     }
-                } else {
+                } catch {
                     return res
-                        .status(StatusCodes.NOT_FOUND)
-                        .json({ error: "User not found" });
+                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                        .json({ error: "Server error" });
                 }
             } else {
                 return res
@@ -110,29 +121,42 @@ router.delete(
             if (req.isAuth) {
                 let id = req.id;
                 const idToUnfollow = req.params.id;
-                let user = await User.findOne({ id: id });
-                let userToUnfollow = await User.findOne({ id: idToUnfollow });
-                if (user && userToUnfollow) {
-                    if (user.following.includes(idToUnfollow)) {
-                        user = await User.findOneAndUpdate(
-                            { id: id },
-                            { $pull: { following: idToUnfollow } }
-                        );
-                        userToUnfollow = await User.findOneAndUpdate(
-                            { id: idToUnfollow },
-                            { $pull: { followers: id } }
-                        );
-                        user = await User.findOne({ id: id });
-                        return res.status(StatusCodes.OK).json({ user: user });
+                try {
+                    let user = await User.findOne({ id: id });
+                    let userToUnfollow = await User.findOne({
+                        id: idToUnfollow,
+                    });
+                    if (user && userToUnfollow) {
+                        if (user.following.includes(idToUnfollow)) {
+                            user = await User.findOneAndUpdate(
+                                { id: id },
+                                { $pull: { following: idToUnfollow } }
+                            );
+                            userToUnfollow = await User.findOneAndUpdate(
+                                { id: idToUnfollow },
+                                { $pull: { followers: id } }
+                            );
+                            user = await User.findOne({ id: id });
+                            user = user.toObject();
+                            delete user._id;
+                            delete user.password;
+                            return res
+                                .status(StatusCodes.OK)
+                                .json({ user: user });
+                        } else {
+                            return res
+                                .status(StatusCodes.CONFLICT)
+                                .json({ error: "Not following user" });
+                        }
                     } else {
                         return res
-                            .status(StatusCodes.CONFLICT)
-                            .json({ error: "Not following user" });
+                            .status(StatusCodes.NOT_FOUND)
+                            .json({ error: "User not found" });
                     }
-                } else {
+                } catch {
                     return res
-                        .status(StatusCodes.NOT_FOUND)
-                        .json({ error: "User not found" });
+                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                        .json({ error: "Server error" });
                 }
             } else {
                 return res

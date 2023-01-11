@@ -2,35 +2,38 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const SALT_WORK_FACTOR = 10;
 
-const UserSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        required: true,
-        unique: true,
+const UserSchema = new mongoose.Schema(
+    {
+        id: {
+            type: Number,
+            required: true,
+            unique: true,
+        },
+        name: {
+            type: String,
+            required: true,
+        },
+        surname: {
+            type: String,
+            required: true,
+        },
+        username: {
+            type: String,
+            required: true,
+            unique: true,
+        },
+        password: {
+            type: String,
+            required: true,
+        },
+        bio: {
+            type: String,
+        },
+        followers: [Number],
+        following: [Number],
     },
-    name: {
-        type: String,
-        required: true,
-    },
-    surname: {
-        type: String,
-        required: true,
-    },
-    username: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-    bio: {
-        type: String,
-    },
-    followers: [Number],
-    following: [Number],
-});
+    { versionKey: false }
+);
 
 // https://stackoverflow.com/questions/14588032/mongoose-password-hashing
 UserSchema.pre("save", function (next) {
