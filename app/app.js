@@ -9,7 +9,6 @@ const socialApi = require("./routes/social.js");
 const test = require("./routetest.js");
 const { isAuth } = require("./verify-auth.js");
 var cookieParser = require("cookie-parser");
-//const { port } = require("./config");
 require("dotenv").config();
 
 app.use(cookieParser());

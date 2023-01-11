@@ -5,8 +5,8 @@
             <div id="message-div" v-if="dataLoaded">
                 <div class="mt-3" v-if="!isEmpty">
                     <div class="bordered-top" v-for="(message, index) in messages" :key="message.id">
-                        <MessagePreview :message="message" :user="users[index]" @liked-event="getFeed"
-                            @unliked-event="getFeed" />
+                        <MessagePreview :message="message" :user="users[index]" @forwarded-liked-event="getFeed"
+                            @forwarded-unliked-event="getFeed" />
                     </div>
                 </div>
                 <div v-else class="bordered-top mt-3">
@@ -40,9 +40,6 @@
 import MessagePreview from "../components/MessagePreview.vue";
 
 export default {
-    components: {
-        MessagePreview
-    },
     data() {
         return {
             isEmpty: true,
@@ -51,7 +48,10 @@ export default {
             dataLoaded: false
         }
     },
-    async created() {
+    components: {
+        MessagePreview
+    },
+    async beforeMount() {
         if (this.$store.getters.isAuthenticated) {
             await this.getFeed();
             for (let index in this.messages) {

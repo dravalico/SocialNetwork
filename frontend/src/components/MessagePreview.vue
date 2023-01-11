@@ -22,10 +22,10 @@ export default {
             this.$router.push({ path: "/message", query: { userId: userId, messageId: messageId } });
         },
         forwardLikeEvent() {
-            this.$emit("liked-event");
+            this.$emit("forwarded-liked-event");
         },
         forwardUnikeEvent() {
-            this.$emit("unliked-event");
+            this.$emit("forwarded-unliked-event");
         },
         forwardScrollTopEvent() {
             this.$emit("scroll-event");

@@ -17,11 +17,11 @@
             </div>
             <h6 class="mt-2 font-italic">{{ this.user.bio }}</h6>
         </div>
-        <div id="message-div" :key="componentKey">
+        <div id="message-div">
             <div class="pt-2" v-if="!isEmpty">
                 <div class="bordered-top" v-for="message in messages" :key="message.id">
-                    <MessagePreview :message="message" :user="user" @liked-event="fetchUserMessages(this.user.id)"
-                        @unliked-event="fetchUserMessages(this.user.id)" @scroll-event="scrollTop" />
+                    <MessagePreview :message="message" :user="user" @forwarded-liked-event="fetchUserMessages(user.id)"
+                        @forwarded-unliked-event="fetchUserMessages(user.id)" @scroll-event="scrollTop" />
                 </div>
             </div>
             <div v-else class="bordered-top row justify-content-center pt-4">
@@ -42,7 +42,6 @@ export default {
             isEmpty: true,
             user: {},
             messages: [],
-            componentKey: 0,
         }
     },
     components: {
@@ -74,6 +73,7 @@ export default {
                 this.user = userJson.user;
                 let documentTitle = document.title.replace("User", "@" + this.user.username);
                 document.title = documentTitle;
+                this.isReady = true;
             } else if (res.status !== 404) {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }

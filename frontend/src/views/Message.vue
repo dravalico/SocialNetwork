@@ -29,16 +29,16 @@ import AuthModal from "../components/AuthModal.vue";
 import UserBtn from "../components/UserBtn.vue";
 
 export default {
-    components: {
-        Like,
-        AuthModal,
-        UserBtn
-    },
     data() {
         return {
             user: {},
             message: {}
         }
+    },
+    components: {
+        Like,
+        AuthModal,
+        UserBtn
     },
     watch: {
         "$route.query": {
