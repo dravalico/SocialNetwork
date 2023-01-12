@@ -4,7 +4,8 @@
         "name": "Howard",
         "surname": "Wolowitz",
         "username": "FrootLoops",
-        "password": "Engineer",
+        "password": "notsecure",
+        "confirmPassword": "notsecure",
         "bio": "I am an astronaut",
         "followers": [
             4,
@@ -21,7 +22,8 @@
         "name": "Penny",
         "surname": "Teller",
         "username": "SerialApeist",
-        "password": "notanactress",
+        "password": "notsecure",
+        "confirmPassword": "notsecure",
         "bio": "Oh, I get it. Like CP-3O…What happened to me?!",
         "followers": [
             1,
@@ -40,7 +42,8 @@
         "name": "Sheldon",
         "surname": "Cooper",
         "username": "Moonpie",
-        "password": "NobelPrize",
+        "password": "notsecure",
+        "confirmPassword": "notsecure",
         "bio": "I am not crazy, my mother had me tested",
         "followers": [
             2,
@@ -57,7 +60,8 @@
         "name": "Leonard",
         "surname": "Hofstadter",
         "username": "honey",
-        "password": "Penny123",
+        "password": "notsecure",
+        "confirmPassword": "notsecure",
         "bio": "12 years after high school and I’m still at the nerd table",
         "followers": [
             1,
@@ -74,7 +78,8 @@
         "name": "Bernadette",
         "surname": "Rostenkowski",
         "username": "Bernie",
-        "password": "Howard!!",
+        "password": "notsecure",
+        "confirmPassword": "notsecure",
         "bio": "I'm too small for Twister. And roller coasters. And sitting with my feet on the floor. Hope you enjoyed the prenatal cigarettes, Mom.",
         "followers": [
             1,
@@ -90,7 +95,8 @@
         "name": "Raj",
         "surname": "Koothrappali",
         "username": "Koothrappali",
-        "password": "Cinnamon",
+        "password": "notsecure",
+        "confirmPassword": "notsecure",
         "bio": "Thor and Dr. Jones",
         "followers": [],
         "following": []
@@ -100,7 +106,8 @@
         "name": "Amy Farrah",
         "surname": "Fowler",
         "username": "amy",
-        "password": "Neurobiologist",
+        "password": "notsecure",
+        "confirmPassword": "notsecure",
         "bio": "",
         "followers": [
             3

@@ -36,7 +36,7 @@ app.use("/api/social", socialApi);
 app.use("/api/test", test);
 
 app.listen(process.env.PORT, () => {
-    console.info("INFO: Server running on port " + process.env.PORT);
+    console.info("INFO: server running on port " + process.env.PORT);
     mongoosedb.connect();
-    console.info("INFO: Connected to MongoDB");
+    console.info("INFO: mongoDB running");
 });
