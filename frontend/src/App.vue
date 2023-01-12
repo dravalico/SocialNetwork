@@ -42,6 +42,9 @@ body {
 }
 
 .scrollable-col {
+    height: 100vh;
+    overflow-y: scroll;
+    position: relative;
 }
 
 #app {
@@ -96,7 +99,7 @@ button {
 
 @media only screen and (min-width: 992px) {
     body {
-        overflow: scroll
+        overflow: hidden;
     }
 }
 </style>
