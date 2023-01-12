@@ -47,9 +47,9 @@ router.get("/feed", async (req, res) => {
     if (req.isAuth) {
         try {
             const user = await User.findOne({ id: req.id });
-            let numberOfMessages = req.query.q;
-            if (numberOfMessages == null) {
-                numberOfMessages = 10;
+            let page = req.query.page;
+            if (page == null) {
+                page = 0;
             }
             if (user) {
                 if (user.following.length !== 0) {
@@ -57,7 +57,8 @@ router.get("/feed", async (req, res) => {
                         idCreator: { $in: user.following },
                     })
                         .sort({ id: -1 })
-                        .limit(numberOfMessages);
+                        .skip(page * 6)
+                        .limit(6);
                     if (feed.length !== 0) {
                         return res.status(StatusCodes.OK).json({ feed: feed });
                     } else {
@@ -76,7 +77,6 @@ router.get("/feed", async (req, res) => {
                     .json({ error: "User not found" });
             }
         } catch (err) {
-            console.log("ERROR: " + err);
             return res
                 .status(StatusCodes.INTERNAL_SERVER_ERROR)
                 .json({ error: "Server error" });

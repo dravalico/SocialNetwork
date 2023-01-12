@@ -1,14 +1,14 @@
 <template>
-    <div id="app" class="vh-100">
-        <b-container fluid class="vh-100">
-            <b-row class="vh-100">
-                <b-col class="scrollable-col" sm="3">
+    <div id="app">
+        <b-container id="app-container" fluid>
+            <b-row>
+                <b-col cols="12" md="3" class="scrollable-col">
                     <Menu />
                 </b-col>
-                <b-col class="bordered scrollable-col" sm="5">
+                <b-col cols="12" md="5" class="bordered scrollable-col">
                     <router-view />
                 </b-col>
-                <b-col class="scrollable-col" sm="4">
+                <b-col cols="12" md="4" class="scrollable-col">
                     <Search />
                 </b-col>
             </b-row>
@@ -39,24 +39,15 @@ export default {
 html,
 body {
     min-height: 100%;
-    min-height: 100vh;
-}
-
-body {
-    overflow: hidden;
 }
 
 .scrollable-col {
-    height: 100%;
-    overflow-y: auto;
-    position: relative;
 }
 
 #app {
     font-family: "Raleway", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
 }
 
 .bordered {
@@ -101,5 +92,11 @@ button {
 
 .btn {
     border-radius: 50rem !important;
+}
+
+@media only screen and (min-width: 992px) {
+    body {
+        overflow: scroll
+    }
 }
 </style>

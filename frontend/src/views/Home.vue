@@ -1,5 +1,5 @@
 <template>
-    <div class="vh-100">
+    <div>
         <div v-if=this.$store.getters.isAuthenticated>
             <h1 class="display-4">Feed</h1>
             <div id="message-div" v-if="dataLoaded">
@@ -26,7 +26,7 @@
                     messages and the likes they have received.
                 </p>
                 <p>
-                    You won"t be able to like posts, you won"t be able to create
+                    You won't be able to like posts, you won't be able to create
                     messages and you won"t be able to have a personalized feed. For all these actions,
                     <a href="/#/signup">register</a>, or if you
                     are already registered, <a href="/#/signin">log in</a>.
@@ -44,6 +44,7 @@ export default {
         return {
             isEmpty: true,
             messages: [],
+            page: 0,
             users: [],
             dataLoaded: false
         }
@@ -60,9 +61,11 @@ export default {
             this.dataLoaded = true;
         }
     },
+
     methods: {
         async getFeed() {
-            const res = await fetchApi("/social/feed", {
+            console.log(this.page)
+            const res = await fetchApi("/social/feed?page=" + this.page, {
                 method: "GET",
                 credentials: "include",
                 headers: {
@@ -71,12 +74,16 @@ export default {
             });
             if (res.ok) {
                 let feedJson = await res.json();
-                this.messages = feedJson.feed;
+                console.log(feedJson);
+                this.messages.push(...feedJson.feed);
                 this.isEmpty = false;
+                this.page = this.page + 1;
             } else if (res.status === 500) {
                 this.$router.push({ path: "/error" }).catch(() => { });
             } else {
-                this.isEmpty = true;
+                if (this.messages.length === 0) {
+                    this.isEmpty = true;
+                }
             }
         },
         async fetchUsername(userId) {
@@ -92,7 +99,23 @@ export default {
             } else {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }
+        },
+        addHandler: function () {
+            window.addEventListener("scroll", async () => {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                    await this.getFeed();
+                }
+            }, true);
+        },
+        removeHandler: function () {
+            window.removeEventListener("scroll", this.eventListenerExample);
         }
+    },
+    mounted: function () {
+        this.addHandler();
+    },
+    destroyed: function () {
+        this.removeHandler();
     }
 }
 </script>

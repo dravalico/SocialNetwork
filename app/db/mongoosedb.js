@@ -13,7 +13,7 @@ module.exports = {
                 console.log("ERROR: cannot connect to db");
                 console.log(err);
             }
-            if (process.env.WITH_SAMPLE_DATA) {
+            if (process.env.WITH_SAMPLE_DATA === "true") {
                 console.log("INFO: option to upload seed data in db checked");
                 mongoose.connection.db
                     .collection("user")
@@ -43,6 +43,8 @@ module.exports = {
                             );
                         }
                     });
+            } else {
+                console.log("INFO: option to upload seed data in db not checked");
             }
         });
     },

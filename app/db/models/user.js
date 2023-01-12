@@ -7,7 +7,9 @@ const UserSchema = new mongoose.Schema(
         id: {
             type: Number,
             required: true,
-            unique: true,
+            index: {
+                unique: true,
+            },
         },
         name: {
             type: String,
@@ -20,7 +22,9 @@ const UserSchema = new mongoose.Schema(
         username: {
             type: String,
             required: true,
-            unique: true,
+            index: {
+                unique: true,
+            },
         },
         password: {
             type: String,

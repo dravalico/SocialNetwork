@@ -5,11 +5,14 @@ const MessageSchema = new mongoose.Schema(
         id: {
             type: Number,
             required: true,
-            unique: true,
+            index: {
+                unique: true,
+            },
         },
         idCreator: {
             type: Number,
             required: true,
+            index: true,
         },
         date: {
             type: Date,
