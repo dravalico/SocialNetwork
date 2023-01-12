@@ -87,7 +87,8 @@ router.post(
                     })
                     .status(StatusCodes.CREATED)
                     .json(insertedUser);
-            } catch {
+            } catch (err) {
+                console.log("ERROR: " + err);
                 return res
                     .status(StatusCodes.INTERNAL_SERVER_ERROR)
                     .json({ error: "Server error" });
@@ -148,7 +149,8 @@ router.post(
                         error: "No user with those credentials",
                     });
                 }
-            } catch {
+            } catch (err) {
+                console.log("ERROR: " + err);
                 return res
                     .status(StatusCodes.INTERNAL_SERVER_ERROR)
                     .json({ error: "Server error" });

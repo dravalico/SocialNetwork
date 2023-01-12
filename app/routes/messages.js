@@ -33,7 +33,8 @@ router.get(
                         .status(StatusCodes.NOT_FOUND)
                         .json({ error: "No messages" });
                 }
-            } catch {
+            } catch (err) {
+                console.log("ERROR: " + err);
                 return res
                     .status(StatusCodes.INTERNAL_SERVER_ERROR)
                     .json({ error: "Server error" });
@@ -76,7 +77,8 @@ router.get(
                         .status(StatusCodes.NOT_FOUND)
                         .json({ error: "No message" });
                 }
-            } catch {
+            } catch (err) {
+                console.log("ERROR: " + err);
                 return res
                     .status(StatusCodes.INTERNAL_SERVER_ERROR)
                     .json({ error: "Server error" });
@@ -115,7 +117,8 @@ router.post(
                     return res
                         .status(StatusCodes.CREATED)
                         .json({ message: insertedMessage });
-                } catch {
+                } catch (err) {
+                    console.log("ERROR: " + err);
                     return res
                         .status(StatusCodes.INTERNAL_SERVER_ERROR)
                         .json({ error: "Server error" });

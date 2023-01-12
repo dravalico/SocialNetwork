@@ -29,7 +29,8 @@ router.get(
                         .status(StatusCodes.NOT_FOUND)
                         .json({ error: "User not found" });
                 }
-            } catch {
+            } catch (err) {
+                console.log("ERROR: " + err);
                 return res
                     .status(StatusCodes.INTERNAL_SERVER_ERROR)
                     .json({ error: "Server error" });
@@ -90,7 +91,8 @@ router.post(
                             .status(StatusCodes.NOT_FOUND)
                             .json({ error: "User not found" });
                     }
-                } catch {
+                } catch (err) {
+                    console.log("ERROR: " + err);
                     return res
                         .status(StatusCodes.INTERNAL_SERVER_ERROR)
                         .json({ error: "Server error" });
@@ -153,7 +155,8 @@ router.delete(
                             .status(StatusCodes.NOT_FOUND)
                             .json({ error: "User not found" });
                     }
-                } catch {
+                } catch (err) {
+                    console.log("ERROR: " + err);
                     return res
                         .status(StatusCodes.INTERNAL_SERVER_ERROR)
                         .json({ error: "Server error" });

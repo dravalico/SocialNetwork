@@ -33,7 +33,8 @@ router.get(
                         .status(StatusCodes.NOT_FOUND)
                         .json({ error: "User not found" });
                 }
-            } catch {
+            } catch (err) {
+                console.log("ERROR: " + err);
                 return res
                     .status(StatusCodes.INTERNAL_SERVER_ERROR)
                     .json({ error: "Server error" });
@@ -74,7 +75,8 @@ router.get("/feed", async (req, res) => {
                     .status(StatusCodes.NOT_FOUND)
                     .json({ error: "User not found" });
             }
-        } catch {
+        } catch (err) {
+            console.log("ERROR: " + err);
             return res
                 .status(StatusCodes.INTERNAL_SERVER_ERROR)
                 .json({ error: "Server error" });
@@ -118,7 +120,8 @@ router.get(
                         .status(StatusCodes.NOT_FOUND)
                         .json({ error: "No matches with query" });
                 }
-            } catch {
+            } catch (err) {
+                console.log("ERROR: " + err);
                 return res
                     .status(StatusCodes.INTERNAL_SERVER_ERROR)
                     .json({ error: "Server error" });
@@ -138,7 +141,8 @@ router.get("/whoami", async (req, res) => {
                     .status(StatusCodes.NOT_FOUND)
                     .json({ error: "User not found" });
             }
-        } catch {
+        } catch (err) {
+            console.log("ERROR: " + err);
             return res
                 .status(StatusCodes.INTERNAL_SERVER_ERROR)
                 .json({ error: "Server error" });

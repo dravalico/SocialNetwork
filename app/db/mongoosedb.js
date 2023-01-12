@@ -14,6 +14,7 @@ module.exports = {
                 console.log(err);
             }
             if (process.env.WITH_SAMPLE_DATA) {
+                console.log("INFO: option to upload seed data in db checked");
                 mongoose.connection.db
                     .collection("user")
                     .count(async (err, count) => {
