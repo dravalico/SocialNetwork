@@ -64,7 +64,6 @@ export default {
 
     methods: {
         async getFeed() {
-            console.log(this.page)
             const res = await fetchApi("/social/feed?page=" + this.page, {
                 method: "GET",
                 credentials: "include",
@@ -74,7 +73,6 @@ export default {
             });
             if (res.ok) {
                 let feedJson = await res.json();
-                console.log(feedJson);
                 this.messages.push(...feedJson.feed);
                 this.isEmpty = false;
                 this.page = this.page + 1;
