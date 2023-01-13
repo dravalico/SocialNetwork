@@ -9,4 +9,4 @@ This repository contains the final project for the "Web Programming" course held
 
 # Before starting
 
-Inside the `app` and `frontend` folders is an `.env` file. These files have been deliberately added to git to allow the application to function without further configuration and to facilitate the reading of the code, avoiding having to create a custom one.
+Inside each of the `app` and `frontend` folders, there is an `.env` file. These files have been deliberately added to git to allow the application to function without further configuration and to facilitate the reading of the code, avoiding having to create a custom one.
