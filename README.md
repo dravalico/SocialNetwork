@@ -26,6 +26,12 @@ In the `.env` file inside the app `folder`, there is a variable, called `WITH_SA
 
 ## Setup
 
+Move to `app` folder
+
+```
+cd app
+```
+
 Install all dependencies
 
 ```
@@ -42,16 +48,17 @@ This will create the necessary containers for the `MongoDB` database and for the
 
 ## Development
 
-Run docker command
+Start the server
 
 ```
 docker compose up
 ```
 
-Move to front end folder
+Move to `frontend` folder
 
 ```
-cd frontend/
+cd ..
+cd frontend
 ```
 
 Install all dependencies
