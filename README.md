@@ -6,3 +6,7 @@
 # SocialNewtork
 
 This repository contains the final project for the "Web Programming" course held by Professor Andrea De Lorenzo @University of Trieste. The project consists in making a Twitter clone web app; the specs can be found [here](https://docs.google.com/document/d/1De075kDpVmQpv00WpYeGG9l4qgg834PunVHAbTsE_10/edit).
+
+# Before starting
+
+Inside the `app` and `frontend` folders is an `.env` file. These files have been deliberately added to git to allow the application to function without further configuration and to facilitate the reading of the code, avoiding having to create a custom one.
