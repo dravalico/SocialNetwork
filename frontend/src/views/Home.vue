@@ -2,8 +2,8 @@
     <div>
         <div v-if=this.$store.getters.isAuthenticated>
             <h1 class="display-4">Feed</h1>
-            <div id="message-div" v-if="dataLoaded">
-                <div class="mt-3" v-if="!isEmpty">
+            <div id="message-div">
+                <div class="mt-3" v-if="messagesInFeed">
                     <div class="bordered-top" v-for="(message, index) in messages" :key="message.id">
                         <MessagePreview :message="message" :user="users[index]"
                             @forwarded-liked-event="reloadMsgData(message.id, users[index].id)"
@@ -45,12 +45,12 @@ import InfiniteLoading from 'vue-infinite-loading';
 export default {
     data() {
         return {
-            isEmpty: true,
             messages: [],
             page: 0,
             users: [],
-            dataLoaded: false,
             stopInfiniteLoading: false,
+            messagesInFeed: false,
+            firstRun: true,
         }
     },
     components: {
@@ -60,10 +60,8 @@ export default {
     async beforeMount() {
         if (this.$store.getters.isAuthenticated) {
             await this.getFeed();
-            this.dataLoaded = true;
         }
     },
-
     methods: {
         async getFeed() {
             const res = await fetchApi("/social/feed?page=" + this.page, {
@@ -74,21 +72,21 @@ export default {
                 },
             });
             if (res.ok) {
-                let feedJson = await res.json();
-                this.messages.push(...feedJson.feed);
-                for (let index in feedJson.feed) {
-                    await this.fetchUsername(feedJson.feed[index].idCreator);
+                if (!this.firstRun) {
+                    let feedJson = await res.json();
+                    this.messages.push(...feedJson.feed);
+                    for (let index in feedJson.feed) {
+                        await this.fetchUsername(feedJson.feed[index].idCreator);
+                    }
+                    this.page = this.page + 1;
+                } else {
+                    this.messagesInFeed = true;
+                    this.firstRun = false;
                 }
-                this.page = this.page + 1;
-                this.isEmpty = false;
             } else if (res.status === 500) {
                 this.$router.push({ path: "/error" }).catch(() => { });
             } else if (res.status === 404) {
                 this.stopInfiniteLoading = true;
-            } else {
-                if (this.messages.length === 0) {
-                    this.isEmpty = true;
-                }
             }
         },
         async fetchUsername(userId) {

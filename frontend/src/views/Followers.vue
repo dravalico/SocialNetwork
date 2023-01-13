@@ -1,7 +1,7 @@
 <template>
     <div class="vh-100">
         <h1 class="display-4">My followers</h1>
-        <div class="pt-2" v-if="!isEmpty">
+        <div class="pt-2" v-if="this.followersData.length !== 0">
             <div class="bordered-top" v-for="follower in followersData" :key="follower.id">
                 <button class="blank-button w-100 text-left" @click="openUser(follower.id)">
                     <h3>{{ follower.name }} {{ follower.surname }}</h3>
@@ -22,7 +22,6 @@ export default {
     data() {
         return {
             followersData: [],
-            isEmpty: true,
         }
     },
     beforeMount() {
@@ -44,9 +43,6 @@ export default {
                 } else if (res.status !== 404) {
                     this.$router.push({ path: "/error" }).catch(() => { });
                 }
-            }
-            if (this.followersData.length > 0) {
-                this.isEmpty = false;
             }
         },
         openUser(id) {

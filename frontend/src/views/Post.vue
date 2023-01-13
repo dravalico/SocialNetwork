@@ -8,7 +8,7 @@
             </b-form-group>
             <button type="submit" class="btn btn-primary w-100" :disabled="isEmpty">Share it!</button>
             <div class="mt-2">
-                <div v-for="(error, index) in errors" :key="index" v-show="somethingWrong">
+                <div v-for="(error, index) in errors" :key="index" v-show="errors.length !== 0">
                     <small id="passwordError" class="block text-danger">
                         {{ error }}
                     </small>
@@ -25,8 +25,7 @@ export default {
             form: {
                 text: "",
             },
-            errors: [],
-            somethingWrong: false
+            errors: []
         }
     },
     computed: {
@@ -57,7 +56,6 @@ export default {
                     errorsLog.push(errors[i].msg);
                 }
                 this.errors = errorsLog;
-                this.somethingWrong = true;
             } else {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }

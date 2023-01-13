@@ -1,9 +1,10 @@
 <template>
     <button class="blank-button w-100 text-left" @click="openMessage(message.idCreator, message.id)">
-        <UserBtn :user="user" @scroll-event="forwardScrollTopEvent"/>
+        <UserBtn :user="user" @scroll-event="forwardScrollTopEvent" />
         <p class="mt-2 ml-3" style="font-weight: 600;">{{ message.text }}</p>
         {{ message.date.split("T")[0] }}
-        <Like :message="message" @liked-event="forwardLikeEvent" @unliked-event="forwardUnikeEvent" />
+        <Like :message="message" @liked-event="forwardLikeEvent" @unliked-event="forwardUnikeEvent"
+            @auth-event="forwardAuthEvent" />
     </button>
 </template>
 
@@ -26,6 +27,9 @@ export default {
         },
         forwardUnikeEvent() {
             this.$emit("forwarded-unliked-event");
+        },
+        forwardAuthEvent() {
+            this.$emit("forwarded-auth-event");
         },
         forwardScrollTopEvent() {
             this.$emit("scroll-event");

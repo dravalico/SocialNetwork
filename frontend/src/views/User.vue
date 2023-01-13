@@ -18,10 +18,11 @@
             <h6 class="mt-2 font-italic">{{ this.user.bio }}</h6>
         </div>
         <div id="message-div">
-            <div class="pt-2" v-if="!isEmpty">
+            <div class="pt-2" v-if="messages.length !== 0">
                 <div class="bordered-top" v-for="message in messages" :key="message.id">
                     <MessagePreview :message="message" :user="user" @forwarded-liked-event="fetchUserMessages(user.id)"
-                        @forwarded-unliked-event="fetchUserMessages(user.id)" @scroll-event="scrollTop" />
+                        @forwarded-unliked-event="fetchUserMessages(user.id)" @forwarded-auth-event="showModal"
+                        @scroll-event="scrollTop" />
                 </div>
             </div>
             <div v-else class="bordered-top row justify-content-center pt-4">
@@ -39,7 +40,6 @@ import AuthModal from "../components/AuthModal.vue";
 export default {
     data() {
         return {
-            isEmpty: true,
             user: {},
             messages: [],
         }
@@ -51,7 +51,6 @@ export default {
     watch: {
         "$route.query": {
             handler(obj) {
-                this.isEmpty = true;
                 this.user = {};
                 this.messages = [];
                 this.fetchUser(obj.id);
@@ -73,7 +72,6 @@ export default {
                 this.user = userJson.user;
                 let documentTitle = document.title.replace("User", "@" + this.user.username);
                 document.title = documentTitle;
-                this.isReady = true;
             } else if (res.status !== 404) {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }
@@ -88,9 +86,6 @@ export default {
             if (res.ok) {
                 let messagesJson = await res.json();
                 this.messages = messagesJson.messages.reverse();
-                this.isEmpty = false;
-            } else if (res.status === 404) {
-                this.isEmpty = true;
             } else if (res.status !== 404) {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }
@@ -105,8 +100,6 @@ export default {
             });
             if (res.ok) {
                 await this.$store.dispatch("verifyAuthentication");
-            } else if (res.status === 404) {
-                this.isEmpty = true;
             } else if (res.status !== 404) {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }

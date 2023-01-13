@@ -40,7 +40,7 @@
             <button type="submit" class="btn btn-primary w-100" :disabled="!isComplete">Sign up</button>
         </b-form>
         <div class="mt-2">
-            <div v-for="(error, index) in errors" :key="index" v-show="somethingWrong">
+            <div v-for="(error, index) in errors" :key="index" v-show="errors.length !== 0">
                 <small id="passwordError" class="block text-danger">
                     {{ error }}
                 </small>
@@ -62,7 +62,6 @@ export default {
                 bio: "",
             },
             errors: [],
-            somethingWrong: false
         }
     },
     computed: {
@@ -105,7 +104,6 @@ export default {
                     errorsLog.push(errors[i].msg);
                 }
                 this.errors = errorsLog;
-                this.somethingWrong = true;
             } else if (res.status !== 404) {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }

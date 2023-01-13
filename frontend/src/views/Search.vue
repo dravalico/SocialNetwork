@@ -6,7 +6,7 @@
             <b-form-input id="search-form" class="shadow-none" placeholder="Search users..." v-model="input"
                 @input="handleQuery(input)"></b-form-input>
         </div>
-        <div id="result-div" v-if="isVisible" class="overflow-scroll shadow-sm mb-5 bg-white w-100"
+        <div id="result-div" v-if="isVisible" class="overflow-auto shadow-sm mb-5 bg-white w-100"
             style="max-height: 1%;">
             <div v-if="!isEmpty">
                 <div class="w-100" v-for="user in users" :key="user.id">
