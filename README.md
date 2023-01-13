@@ -11,12 +11,12 @@ This repository contains the final project for the "Web Programming" course held
 
 Project is created with:
 
--   [Docker] (https://www.docker.com/)
+-   [Docker](https://www.docker.com/)
 -   [Node.js](https://nodejs.org/en/)
--   [MongoDB] (https://www.mongodb.com/)
--   [Vue.js] (https://vuejs.org/)
--   [Vue CLI] (https://cli.vuejs.org/)
--   [BootstrapVue] (https://bootstrap-vue.org/)
+-   [MongoDB](https://www.mongodb.com/)
+-   [Vue.js](https://vuejs.org/)
+-   [Vue CLI](https://cli.vuejs.org/)
+-   [BootstrapVue](https://bootstrap-vue.org/)
 
 # Before starting
 
