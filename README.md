@@ -9,4 +9,20 @@ This repository contains the final project for the "Web Programming" course held
 
 # Before starting
 
-Inside each of the `app` and `frontend` folders, there is an `.env` file. These files have been deliberately added to git to allow the application to function without further configuration and to facilitate the reading of the code, avoiding having to create a custom one.
+Inside each of the `app` and `frontend` folders, there is an `.env` file. These files have been deliberately added to git to allow the application to work without further configuration and to facilitate the reading of the code, avoiding having to create new ones.
+
+# Usage
+
+Install all dependencies
+
+```
+npm install
+```
+
+Run docker command
+
+```
+docker compose up
+```
+
+This will create the necessary containers for the database (`mongo`) and for the `Node.js` server. If no changes have been made to the `Docker` related files and `.env` files, the application will be reachable at `http://localhost:3000`.
