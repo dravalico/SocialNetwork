@@ -38,6 +38,31 @@ docker compose up
 
 This will create the necessary containers for the `MongoDB` database and for the `Node.js` server. If no changes have been made to the `Docker` related files and `.env` files, the application will be reachable at `http://localhost:3000`.
 
+## Development
+
+Run docker command
+
+```
+docker compose up
+```
+
+Move to front end folder
+
+```
+cd frontend/
+```
+
+Install all dependencies
+
+```
+npm install
+```
+
+Start the dev server
+```
+npm run serve
+```
+
 ## Note about MongoDB
 
 In the `.env` file inside the app `folder`, there is a variable, called `WITH_SAMPLE_DATA` which, when starting the database, checks if set equal to `true`. In this case, if the database is empty, it will read the files contained in the `app/db/mongo-seed` folder and try to insert them. If this data is not desired, just set the variable to `false` in the `.env` file.
