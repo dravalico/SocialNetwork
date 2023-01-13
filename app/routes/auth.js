@@ -38,7 +38,7 @@ router.post(
             .withMessage("The username must be a string")
             .isLength({ min: 4, max: 20 })
             .withMessage(
-                "The name must have minimum length of 2 and maximum length of 20"
+                "The username must have minimum length of 4 and maximum length of 20"
             ),
         body("password")
             .trim()
