@@ -25,4 +25,4 @@ Run docker command
 docker compose up
 ```
 
-This will create the necessary containers for the database (`mongo`) and for the `Node.js` server. If no changes have been made to the `Docker` related files and `.env` files, the application will be reachable at (http://localhost:3000).
+This will create the necessary containers for the `MongoDB` database and for the `Node.js` server. If no changes have been made to the `Docker` related files and `.env` files, the application will be reachable at `http://localhost:3000`.
