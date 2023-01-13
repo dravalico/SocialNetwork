@@ -11,13 +11,7 @@ This repository contains the final project for the "Web Programming" course held
 
 Inside each of the `app` and `frontend` folders, there is an `.env` file. These files have been deliberately added to git to allow the application to work without further configuration and to facilitate the reading of the code, avoiding having to create new ones.
 
-### Note about MongoDB
-
-In the `.env` file inside the app `folder`, there is a variable, called `WITH_SAMPLE_DATA` which, when starting the database, checks if set equal to `true`. In this case, if the database is empty, it will read the files contained in the `app/db/mongo-seed` folder and try to insert them. If this data is not desired, just set the variable to `false` in the `.env` file.
-
 ## Build with
-
-Project is created with:
 
 -   [Docker](https://www.docker.com/)
 -   [Node.js](https://nodejs.org/en/)
@@ -25,6 +19,10 @@ Project is created with:
 -   [Vue.js](https://vuejs.org/)
 -   [Vue CLI](https://cli.vuejs.org/)
 -   [BootstrapVue](https://bootstrap-vue.org/)
+
+### Note about MongoDB
+
+In the `.env` file inside the app `folder`, there is a variable, called `WITH_SAMPLE_DATA` which, when starting the database, checks if set equal to `true`. In this case, if the database is empty, it will read the files contained in the `app/db/mongo-seed` folder and try to insert them. If this data is not desired, just set the variable to `false` in the `.env` file.
 
 ## Setup
 
