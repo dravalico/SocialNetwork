@@ -7,11 +7,22 @@
 
 This repository contains the final project for the "Web Programming" course held by Professor Andrea De Lorenzo @University of Trieste. The project consists in making a Twitter clone web app; the specs can be found [here](https://docs.google.com/document/d/1De075kDpVmQpv00WpYeGG9l4qgg834PunVHAbTsE_10/edit).
 
+## Build with
+
+Project is created with:
+
+-   [Docker] (https://www.docker.com/)
+-   [Node.js](https://nodejs.org/en/)
+-   [MongoDB] (https://www.mongodb.com/)
+-   [Vue.js] (https://vuejs.org/)
+-   [Vue CLI] (https://cli.vuejs.org/)
+-   [BootstrapVue] (https://bootstrap-vue.org/)
+
 # Before starting
 
 Inside each of the `app` and `frontend` folders, there is an `.env` file. These files have been deliberately added to git to allow the application to work without further configuration and to facilitate the reading of the code, avoiding having to create new ones.
 
-# Usage
+# Setup
 
 Install all dependencies
 
