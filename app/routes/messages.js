@@ -3,7 +3,7 @@ const router = express.Router();
 const { Message } = require("../db/models/message.js");
 const { StatusCodes } = require("http-status-codes");
 const { param, body, validationResult } = require("express-validator");
-const { getLastElementId } = require("../util.js");
+const { getNextId } = require("../db/helper.js");
 
 router.get(
     "/:userId?",
@@ -102,7 +102,7 @@ router.post(
             if (req.isAuth) {
                 let idCreator = req.id;
                 let messageToInsert = {};
-                messageToInsert.id = (await getLastElementId(Message)) + 1;
+                messageToInsert.id = await getNextId(Message);
                 messageToInsert.idCreator = idCreator;
                 messageToInsert.date = new Date().toISOString();
                 messageToInsert.text = req.body.text;

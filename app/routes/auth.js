@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { StatusCodes } = require("http-status-codes");
 const { body, validationResult } = require("express-validator");
 const { User } = require("../db/models/user.js");
-const { getLastElementId } = require("../util.js");
+const { getNextId } = require("../db/helper.js");
 
 function generateJWT(id, username) {
     return jwt.sign(
@@ -71,7 +71,8 @@ router.post(
                 return next("Username already taken");
             }
             delete userToInsert.confirmPassword;
-            userToInsert.id = (await getLastElementId(User)) + 1;
+            userToInsert.id = await getNextId(User);
+            console.log(userToInsert.id);
             userToInsert.followersId = [];
             userToInsert.followingId = [];
             const token = generateJWT(userToInsert.id, userToInsert.username);
