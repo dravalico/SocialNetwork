@@ -14,10 +14,11 @@ router.post(
             .isNumeric()
             .withMessage("The id must be a number"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             if (req.isAuth) {
                 const id = req.id;
@@ -40,30 +41,24 @@ router.post(
                                     .status(StatusCodes.OK)
                                     .json({ message: messageToLike });
                             } else {
-                                return res
-                                    .status(StatusCodes.CONFLICT)
-                                    .json({ error: "Already liked" });
+                                res.status(StatusCodes.CONFLICT);
+                                return next("Already liked");
                             }
                         } else {
-                            return res
-                                .status(StatusCodes.NOT_FOUND)
-                                .json({ error: "Message not found" });
+                            res.status(StatusCodes.NOT_FOUND);
+                            return next("Message not found");
                         }
                     } else {
-                        return res
-                            .status(StatusCodes.NOT_FOUND)
-                            .json({ error: "User not found" });
+                        res.status(StatusCodes.NOT_FOUND);
+                        return next("User not found");
                     }
                 } catch (err) {
                     console.log("ERROR: " + err);
-                    return res
-                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                        .json({ error: "Server error" });
+                    return next("Server error");
                 }
             } else {
-                return res
-                    .status(StatusCodes.UNAUTHORIZED)
-                    .json({ error: "Unauthorized" });
+                res.status(StatusCodes.UNAUTHORIZED);
+                next("Unauthorized");
             }
         }
     }
@@ -78,10 +73,11 @@ router.delete(
             .isNumeric()
             .withMessage("The id must be a number"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             if (req.isAuth) {
                 const id = req.id;
@@ -107,30 +103,24 @@ router.delete(
                                     .status(StatusCodes.OK)
                                     .json({ message: messageToUnlike });
                             } else {
-                                return res
-                                    .status(StatusCodes.CONFLICT)
-                                    .json({ error: "Not liked yet" });
+                                res.status(StatusCodes.CONFLICT);
+                                return next("Not liked yet");
                             }
                         } else {
-                            return res
-                                .status(StatusCodes.NOT_FOUND)
-                                .json({ error: "Message not found" });
+                            res.status(StatusCodes.NOT_FOUND);
+                            return next("Message not found");
                         }
                     } else {
-                        return res
-                            .status(StatusCodes.NOT_FOUND)
-                            .json({ error: "User not found" });
+                        res.status(StatusCodes.NOT_FOUND);
+                        return next("User not found");
                     }
                 } catch (err) {
                     console.log("ERROR: " + err);
-                    return res
-                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                        .json({ error: "Server error" });
+                    return next("Server error");
                 }
             } else {
-                return res
-                    .status(StatusCodes.UNAUTHORIZED)
-                    .json({ error: "Unauthorized" });
+                res.status(StatusCodes.UNAUTHORIZED);
+                next("Unauthorized");
             }
         }
     }

@@ -59,16 +59,16 @@ router.post(
             return true;
         }),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             const userToInsert = req.body;
             if (await isAlreadyInDb(userToInsert.username)) {
-                return res
-                    .status(StatusCodes.CONFLICT)
-                    .json("Username already taken");
+                res.status(StatusCodes.CONFLICT);
+                return next("Username already taken");
             }
             delete userToInsert.confirmPassword;
             userToInsert.id = (await getLastElementId(User)) + 1;
@@ -89,9 +89,7 @@ router.post(
                     .json(insertedUser);
             } catch (err) {
                 console.log("ERROR: " + err);
-                return res
-                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                    .json({ error: "Server error" });
+                next("Server error");
             }
         }
     }
@@ -115,10 +113,11 @@ router.post(
             .isLength({ min: 8 })
             .withMessage("The password must have minimum length of 8"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array);
         } else {
             const userToLogin = req.body;
             try {
@@ -140,34 +139,30 @@ router.post(
                                 .status(StatusCodes.OK)
                                 .json(user);
                         }
-                        return res
-                            .status(StatusCodes.FORBIDDEN)
-                            .json("Invalid credentials");
+                        res.status(StatusCodes.FORBIDDEN);
+                        return next("Invalid credentials");
                     });
                 } else {
-                    return res.status(StatusCodes.NOT_FOUND).json({
-                        error: "No user with those credentials",
-                    });
+                    res.status(StatusCodes.NOT_FOUND);
+                    return next("No user with those credentials");
                 }
             } catch (err) {
                 console.log("ERROR: " + err);
-                return res
-                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                    .json({ error: "Server error" });
+                next("Server error");
             }
         }
     }
 );
 
-router.get("/logout", (req, res) => {
+router.get("/logout", (req, res, next) => {
     if (req.isAuth) {
-        res.clearCookie("jwtoken")
-            .status(StatusCodes.OK)
-            .send({ done: "Logout ok" });
-    } else {
         return res
-            .status(StatusCodes.UNAUTHORIZED)
-            .json({ error: "Unauthorized" });
+            .clearCookie("jwtoken")
+            .status(StatusCodes.OK)
+            .json({ done: "Logout ok" });
+    } else {
+        res.status(StatusCodes.UNAUTHORIZED);
+        next("Unauthorized");
     }
 });
 

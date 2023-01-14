@@ -13,10 +13,11 @@ router.get(
             .isNumeric()
             .withMessage("The id must be a number"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             try {
                 let userWithId = await User.findOne({ id: req.params.id });
@@ -25,15 +26,12 @@ router.get(
                         .status(StatusCodes.OK)
                         .json({ followers: userWithId.followers });
                 } else {
-                    return res
-                        .status(StatusCodes.NOT_FOUND)
-                        .json({ error: "User not found" });
+                    res.status(StatusCodes.NOT_FOUND);
+                    return next("User not found");
                 }
             } catch (err) {
                 console.log("ERROR: " + err);
-                return res
-                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                    .json({ error: "Server error" });
+                next("Server error");
             }
         }
     }
@@ -48,18 +46,18 @@ router.post(
             .isNumeric()
             .withMessage("The id must be a number"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             if (req.isAuth) {
                 let id = req.id.toString();
                 const idToFollow = req.params.id;
                 if (idToFollow === id) {
-                    return res
-                        .status(StatusCodes.CONFLICT)
-                        .json({ error: "Cannot follow itself" });
+                    res.status(StatusCodes.CONFLICT);
+                    return next("Cannot follow itself");
                 }
                 try {
                     let user = await User.findOne({ id: id });
@@ -82,25 +80,20 @@ router.post(
                                 .status(StatusCodes.OK)
                                 .json({ user: user });
                         } else {
-                            return res
-                                .status(StatusCodes.CONFLICT)
-                                .json({ error: "Already following" });
+                            res.status(StatusCodes.CONFLICT);
+                            return next("Already following");
                         }
                     } else {
-                        return res
-                            .status(StatusCodes.NOT_FOUND)
-                            .json({ error: "User not found" });
+                        res.status(StatusCodes.NOT_FOUND);
+                        return next("User not found");
                     }
                 } catch (err) {
                     console.log("ERROR: " + err);
-                    return res
-                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                        .json({ error: "Server error" });
+                    return next("Server error");
                 }
             } else {
-                return res
-                    .status(StatusCodes.UNAUTHORIZED)
-                    .json({ error: "Unauthorized" });
+                res.status(StatusCodes.UNAUTHORIZED);
+                next("Unauthorized");
             }
         }
     }
@@ -115,10 +108,11 @@ router.delete(
             .isNumeric()
             .withMessage("The id must be a number"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             if (req.isAuth) {
                 let id = req.id;
@@ -146,25 +140,20 @@ router.delete(
                                 .status(StatusCodes.OK)
                                 .json({ user: user });
                         } else {
-                            return res
-                                .status(StatusCodes.CONFLICT)
-                                .json({ error: "Not following user" });
+                            res.status(StatusCodes.CONFLICT);
+                            return next("Not following user");
                         }
                     } else {
-                        return res
-                            .status(StatusCodes.NOT_FOUND)
-                            .json({ error: "User not found" });
+                        res.status(StatusCodes.NOT_FOUND);
+                        return next("User not found");
                     }
                 } catch (err) {
                     console.log("ERROR: " + err);
-                    return res
-                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                        .json({ error: "Server error" });
+                    return next("Server error");
                 }
             } else {
-                return res
-                    .status(StatusCodes.UNAUTHORIZED)
-                    .json({ error: "Unauthorized" });
+                res.status(StatusCodes.UNAUTHORIZED);
+                next("Unauthorized");
             }
         }
     }

@@ -14,10 +14,11 @@ router.get(
             .isNumeric()
             .withMessage("The id must be a number"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             try {
                 let userWithId = await User.findOne({ id: req.params.id });
@@ -29,64 +30,72 @@ router.get(
                         .status(StatusCodes.OK)
                         .json({ user: userWithId });
                 } else {
-                    return res
-                        .status(StatusCodes.NOT_FOUND)
-                        .json({ error: "User not found" });
+                    res.status(StatusCodes.NOT_FOUND);
+                    return next("User not found");
                 }
             } catch (err) {
                 console.log("ERROR: " + err);
-                return res
-                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                    .json({ error: "Server error" });
+                next("Server error");
             }
         }
     }
 );
 
-router.get("/feed", async (req, res) => {
-    if (req.isAuth) {
-        try {
-            const user = await User.findOne({ id: req.id });
-            let page = req.query.page;
-            if (page == null) {
-                page = 0;
-            }
-            if (user) {
-                if (user.following.length !== 0) {
-                    const feed = await Message.find({
-                        idCreator: { $in: user.following },
-                    })
-                        .sort({ id: -1 })
-                        .skip(page * 6)
-                        .limit(6);
-                    if (feed.length !== 0) {
-                        return res.status(StatusCodes.OK).json({ feed: feed });
+router.get(
+    "/feed",
+    [
+        query("page")
+            .trim()
+            .notEmpty()
+            .withMessage("The query must be not empty")
+            .isNumeric()
+            .withMessage("The query must be a number"),
+    ],
+    async (req, res, next) => {
+        const error = validationResult(req);
+        if (!error.isEmpty()) {
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
+        } else {
+            if (req.isAuth) {
+                try {
+                    const user = await User.findOne({ id: req.id });
+                    let page = req.query.page;
+                    if (user) {
+                        if (user.following.length !== 0) {
+                            const feed = await Message.find({
+                                idCreator: { $in: user.following },
+                            })
+                                .sort({ id: -1 })
+                                .skip(page * 6)
+                                .limit(6);
+                            if (feed.length !== 0) {
+                                return res
+                                    .status(StatusCodes.OK)
+                                    .json({ feed: feed });
+                            } else {
+                                res.status(StatusCodes.NOT_FOUND);
+                                return next("No messages found");
+                            }
+                        } else {
+                            res.status(StatusCodes.CONFLICT);
+                            return next("No following yet");
+                        }
                     } else {
-                        return res
-                            .status(StatusCodes.NOT_FOUND)
-                            .json({ error: "No messages found" });
+                        res.status(StatusCodes.NOT_FOUND);
+                        return next("User not found");
                     }
-                } else {
-                    return res
-                        .status(StatusCodes.CONFLICT)
-                        .json({ error: "No following yet" });
+                } catch (err) {
+                    console.log("ERROR: " + err);
+                    return next("Server error");
                 }
             } else {
-                return res
-                    .status(StatusCodes.NOT_FOUND)
-                    .json({ error: "User not found" });
+                res.status(StatusCodes.UNAUTHORIZED);
+                next("Unauthorized");
             }
-        } catch (err) {
-            return res
-                .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                .json({ error: "Server error" });
         }
-    } else {
-        return res
-            .status(StatusCodes.UNAUTHORIZED)
-            .json({ error: "Unauthorized" });
     }
-});
+);
 
 router.get(
     "/search",
@@ -98,10 +107,11 @@ router.get(
             .isString()
             .withMessage("The query must be a string"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             const query = req.query.q;
             try {
@@ -116,41 +126,34 @@ router.get(
                     // TODO delete _ids and passwords
                     return res.status(StatusCodes.OK).json({ users: users });
                 } else {
-                    return res
-                        .status(StatusCodes.NOT_FOUND)
-                        .json({ error: "No matches with query" });
+                    res.status(StatusCodes.NOT_FOUND);
+                    return next("No matches with query");
                 }
             } catch (err) {
                 console.log("ERROR: " + err);
-                return res
-                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                    .json({ error: "Server error" });
+                next("Server error");
             }
         }
     }
 );
 
-router.get("/whoami", async (req, res) => {
+router.get("/whoami", async (req, res, next) => {
     if (req.isAuth) {
         try {
             const userWithId = await User.findOne({ id: req.id });
             if (userWithId) {
                 return res.status(StatusCodes.OK).json({ user: userWithId });
             } else {
-                return res
-                    .status(StatusCodes.NOT_FOUND)
-                    .json({ error: "User not found" });
+                res.status(StatusCodes.NOT_FOUND);
+                return next("User not found");
             }
         } catch (err) {
             console.log("ERROR: " + err);
-            return res
-                .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                .json({ error: "Server error" });
+            return next("Server error");
         }
     } else {
-        return res
-            .status(StatusCodes.UNAUTHORIZED)
-            .json({ error: "Unauthorized" });
+        res.status(StatusCodes.UNAUTHORIZED);
+        next("Unauthorized");
     }
 });
 

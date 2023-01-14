@@ -34,6 +34,10 @@ app.use("/api/social/followers", followersApi);
 app.use("/api/social/like", likesApi);
 app.use("/api/social", socialApi);
 app.use("/api/test", test);
+app.use((err, req, res, next) => {
+    const statusCode = res.statusCode;
+    res.status(statusCode === 200 ? 500 : statusCode).json({ error: err });
+});
 
 app.listen(process.env.PORT, () => {
     console.info("INFO: server running on port " + process.env.PORT);

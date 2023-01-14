@@ -14,10 +14,11 @@ router.get(
             .isNumeric()
             .withMessage("The id must be a number"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             try {
                 let messagesFromUser = await Message.find({
@@ -29,15 +30,12 @@ router.get(
                         .status(StatusCodes.OK)
                         .json({ messages: messagesFromUser });
                 } else {
-                    return res
-                        .status(StatusCodes.NOT_FOUND)
-                        .json({ error: "No messages" });
+                    res.status(StatusCodes.NOT_FOUND);
+                    return next("No messages");
                 }
             } catch (err) {
                 console.log("ERROR: " + err);
-                return res
-                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                    .json({ error: "Server error" });
+                return next("Server error");
             }
         }
     }
@@ -57,10 +55,11 @@ router.get(
             .isNumeric()
             .withMessage("The message id must be a number"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             try {
                 let message = await Message.findOne({
@@ -73,15 +72,12 @@ router.get(
                         .status(StatusCodes.OK)
                         .json({ message: message });
                 } else {
-                    return res
-                        .status(StatusCodes.NOT_FOUND)
-                        .json({ error: "No message" });
+                    res.status(StatusCodes.NOT_FOUND);
+                    next("No message");
                 }
             } catch (err) {
                 console.log("ERROR: " + err);
-                return res
-                    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                    .json({ error: "Server error" });
+                return next("Server error");
             }
         }
     }
@@ -97,10 +93,11 @@ router.post(
             .isString()
             .withMessage("The message must be a string"),
     ],
-    async (req, res) => {
+    async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
-            res.status(StatusCodes.BAD_REQUEST).json({ error: error.array() });
+            res.status(StatusCodes.BAD_REQUEST);
+            return next(error.array());
         } else {
             if (req.isAuth) {
                 let idCreator = req.id;
@@ -119,14 +116,11 @@ router.post(
                         .json({ message: insertedMessage });
                 } catch (err) {
                     console.log("ERROR: " + err);
-                    return res
-                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-                        .json({ error: "Server error" });
+                    return next("Server error");
                 }
             } else {
-                return res
-                    .status(StatusCodes.UNAUTHORIZED)
-                    .json({ error: "Unauthorized" });
+                res.status(StatusCodes.UNAUTHORIZED);
+                next("Unauthorized");
             }
         }
     }
