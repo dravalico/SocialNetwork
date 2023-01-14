@@ -99,7 +99,14 @@
         "confirmPassword": "notsecure",
         "bio": "Thor and Dr. Jones",
         "followers": [],
-        "following": []
+        "following": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            7
+        ]
     },
     {
         "id": 7,

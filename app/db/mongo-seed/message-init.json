@@ -2,10 +2,539 @@
     {
         "id": 1,
         "idCreator": 1,
-        "date": "2016-05-18T16:00:00Z",
-        "text": "Hello there",
+        "date": "2007-09-24T09:30:00Z",
+        "text": "That is a good point. But I didn’t marry you for good points. I married you to blindly support me no matter how ridiculous I’m being.",
+        "likes": [
+            4,
+            5,
+            6
+        ]
+    },
+    {
+        "id": 2,
+        "idCreator": 1,
+        "date": "2007-09-24T09:45:00Z",
+        "text": "Love is not a sprint, it’s a marathon, a relentless pursuit that only ends when she falls into your arms- or hits you with the pepper spray.",
+        "likes": [
+            5,
+            6
+        ]
+    },
+    {
+        "id": 3,
+        "idCreator": 1,
+        "date": "2007-09-24T09:50:00Z",
+        "text": "Indian Monopoly is just like regular Monopoly, but instead of money you use rupees, instead of building hotels you build call centers, and when you pick up a chance card there’s a chance you die of dysentery. And just FYI, that was racist.",
+        "likes": [
+            2,
+            3,
+            4
+        ]
+    },
+    {
+        "id": 4,
+        "idCreator": 1,
+        "date": "2007-09-24T10:33:00Z",
+        "text": "Just because you have that accent doesn’t mean what you say isn’t stupid.",
+        "likes": [
+            2,
+            3,
+            4
+        ]
+    },
+    {
+        "id": 5,
+        "idCreator": 1,
+        "date": "2007-09-24T11:57:00Z",
+        "text": "Whaddup Science Bitches",
         "likes": [
             2
+        ]
+    },
+    {
+        "id": 6,
+        "idCreator": 1,
+        "date": "2007-09-25T07:30:00Z",
+        "text": "If it’s ‘creepy’ to use the internet, military satellites and robot aircraft to find a house full of gorgeous young models so I can drop in on them unexpected, then fine. I’m ‘creepy.",
+        "likes": [
+            2
+        ]
+    },
+    {
+        "id": 7,
+        "idCreator": 1,
+        "date": "2007-09-25T12:30:00Z",
+        "text": "And, space beats water.",
+        "likes": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 8,
+        "idCreator": 1,
+        "date": "2007-09-25T18:24:00Z",
+        "text": "I just always thought that when i settled down into a relationship it would be with someone, you know, different… More like megan fox from transformers",
+        "likes": []
+    },
+    {
+        "id": 9,
+        "idCreator": 1,
+        "date": "2007-09-25T23:59:00Z",
+        "text": "Look what you created here its like Nerdvana",
+        "likes": [
+            1,
+            3,
+            4,
+            6
+        ]
+    },
+    {
+        "id": 10,
+        "idCreator": 1,
+        "date": "2007-09-26T09:30:00Z",
+        "text": "I’m a horny engineer, Leonard. I never joke about math or sex.",
+        "likes": [
+            1,
+            5
+        ]
+    },
+    {
+        "id": 11,
+        "idCreator": 1,
+        "date": "2007-09-26T10:00:00Z",
+        "text": "If i didn’t have you, life would be blue, i’d be dr. Who without the tardis",
+        "likes": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+        ]
+    },
+    {
+        "id": 12,
+        "idCreator": 1,
+        "date": "2007-09-27T02:02:00Z",
+        "text": "I'm your idiot foreverrrrrrr",
+        "likes": [
+            6,
+            7
+        ]
+    },
+    {
+        "id": 13,
+        "idCreator": 1,
+        "date": "2007-09-27T09:30:00Z",
+        "text": "MUM!",
+        "likes": [
+            5,
+            6,
+            7
+        ]
+    },
+    {
+        "id": 14,
+        "idCreator": 2,
+        "date": "2007-09-24T09:30:00Z",
+        "text": "Sweetie, every night you don’t kill him in his sleep, he wins.",
+        "likes": [
+            1,
+            4,
+            6
+        ]
+    },
+    {
+        "id": 15,
+        "idCreator": 2,
+        "date": "2007-09-24T10:30:00Z",
+        "text": "No one ever bought me drinks at a bar because my brain just popped out of my shirt.",
+        "likes": [
+            5,
+            6
+        ]
+    },
+    {
+        "id": 16,
+        "idCreator": 2,
+        "date": "2007-09-24T10:31:00Z",
+        "text": "All right, Howard Wolowitz, listen up! You sign anything she puts in front of you, because you are the luckiest man alive. If you let her go, there is no way you can find anyone else. Speaking on behalf of all women, it is not going to happen, we had a meeting.",
+        "likes": [
+            6
+        ]
+    },
+    {
+        "id": 17,
+        "idCreator": 2,
+        "date": "2007-09-24T18:30:00Z",
+        "text": "You know people think you are this weird robot man who’s so annoying all the time and you totally are. But then it’s like that movie Wall-E at the end. You’re so full of love and you can save a plant and get fat people out of their floaty chairs.",
+        "likes": [
+            4,
+            7
+        ]
+    },
+    {
+        "id": 18,
+        "idCreator": 2,
+        "date": "2007-09-25T10:03:00Z",
+        "text": "What up, Shel-Bot?",
+        "likes": [
+            5,
+            6,
+            7
+        ]
+    },
+    {
+        "id": 19,
+        "idCreator": 2,
+        "date": "2007-09-25T10:10:00Z",
+        "text": "Isn’t this when he says ‘bazooka’ or something?",
+        "likes": [
+            3,
+            4
+        ]
+    },
+    {
+        "id": 20,
+        "idCreator": 2,
+        "date": "2007-09-25T11:11:00Z",
+        "text": "So that means, you’re a doctor, you’re a doctor, you’re a doctor, you’re a doctor and, Howard, you know a lot of doctors.",
+        "likes": [
+            1,
+            3,
+            6,
+            7
+        ]
+    },
+    {
+        "id": 21,
+        "idCreator": 2,
+        "date": "2007-09-26T12:00:00Z",
+        "text": "I love him but if he’s broken, let’s not get a new one.",
+        "likes": [
+            2,
+            4
+        ]
+    },
+    {
+        "id": 22,
+        "idCreator": 2,
+        "date": "2007-09-26T12:24:00Z",
+        "text": "I’m a vegetarian except for fish, and the occasional steak. I love steak!",
+        "likes": []
+    },
+    {
+        "id": 23,
+        "idCreator": 2,
+        "date": "2007-09-26T23:00:00Z",
+        "text": "Are we your X-Men?",
+        "likes": []
+    },
+    {
+        "id": 24,
+        "idCreator": 3,
+        "date": "2007-09-24T09:30:00Z",
+        "text": "While I Subscribe To The Many Worlds Theory, Which Posits The Existence Of An Infinite Number Of Sheldons... I Assure You That In None Of Them Am I Dancing.",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 25,
+        "idCreator": 3,
+        "date": "2007-09-24T09:31:00Z",
+        "text": "Good Morning, Everyone, And Welcome To 'Science and Society.' I'm Dr. Sheldon Cooper, BS, MS, MA, Ph.D., And ScD. OMG, Right?",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 26,
+        "idCreator": 3,
+        "date": "2007-09-24T09:33:00Z",
+        "text": "I'm Sorry, Coffee's Out Of The Question. When I Moved To California I Promised My Mother That I Wouldn't Start Doing Drugs.",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 27,
+        "idCreator": 3,
+        "date": "2007-09-25T09:33:00Z",
+        "text": "I Found The Grinch To Be A Relatable, Engaging Character, And I Was Really With Him...",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 28,
+        "idCreator": 3,
+        "date": "2007-09-25T09:34:00Z",
+        "text": "Scissors cuts paper, paper covers rock, rock crushes lizard, lizard poisons Spock, Spock smashes scissors, scissors decapitates lizard, lizard eats paper, paper disproves Spock, Spock vaporizes rock, and as it always has, rock crushes scissors.",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 29,
+        "idCreator": 3,
+        "date": "2007-09-25T09:35:00Z",
+        "text": "The only way she’d be able to make a contribution to science is if they resume sending chimps into space.",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 30,
+        "idCreator": 3,
+        "date": "2007-09-25T09:36:00Z",
+        "text": "I often forget other people have limitations. It’s so sad.",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 31,
+        "idCreator": 3,
+        "date": "2007-09-25T09:37:00Z",
+        "text": "Penny",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 32,
+        "idCreator": 3,
+        "date": "2007-09-25T09:38:00Z",
+        "text": "Penny",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 33,
+        "idCreator": 3,
+        "date": "2007-09-25T09:39:00Z",
+        "text": "Penny",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 34,
+        "idCreator": 3,
+        "date": "2007-09-26T09:39:00Z",
+        "text": "Feelings? What am I? A hippy at a love-in?",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 35,
+        "idCreator": 3,
+        "date": "2007-09-26T09:40:00Z",
+        "text": "PENNY",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 36,
+        "idCreator": 3,
+        "date": "2007-09-26T09:40:00Z",
+        "text": "PENNY",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 37,
+        "idCreator": 3,
+        "date": "2007-09-26T09:40:00Z",
+        "text": "PENNY",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 38,
+        "idCreator": 3,
+        "date": "2007-09-27T09:40:00Z",
+        "text": "There’s no denying that I have feelings for you that can’t be explained in any other way. I briefly considered that I had a brain parasite, but that seems even more far-fetched. The only conclusion was love.",
+        "likes": [
+            2,
+            3,
+            7
+        ]
+    },
+    {
+        "id": 39,
+        "idCreator": 4,
+        "date": "2007-09-24T09:49:00Z",
+        "text": "Penny, you don’t want to get into it with Sheldon. The guy’s one lab accident away from being a super villain.",
+        "likes": [
+            1,
+            2,
+            5
+        ]
+    },
+    {
+        "id": 40,
+        "idCreator": 4,
+        "date": "2007-09-24T11:20:00Z",
+        "text": "My point is, while you’re spending all this time on your own, building computers or practicing your cello, what you’re really doing is becoming interesting. When people finally do notice you, they’re gonna find someone a lot cooler than they thought. And for those of you that were popular in high school, it’s over, sorry. Thank you. Congratulations.",
+        "likes": [
+            1,
+            2,
+            5
+        ]
+    },
+    {
+        "id": 41,
+        "idCreator": 4,
+        "date": "2007-09-26T12:21:00Z",
+        "text": "We’re here to see Koothrappali, not kill Batman.",
+        "likes": [
+            2,
+            6
+        ]
+    },
+    {
+        "id": 42,
+        "idCreator": 4,
+        "date": "2007-09-26T12:22:00Z",
+        "text": "People get things they don’t deserve all the time. Like me with you Penny.",
+        "likes": [
+            2,
+            3
+        ]
+    },
+    {
+        "id": 43,
+        "idCreator": 4,
+        "date": "2007-09-26T12:22:00Z",
+        "text": "Penny. We are made of particles that have existed since the moment the universe began. I like to think those atoms traveled fourteen billion years through time and space to create us, so that we could be together and make each other whole.",
+        "likes": [
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+        ]
+    },
+    {
+        "id": 44,
+        "idCreator": 4,
+        "date": "2007-09-26T14:32:00Z",
+        "text": "Yeah, I’m a freaking genius.",
+        "likes": [
+            1,
+            2,
+            7
+        ]
+    },
+    {
+        "id": 45,
+        "idCreator": 4,
+        "date": "2007-09-26T14:52:00Z",
+        "text": "Sometimes your movements are so lifelike I forget you are not a real boy.",
+        "likes": [
+            3
+        ]
+    },
+    {
+        "id": 46,
+        "idCreator": 4,
+        "date": "2007-09-26T14:52:00Z",
+        "text": "Penny, I told you if you don’t put him in his crate at night, he just runs around the apartment.",
+        "likes": [
+            1,
+            4,
+            7
+        ]
+    },
+    {
+        "id": 47,
+        "idCreator": 6,
+        "date": "2007-09-24T09:30:00Z",
+        "text": "Sheldon, you remind me of a young Lex Luthor.",
+        "likes": [
+            1,
+            2,
+            4,
+            5
+        ]
+    },
+    {
+        "id": 48,
+        "idCreator": 6,
+        "date": "2007-09-24T09:31:00Z",
+        "text": "It wouldn’t be Thanksgiving without an Indian providing the food.",
+        "likes": [
+            1,
+            2,
+            4,
+            5,
+            7
+        ]
+    },
+    {
+        "id": 49,
+        "idCreator": 7,
+        "date": "2007-09-28T09:31:00Z",
+        "text": "Do you have any idea how hard it is to laugh at a knock knock joke that starts 'Knock Knock Knock, Amy. Knock Knock Knock, Amy. Knock Knock Knock, Amy'?",
+        "likes": [
+            1,
+            2,
+            4,
+            5,
+            6
+        ]
+    },
+    {
+        "id": 50,
+        "idCreator": 7,
+        "date": "2007-09-28T19:00:00Z",
+        "text": "As my mom used to say, 'When you're doing a puzzle, it's like you've got a thousand friends.' She was full of fun lies like that",
+        "likes": [
+            1,
+            2,
+            4,
+            5,
+            7
         ]
     }
 ]

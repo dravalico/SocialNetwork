@@ -59,8 +59,8 @@ export default {
         }
     },
     metaInfo: {
-        title: "wpSocial",
-        titleTemplate: "%s | wspSocial"
+        title: "!Twitter",
+        titleTemplate: "%s | !Twitter"
     },
     mounted() {
         window.addEventListener('resize', () => {
