@@ -47,9 +47,7 @@ const routes = [
     {
         path: "/message",
         component: () =>
-            import(
-                /* webpackChunkName: "message" */ "../views/Message.vue"
-            ),
+            import(/* webpackChunkName: "message" */ "../views/Message.vue"),
         meta: {
             title: "Message",
             requiresAuth: false,
@@ -98,8 +96,8 @@ const router = new VueRouter({
 router.afterEach((to) => {
     Vue.nextTick(() => {
         document.title = to.meta.title
-            ? to.meta.title + " / wpSocial"
-            : "wpSocial";
+            ? to.meta.title + " / !Twitter"
+            : "!Twitter";
     });
 });
 

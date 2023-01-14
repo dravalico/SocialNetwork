@@ -58,10 +58,6 @@ export default {
             windowWidth: window.innerWidth
         }
     },
-    metaInfo: {
-        title: "!Twitter",
-        titleTemplate: "%s | !Twitter"
-    },
     mounted() {
         window.addEventListener('resize', () => {
             this.windowWidth = window.innerWidth;
