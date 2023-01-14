@@ -102,23 +102,17 @@ router.post(
         body("username")
             .trim()
             .isString()
-            .withMessage("The username must be a string")
-            .isLength({ min: 4, max: 12 })
-            .withMessage(
-                "The name must have minimum length of 2 and maximum length of 12"
-            ),
+            .withMessage("The username must be a string"),
         body("password")
             .trim()
             .isString()
-            .withMessage("The password must be a string")
-            .isLength({ min: 8 })
-            .withMessage("The password must have minimum length of 8"),
+            .withMessage("The password must be a string"),
     ],
     async (req, res, next) => {
         const error = validationResult(req);
         if (!error.isEmpty()) {
             res.status(StatusCodes.BAD_REQUEST);
-            return next(error.array);
+            return next(error.array());
         } else {
             const userToLogin = req.body;
             try {
@@ -145,7 +139,7 @@ router.post(
                     });
                 } else {
                     res.status(StatusCodes.NOT_FOUND);
-                    return next("No user with those credentials");
+                    return next("The user does not exist");
                 }
             } catch (err) {
                 console.log("ERROR: " + err);

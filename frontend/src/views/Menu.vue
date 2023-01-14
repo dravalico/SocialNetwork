@@ -52,9 +52,8 @@
                                     </router-link>
                                 </b-nav-item>
                                 <b-nav-item>
-                                    <button @click="logout">
-                                        Logout
-                                    </button>
+                                    <!--<button @click="logout">Logout</button>-->
+                                    <a href="" @click="logout">Logout</a>
                                 </b-nav-item>
                             </b-navbar-nav>
                         </div>

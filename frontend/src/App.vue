@@ -5,7 +5,7 @@
                 <Menu :windowWidth=windowWidth />
             </div>
             <div class="bordered scrollable-col">
-                <router-view class="w-75 mx-auto" />
+                <router-view class="not-full" />
             </div>
         </div>
         <div v-if="windowWidth > 768 && windowWidth <= 992">
@@ -17,7 +17,7 @@
                 </b-row>
                 <b-row>
                     <b-col cols="7" class="bordered scrollable-col">
-                        <router-view class="w-75 mx-auto" />
+                        <router-view class="not-full" />
                     </b-col>
                     <b-col cols="5" class="scrollable-col">
                         <Search />
@@ -129,5 +129,13 @@ button {
 .bordered {
     border-right: 1px solid #F0F3F4;
     border-left: 1px solid #F0F3F4;
+}
+
+@media screen and (max-width: 992px) {
+    .not-full {
+        width: 90% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
 }
 </style>

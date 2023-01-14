@@ -73,9 +73,11 @@ export default {
                 }
                 this.errors = errorsLog;
             } else if (res.status === 404) {
-                this.errors.push("The user does not exist");
+                const error = await res.json();
+                this.errors.push(error.error);
             } else if (res.status === 403) {
-                this.errors.push(await res.json());
+                const error = await res.json();
+                this.errors.push(error.error);
             } else {
                 this.$router.push({ path: "/error" }).catch(() => { });
             }

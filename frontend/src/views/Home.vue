@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div v-else class="guest">
+        <div v-else>
             <h1 class="display-4">Welcome, guest</h1>
             <div class="bordered-top mt-3">
                 <p>

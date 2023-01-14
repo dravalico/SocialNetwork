@@ -77,7 +77,7 @@ export default {
 <style scoped>
 @media screen and (min-width: 768px) {
     #wrapper {
-        width: 75%;
+        width: 85%;
         margin-left: auto;
         margin-right: auto;
     }
