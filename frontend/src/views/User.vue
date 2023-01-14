@@ -1,5 +1,5 @@
 <template>
-    <div id="scrollable" class="mx-auto vh-100">
+    <div id="" class="mx-auto vh-100">
         <div>
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
             <div>

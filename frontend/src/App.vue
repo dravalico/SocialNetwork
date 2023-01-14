@@ -1,18 +1,45 @@
 <template>
     <div id="app">
-        <b-container id="app-container" fluid>
-            <b-row>
-                <b-col cols="12" md="3" class="scrollable-col">
-                    <Menu />
-                </b-col>
-                <b-col cols="12" md="5" class="bordered scrollable-col">
-                    <router-view />
-                </b-col>
-                <b-col cols="12" md="4" class="scrollable-col">
-                    <Search />
-                </b-col>
-            </b-row>
-        </b-container>
+        <div v-if="windowWidth <= 768">
+            <div>
+                <Menu :windowWidth=windowWidth />
+            </div>
+            <div class="bordered scrollable-col">
+                <router-view class="w-75 mx-auto" />
+            </div>
+        </div>
+        <div v-if="windowWidth > 768 && windowWidth <= 992">
+            <b-container id="app-container" fluid class="m-0 p-0">
+                <b-row>
+                    <b-col>
+                        <Menu :windowWidth=windowWidth />
+                    </b-col>
+                </b-row>
+                <b-row>
+                    <b-col cols="7" class="bordered scrollable-col">
+                        <router-view class="w-75 mx-auto" />
+                    </b-col>
+                    <b-col cols="5" class="scrollable-col">
+                        <Search />
+                    </b-col>
+                </b-row>
+            </b-container>
+        </div>
+        <div v-if="windowWidth > 992">
+            <b-container id="app-container" fluid>
+                <b-row>
+                    <b-col cols="3" class="scrollable-col">
+                        <Menu :windowWidth=windowWidth />
+                    </b-col>
+                    <b-col cols="5" class="bordered scrollable-col">
+                        <router-view />
+                    </b-col>
+                    <b-col cols="4" class="scrollable-col">
+                        <Search :windowWidth=windowWidth />
+                    </b-col>
+                </b-row>
+            </b-container>
+        </div>
     </div>
 </template>
 
@@ -26,10 +53,20 @@ export default {
         Menu,
         Search
     },
+    data() {
+        return {
+            windowWidth: window.innerWidth
+        }
+    },
     metaInfo: {
         title: "wpSocial",
         titleTemplate: "%s | wspSocial"
-    }
+    },
+    mounted() {
+        window.addEventListener('resize', () => {
+            this.windowWidth = window.innerWidth;
+        });
+    },
 }
 </script>
 
@@ -39,23 +76,14 @@ export default {
 html,
 body {
     min-height: 100%;
-}
-
-.scrollable-col {
-    height: 100vh;
-    overflow-y: scroll;
-    position: relative;
+    overflow-x: hidden !important;
+    overflow: hidden;
 }
 
 #app {
     font-family: "Raleway", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-}
-
-.bordered {
-    border-right: 1px solid #F0F3F4;
-    border-left: 1px solid #F0F3F4;
 }
 
 a {
@@ -97,9 +125,13 @@ button {
     border-radius: 50rem !important;
 }
 
-@media only screen and (min-width: 992px) {
-    body {
-        overflow: hidden;
-    }
+.scrollable-col {
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.bordered {
+    border-right: 1px solid #F0F3F4;
+    border-left: 1px solid #F0F3F4;
 }
 </style>

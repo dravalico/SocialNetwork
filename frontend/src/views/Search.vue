@@ -1,13 +1,13 @@
 <template>
-    <div class="w-75 mx-auto">
-        <h1 class="display-4">Search</h1>
+    <div id="wrapper">
+        <div v-if="windowWidth > 768">
+            <h1 class="display-4">Search</h1>
+        </div>
         <div>
-            <!---<b-icon icon="search"></b-icon>-->
             <b-form-input id="search-form" class="shadow-none" placeholder="Search users..." v-model="input"
                 @input="handleQuery(input)"></b-form-input>
         </div>
-        <div id="result-div" v-if="isVisible" class="overflow-auto shadow-sm mb-5 bg-white w-100"
-            style="max-height: 1%;">
+        <div id="result-div" v-if="isVisible" class="overflow-auto shadow-sm mb-5 bg-white">
             <div v-if="!isEmpty">
                 <div class="w-100" v-for="user in users" :key="user.id">
                     <button class="text-left blank-button w-100 py-3 px-3" @click="openUser(user.id)">
@@ -35,6 +35,7 @@ export default {
             error: "",
         }
     },
+    props: ["windowWidth"],
     methods: {
         handleQuery(input) {
             let xhr = new XMLHttpRequest();
@@ -72,3 +73,27 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+@media screen and (min-width: 768px) {
+    #wrapper {
+        width: 75%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #result-div {
+        width: 100%;
+        max-height: 400px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #result-div {
+        width: 50%;
+        max-height: 200px;
+        position: absolute;
+        z-index: 1;
+    }
+}
+</style>
