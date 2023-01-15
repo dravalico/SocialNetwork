@@ -80,6 +80,12 @@ export default {
 </script>
 
 <style scoped>
+#wrapper {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 @media screen and (min-width: 768px) {
     #result-div {
         width: 100%;
