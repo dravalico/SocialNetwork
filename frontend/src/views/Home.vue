@@ -23,7 +23,7 @@
             <h1 class="display-4">Welcome, guest</h1>
             <div class="bordered-top mt-3">
                 <p>
-                    Welcome to wpSocial!
+                    Welcome to !Twitter!
                     As a guest you can search for users by name, surname and username. You will be able to see all their
                     messages and the likes they have received.
                 </p>
@@ -127,7 +127,7 @@ export default {
                 await this.getFeed();
                 $state.loaded();
             } else {
-                $state.complete()
+                $state.complete();
             }
         }
     },
