@@ -69,6 +69,6 @@ UserSchema.methods.comparePassword = function (candidatePassword, callback) {
 };
 
 // https://stackoverflow.com/questions/5794834/how-to-access-a-preexisting-collection-with-mongoose
-const User = mongoose.model("User", UserSchema, "user");
+const User = mongoose.model("User", UserSchema, "users");
 
 module.exports = { User };
