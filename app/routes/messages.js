@@ -4,6 +4,7 @@ const { Message } = require("../db/models/message.js");
 const { StatusCodes } = require("http-status-codes");
 const { param, body, validationResult } = require("express-validator");
 const { getNextId } = require("../db/helper.js");
+const { logger } = require("../logger.js");
 
 router.get(
     "/:userId?",
@@ -33,7 +34,7 @@ router.get(
                     return next("No messages");
                 }
             } catch (err) {
-                console.log("ERROR: " + err);
+                logger.info(err);
                 return next("Server error");
             }
         }
@@ -74,7 +75,7 @@ router.get(
                     next("No message");
                 }
             } catch (err) {
-                console.log("ERROR: " + err);
+                logger.info(err);
                 return next("Server error");
             }
         }
@@ -113,7 +114,7 @@ router.post(
                         .status(StatusCodes.CREATED)
                         .json({ message: insertedMessage });
                 } catch (err) {
-                    console.log("ERROR: " + err);
+                    logger.info(err);
                     return next("Server error");
                 }
             } else {

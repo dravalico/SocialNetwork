@@ -4,6 +4,7 @@ const { User } = require("../db/models/user.js");
 const { Message } = require("../db/models/message.js");
 const { StatusCodes } = require("http-status-codes");
 const { query, param, validationResult } = require("express-validator");
+const { logger } = require("../logger.js");
 
 router.get(
     "/users/:id?",
@@ -34,7 +35,7 @@ router.get(
                     return next("User not found");
                 }
             } catch (err) {
-                console.log("ERROR: " + err);
+                logger.info(err);
                 next("Server error");
             }
         }
@@ -87,7 +88,7 @@ router.get(
                         return next("User not found");
                     }
                 } catch (err) {
-                    console.log("ERROR: " + err);
+                    logger.info(err);
                     return next("Server error");
                 }
             } else {
@@ -132,7 +133,7 @@ router.get(
                     return next("No matches with query");
                 }
             } catch (err) {
-                console.log("ERROR: " + err);
+                logger.info(err);
                 next("Server error");
             }
         }
@@ -152,7 +153,7 @@ router.get("/whoami", async (req, res, next) => {
                 return next("User not found");
             }
         } catch (err) {
-            console.log("ERROR: " + err);
+            logger.info(err);
             return next("Server error");
         }
     } else {

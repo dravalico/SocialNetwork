@@ -5,6 +5,7 @@ const { StatusCodes } = require("http-status-codes");
 const { body, validationResult } = require("express-validator");
 const { User } = require("../db/models/user.js");
 const { getNextId } = require("../db/helper.js");
+const { logger } = require("../logger.js");
 
 function generateJWT(id, username) {
     return jwt.sign(
@@ -88,7 +89,7 @@ router.post(
                     .status(StatusCodes.CREATED)
                     .json(insertedUser);
             } catch (err) {
-                console.log("ERROR: " + err);
+                logger.error(err);
                 next("Server error");
             }
         }
@@ -141,7 +142,7 @@ router.post(
                     return next("The user does not exist");
                 }
             } catch (err) {
-                console.log("ERROR: " + err);
+                logger.error(err);
                 next("Server error");
             }
         }

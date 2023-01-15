@@ -4,6 +4,7 @@ const { User } = require("../db/models/user.js");
 const { Message } = require("../db/models/message.js");
 const { StatusCodes } = require("http-status-codes");
 const { param, validationResult } = require("express-validator");
+const { logger } = require("../logger.js");
 
 router.post(
     "/:idMessage?",
@@ -52,7 +53,7 @@ router.post(
                         return next("User not found");
                     }
                 } catch (err) {
-                    console.log("ERROR: " + err);
+                    logger.info(err);
                     return next("Server error");
                 }
             } else {
@@ -113,7 +114,7 @@ router.delete(
                         return next("User not found");
                     }
                 } catch (err) {
-                    console.log("ERROR: " + err);
+                    logger.info(err);
                     return next("Server error");
                 }
             } else {
