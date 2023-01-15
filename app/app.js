@@ -6,7 +6,6 @@ const followersApi = require("./routes/followers.js");
 const likesApi = require("./routes/like.js");
 const messagesApi = require("./routes/messages.js");
 const socialApi = require("./routes/social.js");
-const test = require("./routetest.js");
 const { isAuth } = require("./verify-auth.js");
 var cookieParser = require("cookie-parser");
 require("dotenv").config();
@@ -33,7 +32,6 @@ app.use("/api/social/messages", messagesApi);
 app.use("/api/social/followers", followersApi);
 app.use("/api/social/like", likesApi);
 app.use("/api/social", socialApi);
-app.use("/api/test", test);
 app.use((err, req, res, next) => {
     const statusCode = res.statusCode;
     res.status(statusCode === 200 ? 500 : statusCode).json({ error: err });
