@@ -10,8 +10,7 @@ module.exports = {
     connect: function () {
         mongoose.connect(process.env.MONGO_URL, (err) => {
             if (err) {
-                console.log("ERROR: cannot connect to db");
-                console.log(err);
+                console.log("ERROR: cannot connect to db" + err);
             }
             if (process.env.WITH_SAMPLE_DATA === "true") {
                 console.log("INFO: option to upload seed data in db checked");
@@ -23,8 +22,10 @@ module.exports = {
                             for (let i in usersData) {
                                 try {
                                     await new User({ ...usersData[i] }).save();
-                                } catch {
-                                    console.log("ERROR: db data upload failed");
+                                } catch (e) {
+                                    console.log(
+                                        "ERROR: db data upload failed" + e
+                                    );
                                 }
                             }
                             for (let i in messagesData) {
@@ -32,8 +33,10 @@ module.exports = {
                                     await new Message({
                                         ...messagesData[i],
                                     }).save();
-                                } catch {
-                                    console.log("ERROR: db data upload failed");
+                                } catch (e) {
+                                    console.log(
+                                        "ERROR: db data upload failed" + e
+                                    );
                                 }
                             }
                             console.log("INFO: upload to db completed");
@@ -44,7 +47,9 @@ module.exports = {
                         }
                     });
             } else {
-                console.log("INFO: option to upload seed data in db not checked");
+                console.log(
+                    "INFO: option to upload seed data in db not checked"
+                );
             }
         });
     },
