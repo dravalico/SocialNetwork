@@ -53,7 +53,7 @@ router.post(
                         return next("User not found");
                     }
                 } catch (err) {
-                    logger.info(err);
+                    logger.error(err);
                     return next("Server error");
                 }
             } else {
@@ -114,7 +114,7 @@ router.delete(
                         return next("User not found");
                     }
                 } catch (err) {
-                    logger.info(err);
+                    logger.error(err);
                     return next("Server error");
                 }
             } else {

@@ -35,7 +35,7 @@ router.get(
                     return next("User not found");
                 }
             } catch (err) {
-                logger.info(err);
+                logger.error(err);
                 next("Server error");
             }
         }
@@ -88,7 +88,7 @@ router.get(
                         return next("User not found");
                     }
                 } catch (err) {
-                    logger.info(err);
+                    logger.error(err);
                     return next("Server error");
                 }
             } else {
@@ -133,7 +133,7 @@ router.get(
                     return next("No matches with query");
                 }
             } catch (err) {
-                logger.info(err);
+                logger.error(err);
                 next("Server error");
             }
         }
@@ -153,7 +153,7 @@ router.get("/whoami", async (req, res, next) => {
                 return next("User not found");
             }
         } catch (err) {
-            logger.info(err);
+            logger.error(err);
             return next("Server error");
         }
     } else {

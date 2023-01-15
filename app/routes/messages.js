@@ -34,7 +34,7 @@ router.get(
                     return next("No messages");
                 }
             } catch (err) {
-                logger.info(err);
+                logger.error(err);
                 return next("Server error");
             }
         }
@@ -75,7 +75,7 @@ router.get(
                     next("No message");
                 }
             } catch (err) {
-                logger.info(err);
+                logger.error(err);
                 return next("Server error");
             }
         }
@@ -114,7 +114,7 @@ router.post(
                         .status(StatusCodes.CREATED)
                         .json({ message: insertedMessage });
                 } catch (err) {
-                    logger.info(err);
+                    logger.error(err);
                     return next("Server error");
                 }
             } else {
