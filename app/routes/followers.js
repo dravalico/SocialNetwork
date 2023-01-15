@@ -20,7 +20,9 @@ router.get(
             return next(error.array());
         } else {
             try {
-                let userWithId = await User.findOne({ id: req.params.id });
+                let userWithId = await User.findOne({
+                    id: req.params.id,
+                });
                 if (userWithId) {
                     return res
                         .status(StatusCodes.OK)
@@ -72,10 +74,10 @@ router.post(
                                 { id: idToFollow },
                                 { $push: { followers: id } }
                             );
-                            user = await User.findOne({ id: id });
+                            user = await User.findOne({ id: id }).select(
+                                "-_id -password"
+                            );
                             user = user.toObject();
-                            delete user._id;
-                            delete user.password;
                             return res
                                 .status(StatusCodes.OK)
                                 .json({ user: user });
@@ -132,10 +134,10 @@ router.delete(
                                 { id: idToUnfollow },
                                 { $pull: { followers: id } }
                             );
-                            user = await User.findOne({ id: id });
+                            user = await User.findOne({ id: id }).select(
+                                "-_id -password"
+                            );
                             user = user.toObject();
-                            delete user._id;
-                            delete user.password;
                             return res
                                 .status(StatusCodes.OK)
                                 .json({ user: user });

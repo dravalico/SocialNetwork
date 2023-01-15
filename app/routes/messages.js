@@ -23,9 +23,8 @@ router.get(
             try {
                 let messagesFromUser = await Message.find({
                     idCreator: req.params.userId,
-                });
+                }).select("-_id");
                 if (messagesFromUser.length !== 0) {
-                    // TODO delete _ids
                     return res
                         .status(StatusCodes.OK)
                         .json({ messages: messagesFromUser });
@@ -65,9 +64,8 @@ router.get(
                 let message = await Message.findOne({
                     idCreator: req.params.userId,
                     id: req.params.idMsg,
-                });
+                }).select("-_id");
                 if (message) {
-                    delete message._id;
                     return res
                         .status(StatusCodes.OK)
                         .json({ message: message });

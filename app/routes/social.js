@@ -21,11 +21,11 @@ router.get(
             return next(error.array());
         } else {
             try {
-                let userWithId = await User.findOne({ id: req.params.id });
+                let userWithId = await User.findOne({
+                    id: req.params.id,
+                }).select("-_id -password");
                 if (userWithId) {
                     userWithId = userWithId.toObject();
-                    delete userWithId._id;
-                    delete userWithId.password;
                     return res
                         .status(StatusCodes.OK)
                         .json({ user: userWithId });
@@ -68,7 +68,8 @@ router.get(
                             })
                                 .sort({ id: -1 })
                                 .skip(page * 6)
-                                .limit(6);
+                                .limit(6)
+                                .select("-_id");
                             if (feed.length !== 0) {
                                 return res
                                     .status(StatusCodes.OK)
@@ -121,9 +122,10 @@ router.get(
                         { surname: { $regex: query, $options: "i" } },
                         { username: { $regex: query, $options: "i" } },
                     ],
-                }); // https://stackoverflow.com/questions/63770258/how-to-use-query-mongoose-using-a-like-operator-similar-to-that-of-sql
+                }).select("-_id -password");
+                // https://stackoverflow.com/questions/63770258/how-to-use-query-mongoose-using-a-like-operator-similar-to-that-of-sql
+                // https://stackoverflow.com/questions/26915116/mongoose-mongodb-exclude-fields-from-populated-query-data
                 if (users.length !== 0) {
-                    // TODO delete _ids and passwords
                     return res.status(StatusCodes.OK).json({ users: users });
                 } else {
                     res.status(StatusCodes.NOT_FOUND);
@@ -140,7 +142,9 @@ router.get(
 router.get("/whoami", async (req, res, next) => {
     if (req.isAuth) {
         try {
-            const userWithId = await User.findOne({ id: req.id });
+            const userWithId = await User.findOne({ id: req.id }).select(
+                "-_id -password"
+            );
             if (userWithId) {
                 return res.status(StatusCodes.OK).json({ user: userWithId });
             } else {

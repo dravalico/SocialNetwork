@@ -35,8 +35,7 @@ router.post(
                                 );
                                 messageToLike = await Message.findOne({
                                     id: idToLike,
-                                });
-                                delete messageToLike._id;
+                                }).select("-_id");
                                 return res
                                     .status(StatusCodes.OK)
                                     .json({ message: messageToLike });
@@ -97,8 +96,7 @@ router.delete(
                                     );
                                 messageToUnlike = await Message.findOne({
                                     id: idToUnlike,
-                                });
-                                delete messageToUnlike._id;
+                                }).select("-_id");
                                 return res
                                     .status(StatusCodes.OK)
                                     .json({ message: messageToUnlike });
