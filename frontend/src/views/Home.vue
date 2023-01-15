@@ -29,7 +29,7 @@
                 </p>
                 <p>
                     You won't be able to like posts, you won't be able to create
-                    messages and you won"t be able to have a personalized feed. For all these actions,
+                    messages and you won't be able to have a personalized feed. For all these actions,
                     <a href="/#/signup">register</a>, or if you
                     are already registered, <a href="/#/signin">log in</a>.
                 </p>

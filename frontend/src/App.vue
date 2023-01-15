@@ -20,7 +20,7 @@
                         <router-view class="not-full" />
                     </b-col>
                     <b-col cols="5" class="scrollable-col">
-                        <Search :windowWidth=windowWidth />
+                        <Search :windowWidth=windowWidth class="not-full" />
                     </b-col>
                 </b-row>
             </b-container>
@@ -123,7 +123,7 @@ button {
 }
 
 .scrollable-col {
-    height: 100vh;
+    height: 100%;
     overflow-y: auto;
 }
 

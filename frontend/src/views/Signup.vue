@@ -4,12 +4,12 @@
         <b-form @submit.prevent="onSubmit">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-6 w-50">
+                    <div class="w-50">
                         <b-form-group label="Enter your name">
                             <b-form-input id="name" v-model="form.name" placeholder="Name"></b-form-input>
                         </b-form-group>
                     </div>
-                    <div class="col-xs-6 w-50">
+                    <div class="w-50">
                         <b-form-group label="Enter your surname">
                             <b-form-input id="surname" v-model="form.surname" placeholder="Surname"></b-form-input>
                         </b-form-group>
@@ -155,3 +155,12 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+@media screen and (max-width: 768px) {
+
+    #name::before {
+        width: 40px;
+    }
+}
+</style>
