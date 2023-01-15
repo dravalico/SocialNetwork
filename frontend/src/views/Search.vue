@@ -5,7 +5,7 @@
         </div>
         <div>
             <b-form-input id="search-form" class="shadow-none" placeholder="Search users..." v-model="input"
-                @input="handleQuery(input)" @blur="isVisible = false;"></b-form-input>
+                @input="handleQuery(input)" @blur="handleBlur"></b-form-input>
         </div>
         <div id="result-div" v-if="isVisible" class="overflow-auto shadow-sm mb-5 bg-white">
             <div v-if="!isEmpty">
@@ -29,7 +29,7 @@ export default {
     data() {
         return {
             isVisible: false,
-            isEmpty: "",
+            isEmpty: true,
             input: "",
             users: [],
             error: "",
@@ -69,6 +69,11 @@ export default {
             if (this.$route.fullPath != pathTo) {
                 this.$router.push({ path: pathTo, query: { id: id } }).catch(() => { });
             }
+        },
+        handleBlur() {
+            setTimeout(() => {
+                this.isVisible = false;
+            }, 150);
         }
     }
 }
@@ -76,12 +81,6 @@ export default {
 
 <style scoped>
 @media screen and (min-width: 768px) {
-    #wrapper {
-        width: 85%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
     #result-div {
         width: 100%;
         max-height: 400px;
@@ -90,8 +89,8 @@ export default {
 
 @media screen and (max-width: 768px) {
     #result-div {
-        width: fit-content;
-        max-height: 250px;
+        width: 40%;
+        max-height: 275px;
         position: absolute;
     }
 }

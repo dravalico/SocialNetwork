@@ -1,5 +1,5 @@
 <template>
-    <div class="w-100 mx-auto">
+    <div id="wrapper" class="">
         <h1 class="display-4">Create your account</h1>
         <b-form @submit.prevent="onSubmit">
             <div class="container">

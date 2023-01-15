@@ -20,7 +20,7 @@
                         <router-view class="not-full" />
                     </b-col>
                     <b-col cols="5" class="scrollable-col">
-                        <Search />
+                        <Search :windowWidth=windowWidth />
                     </b-col>
                 </b-row>
             </b-container>
@@ -110,6 +110,7 @@ a {
 input,
 textarea,
 button {
+    -webkit-box-shadow: none !important;
     box-shadow: none !important;
 }
 
@@ -133,7 +134,7 @@ button {
 
 @media screen and (max-width: 992px) {
     .not-full {
-        width: 90% !important;
+        width: 85% !important;
         margin-left: auto !important;
         margin-right: auto !important;
     }
