@@ -1,5 +1,5 @@
 <template>
-    <div id="" class="mx-auto vh-100">
+    <div class="mx-auto vh-100">
         <div>
             <h1 class="display-4">{{ this.user.name }} {{ this.user.surname }}</h1>
             <div>
@@ -127,7 +127,11 @@ export default {
             this.$bvModal.show("no-auth")
         },
         scrollTop() {
-            document.getElementById("scrollable").scrollIntoView();
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            })
         }
     }
 }

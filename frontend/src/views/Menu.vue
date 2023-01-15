@@ -16,19 +16,13 @@
                         <div v-if="!isAuthenticated">
                             <b-navbar-nav>
                                 <b-nav-item>
-                                    <router-link to="/">
-                                        Home
-                                    </router-link>
+                                    <router-link to="/">Home</router-link>
                                 </b-nav-item>
                                 <b-nav-item>
-                                    <router-link to="/signup">
-                                        Sign up
-                                    </router-link>
+                                    <router-link to="/signup">Sign up</router-link>
                                 </b-nav-item>
                                 <b-nav-item>
-                                    <router-link to="/signin">
-                                        Sign in
-                                    </router-link>
+                                    <router-link to="/signin">Sign in</router-link>
                                 </b-nav-item>
                             </b-navbar-nav>
                         </div>
@@ -47,12 +41,9 @@
                                     </router-link>
                                 </b-nav-item>
                                 <b-nav-item>
-                                    <router-link to="/post">
-                                        Create a post
-                                    </router-link>
+                                    <router-link to="/post">Create a post</router-link>
                                 </b-nav-item>
                                 <b-nav-item>
-                                    <!--<button @click="logout">Logout</button>-->
                                     <a href="" @click="logout">Logout</a>
                                 </b-nav-item>
                             </b-navbar-nav>
@@ -200,5 +191,11 @@ export default {
 
 #followers-link:hover {
     background-color: #edf2fb;
+}
+
+@media screen and (max-width: 992px) {
+    a {
+        padding: 5px;
+    }
 }
 </style>

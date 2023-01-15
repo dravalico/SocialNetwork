@@ -9,7 +9,7 @@
             </div>
         </div>
         <div v-if="windowWidth > 768 && windowWidth <= 992">
-            <b-container id="app-container" fluid class="m-0 p-0">
+            <b-container id="app-container" fluid class="p-0">
                 <b-row>
                     <b-col>
                         <Menu :windowWidth=windowWidth />

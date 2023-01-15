@@ -5,7 +5,7 @@
         </div>
         <div>
             <b-form-input id="search-form" class="shadow-none" placeholder="Search users..." v-model="input"
-                @input="handleQuery(input)"></b-form-input>
+                @input="handleQuery(input)" @blur="isVisible = false;"></b-form-input>
         </div>
         <div id="result-div" v-if="isVisible" class="overflow-auto shadow-sm mb-5 bg-white">
             <div v-if="!isEmpty">
@@ -90,10 +90,9 @@ export default {
 
 @media screen and (max-width: 768px) {
     #result-div {
-        width: 50%;
-        max-height: 200px;
+        width: fit-content;
+        max-height: 250px;
         position: absolute;
-        z-index: 1;
     }
 }
 </style>
