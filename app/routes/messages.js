@@ -103,7 +103,9 @@ router.post(
                 let messageToInsert = {};
                 messageToInsert.id = await getNextId(Message);
                 messageToInsert.idCreator = idCreator;
-                messageToInsert.date = new Date().toISOString();
+                messageToInsert.date = new Date().toLocaleString("en-US", {
+                    timeZone: "Europe/Rome",
+                });
                 messageToInsert.text = req.body.text;
                 messageToInsert.likes = [];
                 try {
