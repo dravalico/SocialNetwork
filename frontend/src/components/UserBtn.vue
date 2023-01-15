@@ -15,8 +15,6 @@ export default {
             const pathTo = "/user?id=" + this.user.id;
             if (this.$route.fullPath != pathTo) {
                 this.$router.push({ path: "/user", query: { id: this.user.id } }).catch(() => { });
-            } else {
-                this.$emit("scroll-event");
             }
         }
     }

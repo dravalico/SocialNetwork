@@ -21,8 +21,7 @@
             <div class="pt-2" v-if="messages.length !== 0">
                 <div class="bordered-top" v-for="message in messages" :key="message.id">
                     <MessagePreview :message="message" :user="user" @forwarded-liked-event="fetchUserMessages(user.id)"
-                        @forwarded-unliked-event="fetchUserMessages(user.id)" @forwarded-auth-event="showModal"
-                        @scroll-event="scrollTop" />
+                        @forwarded-unliked-event="fetchUserMessages(user.id)" @forwarded-auth-event="showModal" />
                 </div>
             </div>
             <div v-else class="bordered-top row justify-content-center pt-4">
@@ -125,13 +124,6 @@ export default {
         },
         showModal() {
             this.$bvModal.show("no-auth")
-        },
-        scrollTop() {
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: 'smooth'
-            })
         }
     }
 }
