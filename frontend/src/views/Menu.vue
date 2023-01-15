@@ -83,22 +83,24 @@
                         }}</span>
                     </li>
                 </ul>
-                <div class="mt-4">
-                    <div class="btn-like">
-                        <router-link class="w-100 no-decoration" to="/post">
-                            <span class="h5">Create a post</span>
-                        </router-link>
+                <nav>
+                    <div class="mt-4">
+                        <div class="btn-like">
+                            <router-link class="w-100 no-decoration" to="/post">
+                                <span class="h5">Create a post</span>
+                            </router-link>
+                        </div>
+                        <div class="btn-like">
+                            <router-link class="w-100 no-decoration"
+                                :to="{ path: '/user', query: { id: this.$store.getters.userState.user.id } }">
+                                <span class="h5">View my posts</span>
+                            </router-link>
+                        </div>
                     </div>
-                    <div class="btn-like">
-                        <router-link class="w-100 no-decoration"
-                            :to="{ path: '/user', query: { id: this.$store.getters.userState.user.id } }">
-                            <span class="h5">View my posts</span>
-                        </router-link>
+                    <div class="mt-3">
+                        <button class="btn btn-primary w-100" @click="logout">Logout</button>
                     </div>
-                </div>
-                <div class="mt-3">
-                    <button class="btn btn-primary w-100" @click="logout">Logout</button>
-                </div>
+                </nav>
             </div>
             <div v-else class="bordered-top mt-3">
                 <div class="btn-like">

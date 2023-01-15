@@ -72,7 +72,6 @@ router.post(
             }
             delete userToInsert.confirmPassword;
             userToInsert.id = await getNextId(User);
-            console.log(userToInsert.id);
             userToInsert.followersId = [];
             userToInsert.followingId = [];
             const token = generateJWT(userToInsert.id, userToInsert.username);
