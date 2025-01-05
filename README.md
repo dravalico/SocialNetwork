@@ -5,7 +5,7 @@
 
 # SocialNewtork
 
-This repository contains the final project for the "Web Programming" course held by Professor Andrea De Lorenzo @University of Trieste. The project consists in making a Twitter clone web app; the specs can be found [here](https://docs.google.com/document/d/1De075kDpVmQpv00WpYeGG9l4qgg834PunVHAbTsE_10/edit).
+This repository contains the final project for the Web Programming course held by Professor Andrea De Lorenzo at University of Trieste. The project consists in making a Twitter clone web app; the specs can be found [here](https://docs.google.com/document/d/1De075kDpVmQpv00WpYeGG9l4qgg834PunVHAbTsE_10/edit).
 
 ### Before starting
 
@@ -26,7 +26,7 @@ In the `.env` file inside the app `folder`, there is a variable, called `WITH_SA
 
 ## Setup
 
-Move to `app` folder
+After running `git clone` of this repository, move to `app` folder
 
 ```
 cd app
@@ -46,7 +46,7 @@ docker compose up
 
 This will create the necessary containers for the `MongoDB` database and for the `Node.js` server. If no changes have been made to the `Docker` related files and `.env` files, the application will be reachable at `http://localhost:3000`.
 
-## Development
+## Development of front end
 
 Start the server
 
@@ -57,7 +57,6 @@ docker compose up
 Move to `frontend` folder
 
 ```
-cd ..
 cd frontend
 ```
 
@@ -72,3 +71,11 @@ Start the dev server
 ```
 npm run serve
 ```
+
+To deploy, run
+
+```
+npm run build
+```
+
+and then move the contents of `frontend/dist` to `app/public`
