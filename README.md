@@ -7,9 +7,9 @@
 
 This repository contains the final project for the Web Programming course held by Professor Andrea De Lorenzo at University of Trieste. The project consists in making a Twitter clone web app; the specs can be found [here](https://docs.google.com/document/d/1De075kDpVmQpv00WpYeGG9l4qgg834PunVHAbTsE_10/edit).
 
-### Before starting
+## Before starting
 
-Inside each of the `app` and `frontend` folders, there is an `.env` file. These files have been deliberately added to git to allow the application to work without further configuration and to facilitate the reading of the code, avoiding having to create new ones.
+Inside each of the `app` and `frontend` folders, there is a `.env` file. These files have been deliberately added to git to allow the application to work without further configuration and to facilitate the reading of the code, avoiding having to create new ones.
 
 ## Build with
 
@@ -26,10 +26,10 @@ In the `.env` file inside the app `folder`, there is a variable, called `WITH_SA
 
 ## Setup
 
-After running `git clone` of this repository, move to `app` folder
+After running `git clone` of this repository, move to the application folder
 
 ```
-cd app
+cd SocialNetwork/app
 ```
 
 Install all dependencies
@@ -72,10 +72,15 @@ Start the dev server
 npm run serve
 ```
 
-To deploy, run
+To deploy use
 
 ```
 npm run build
 ```
 
-and then move the contents of `frontend/dist` to `app/public`
+and then move the contents of the new `dist` folder to `app/public`, e.g, using `mv dist/* ../app/public`
+
+### Notes on known bugs
+
+-   During enrollment, if the password does not meet the established criteria (visible in `SocialNewtork/app/routes/auth.js`), the enrollment will fail but the error message that should appear below the confirmation button, does not appear. This bug could also extend if other criteria are not met.
+ 
