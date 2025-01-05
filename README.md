@@ -18,15 +18,15 @@ This repository contains the final project for the Web Programming course held b
 
 ## Before starting
 
-Inside each of the `app` and `frontend` folders, there is a `.env` file. These files have been deliberately added to git to allow the application to work without further configuration and to facilitate the reading of the code, avoiding having to create new ones.
+Inside each of the `app` and `frontend` directories, there is a `.env` file. These files have been deliberately added to git to allow the application to work without further configuration and to facilitate the reading of the code, avoiding having to create new ones.
 
 ### Note about MongoDB
 
-In the `.env` file inside the `app` folder, there is a variable, called `WITH_SAMPLE_DATA` which, when starting the database, checks if set equal to `true`. In this case, if the database is empty, it will read the files contained in the `app/db/mongo-seed` folder and try to insert them. If this data is not desired, just set the variable to `false` in the `.env` file.
+In the `.env` file inside the `app` directory, there is a variable, called `WITH_SAMPLE_DATA` which, when starting the database, checks if set equal to `true`. In this case, if the database is empty, it will read the files contained in the `app/db/mongo-seed` directory and try to insert them. If this data is not desired, just set the variable to `false` in the `.env` file.
 
 ## Setup
 
-After running `git clone` of this repository, move to the application folder
+After running `git clone` of this repository, move to the application directory
 
 ```
 cd SocialNetwork/app
@@ -54,7 +54,7 @@ Start the server
 docker compose up
 ```
 
-Move to `frontend` folder
+Move to `frontend` directory
 
 ```
 cd frontend
@@ -78,9 +78,9 @@ To deploy use
 npm run build
 ```
 
-and then move the contents of the new `dist` folder to `app/public`, e.g, using `mv dist/* ../app/public`
+and then move the contents of the new `dist` directory to `app/public`, e.g, using `mv dist/* ../app/public`
 
 ## Known bugs (possibly due to updating some dependencies in January 2025)
 
--   During enrollment, if the password does not meet the established criteria (visible in `SocialNewtork/app/routes/auth.js`), the enrollment will fail but the error message that should appear below the confirmation button, does not appear. This bug could also extend if other criteria are not met.
+-   During sign up, if the password does not meet the established criteria (visible in `SocialNewtork/app/routes/auth.js`), the sign up will fail but the error message that should appear below the confirmation button, does not appear. This bug could also extend if other criteria are not met.
  
